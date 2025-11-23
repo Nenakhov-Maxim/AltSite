@@ -178,7 +178,18 @@ def jobApplication(request):
                 candidate_information=request.POST.get('respond-vacancy-information'),
                 candidate_resume=resume_file
             )
-            # Дописать обработчик отправки EMAIL о кандидате
+            
+            # Отправка email уведомления HR о новом отклике
+            try:
+                job_vacancy = Vacancies.objects.get(id=request.POST.get('vacancies-id'))
+                email_sender = SendEmail()
+                email_result = email_sender.sendJobApplication(new_candidate, job_vacancy)
+                
+                if not email_result['success']:
+                    print(f"Ошибка отправки email: {email_result['message']}")
+            except Exception as email_err:
+                print(f"Ошибка при отправке email уведомления: {str(email_err)}")
+            
             return JsonResponse({'success': True,
                                  'data': {
                                                 'candidate_name': new_candidate.candidate_name,
@@ -215,6 +226,17 @@ def contacts(request):
                     consumer_tel=clean_form['consumer_tel'],
                     consumer_message=clean_form['consumer_message'],
                 )
+                
+                # Отправка email уведомления менеджеру о новом запросе на проект
+                try:
+                    email_sender = SendEmail()
+                    email_result = email_sender.sendProjectApplication(new_project)
+                    
+                    if not email_result['success']:
+                        print(f"Ошибка отправки email: {email_result['message']}")
+                except Exception as email_err:
+                    print(f"Ошибка при отправке email уведомления: {str(email_err)}")
+                
                 data['success_send_form'] = True
             else:
                 data['form'] = ProjectForm(request.POST)
