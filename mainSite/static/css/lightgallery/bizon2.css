@@ -1,0 +1,155 @@
+/* Prevent user selection */
+.prevent-select {
+    user-select: none;
+}
+
+/* Main Bizon Slider */
+#bizon-slider {
+    position: fixed;
+    inset: 0;
+    z-index: 998;
+    background: rgba(0, 0, 0, 0.8);
+}
+
+/* Main image section */
+#bizon-main-image {
+    height: 92%;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.bizon-single-image #bizon-main-image {
+    height: 100%;
+}
+
+/* Image Wrapper */
+#bizon-main-image-wrapper {
+    height: calc(100% - 20px);
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+#bizon-main-image-wrapper img,
+#bizon-main-image-wrapper video {
+    border-radius: 5px;
+    max-width: 100%;
+    max-height: 100%;
+}
+
+/* Thumbnail Navigation */
+#bizon-thumbnails {
+    height: 8%;
+    display: flex;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.bizon-single-image #bizon-thumbnails {
+    height: 0;
+}
+
+/* Individual Thumbnail */
+.bizon-thumb-wrapper {
+    height: calc(100% - 10px);
+    padding: 5px;
+    background: #2a2a2a;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease-in-out;
+}
+
+.bizon-thumb-wrapper:hover,
+.bizon-thumb-wrapper-active {
+    background: #c9c9c9;
+}
+
+/* Thumbnail Images */
+.bizon-thumb-wrapper img,
+.bizon-thumb-wrapper video {
+    height: 100%;
+    border-radius: 5px;
+}
+
+/* Navigation Arrows */
+.bizon-arrow {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 15%;
+    background: transparent;
+    cursor: pointer;
+    z-index: 10;
+    transition: background 0.2s ease-in-out;
+    display: flex;
+    align-items: center;
+}
+
+.bizon-arrow:hover {
+    background: rgba(0, 0, 0, 0.3);
+}
+
+.bizon-arrow-right {
+    right: 0;
+    justify-content: flex-end;
+    padding-right: 20px;
+}
+
+.bizon-arrow-right::after {
+    content: "";
+    width: 48px;
+    height: 48px;
+    background: url("images/icons/32/arrow-right.png") center no-repeat;
+    background-size: 32px 32px;
+    background-color: #000;
+    opacity: 0.8;
+    transition: opacity 0.2s ease-in-out;
+}
+
+.bizon-arrow-right:hover::after {
+    opacity: 1;
+}
+
+.bizon-arrow-left {
+    left: 0;
+    justify-content: flex-start;
+    padding-left: 20px;
+}
+
+.bizon-arrow-left::after {
+    content: "";
+    width: 48px;
+    height: 48px;
+    background: url("images/icons/32/arrow-left.png") center no-repeat;
+    background-size: 32px 32px;
+    background-color: #000;
+    opacity: 0.8;
+    transition: opacity 0.2s ease-in-out;
+}
+
+.bizon-arrow-left:hover::after {
+    opacity: 1;
+}
+
+/* Close Button */
+.bizon-close {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    width: 48px;
+    height: 48px;
+    background: url("images/icons/32/close.png") center no-repeat;
+    background-size: 32px 32px;
+    background-color: #000;
+    opacity: 0.8;
+    cursor: pointer;
+    z-index: 10;
+    transition: opacity 0.2s ease-in-out;
+}
+
+.bizon-close:hover {
+    opacity: 1;
+}

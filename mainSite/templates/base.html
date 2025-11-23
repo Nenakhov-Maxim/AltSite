@@ -1,0 +1,188 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" href="{% static 'css/normalize.css' %}">
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    {% block custom_css%}
+    {% endblock %}
+    <title>Альтернатива</title>
+</head>
+<body>
+    <header>
+        <div class="main-wrapper">
+            <div class="header-wrapper">
+                <div class="header-logo">
+                    <a href="{% url 'index' %}">
+                        <img src="{% static 'icon/logo.png'%}" alt="Альтернатива. Логотип">
+                    </a>
+                </div>
+                <nav class="header-nav-menu">
+                    <ul class="nav-menu-list">
+                        <li class="nav-menu-item">
+                            <a href="{% url 'products' %}">Продукция</a>
+                        </li>
+                        <li class="nav-menu-item">
+                            <a href="{% url 'about' %}">О компании</a>
+                        </li>
+                       
+                        <li class="nav-menu-item">
+                            <a href="{% url 'portfolio' %}">Портфолио</a>
+                        </li>
+                        <li class="nav-menu-item">
+                            <a href="{% url 'technology' %}">Технологии</a>
+                        </li>
+                        <li class="nav-menu-item">
+                            <a href="{% url 'job' %}">Вакансии</a>
+                        </li>
+                        <li class="nav-menu-item">
+                            <a href="{% url 'contacts' %}">Контакты</a>
+                        </li>
+                    </ul>
+                </nav>          
+                <div class="header-social">
+                    <ul class="social-list">
+                        <a class="social-item-link" href="tel:+73519162144">
+                            <li class="social-call-me"> 
+                            </li>    
+                        </a>
+                        <a class="social-item-link" href="mailto:">
+                            <li class="social-item social-email">
+                                
+                            </li>    
+                        </a>
+                        <a class="social-item-link" href="">
+                            <li class="social-item social-youtube"> 
+                                
+                            </li>    
+                        </a>
+                        <a class="social-item-link" href="">
+                            <li class="social-item social-vk"> 
+                                
+                            </li>    
+                        </a> 
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </header>
+    <main>
+    {% block custom_main%}
+    {% endblock %}    
+    </main>
+    <footer>
+        <div class="main-wrapper">
+            <section class="footer-logo-contact">
+                <div class="footer-logo-contact--border-top"></div>
+                <div class="footer-logo">
+                    <a href="{% url 'index' %}"><img src="{% static 'icon/logo.png'%}" alt="Альтернатива. Логотип"></a>
+                </div>
+                <div class="footer-contact-wrapper">
+                    <div class="footer-contact-phone"><a href="tel:+73519162144">+7 (35191) 6-21-44</a></div>
+                    <div class="footer-contact-social-wrapper">
+                        <a href="mailto:">
+                            <div class="footer-contact-social social-email"><span>почта</span></div>
+                        </a>
+                        <a href="">
+                            <div class="footer-contact-social social-youtube"><span>youtube</span></div>
+                        </a>
+                        <a href="">
+                            <div class="footer-contact-social social-vk"><span>vkontakte</span></div>
+                        </a>
+                       
+                    </div>
+                </div>
+                <div class="footer-logo-contact--border-bottom"></div>
+            </section>
+            <section class="footer-menu-wrapper">
+                <div class="footer-menu-company-inner">
+                    <div class="footer-menu-title">Компания</div>
+                    <ul class="footer-menu-list">
+                        <a href="{% url 'about' %}">
+                            <li class="footer-menu-item">О компании</li>    
+                        </a>
+                        <a href="{% url 'rewards' %}">
+                            <li class="footer-menu-item">Награды</li>
+                        </a>
+                        <a href="{% url 'job' %}">
+                            <li class="footer-menu-item">Вакансии</li>
+                        </a>
+                        <a href="{% url 'articles' %}">
+                            <li class="footer-menu-item">Статьи</li>
+                        </a>
+                        <a href="{% url 'news' %}"> 
+                            <li class="footer-menu-item">Новости</li>
+                        </a>
+                        <a href="{% url 'contacts' %}">
+                            <li class="footer-menu-item">Контакты</li>
+                        </a>
+                    </ul>   
+                </div>
+                <div class="footer-menu-product-inner">
+                    <div class="footer-menu-title">Продукция</div>
+                    <ul class="footer-menu-list">
+                        <a href="/production/klyamer/">
+                            <li class="footer-menu-item">Кляммеры</li>
+                        </a>
+                        <a href="/production/facade-brackets/">
+                            <li class="footer-menu-item">Фасадные кронштейны</li>
+                        </a>
+                        <a href="/production/facade-profile/">
+                            <li class="footer-menu-item">Фасадные профили</li>
+                        </a>
+                        <a href="https://morion-ural.ru/">
+                            <li class="footer-menu-item">Корзины для кондиционеров</li>
+                        </a>
+                    </ul>  
+                </div>
+                <div class="footer-menu-complete-task-inner">
+                    <div class="footer-menu-title">Готовые решения</div>
+                    <ul class="footer-menu-list">
+                        <a href="{% url 'facadeSystem' %}">
+                            <li class="footer-menu-item">Фасадные системы</li>
+                        </a>
+                        {% comment %} <a href="">
+                            <li class="footer-menu-item">Алюминиевые фасадные решения</li>
+                        </a> {% endcomment %}
+                        {% comment %} <a href="">
+                            <li class="footer-menu-item">Калькулятор</li>
+                        </a> {% endcomment %}
+                    </ul>    
+                </div>
+                <div class="footer-menu-wehere-pay-inner">
+                    <div class="footer-menu-title">Где купить</div>
+                    <ul class="footer-menu-list">
+                        <a>
+                            <li class="footer-menu-item">Где купить оптом</li>
+                        </a>
+                    </ul>    
+                </div>
+                <div class="footer-menu-for-partner-inner">
+                    <div class="footer-menu-title">Для партнеров</div>
+                    <ul class="footer-menu-list">
+                        <a href="{% url 'sertificates' %}">
+                            <li class="footer-menu-item">Сертификаты соответствия</li>
+                        </a>
+                        <a href="{% url 'documents' %}">
+                            <li class="footer-menu-item">Технические свидетельства</li>
+                        </a>
+                        <a href="/media/catalog/facade-sys.pdf">
+                            <li class="footer-menu-item">Каталог</li>
+                        </a>
+                    </ul>    
+                </div>
+            </section>
+            <section class="copyright">© 2025, ООО "Альтернатива". Design by Mizina A. Web development by Nenakhov M.</section>
+        </div>
+    </footer>
+    {% block custom_popups%} 
+    {% endblock %}
+    <script src="{% static 'js/jquery-3.7.1.min.js' %}"></script>
+    <script src="{% static 'js/base.js' %}"></script>
+    {%block custom_js%}
+    {%endblock%}
+</body>
+</html>

@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block custom_css%}
+     <link rel="stylesheet" href="{% static 'css/contacts.css' %}">
+{%endblock%}
+
+{% block custom_main%}
+    <div class="background-image"></div>
+    <div class="main-wrapper">
+        <section class="bread-crumbs-search">
+            <div class="bread-crumbs-wrapper">
+                <a href="{% url 'index' %}">
+                    <span>Главная</span>
+                </a>
+                <span>></span>
+                <a href="{% url 'contacts' %}">
+                    <span>Контакты</span>
+                </a>
+            </div>
+            {% comment %} <div class="search-wrapper">
+                <input type="search" name="production-search" id="production-search">
+            </div> {% endcomment %}
+        </section>
+        <section class="contacts-main">
+            <div class="contacts-about-us-wrapper">
+                <h2 class="contacts-about-us-title">{{contact.org_name}}</h2>
+                <ul class="contacts-about-us-info-list">
+                    <li class="contacts-about-us-adress">
+                        <span>Адрес:</span>
+                        <span>{{contact.org_adress}}</span>
+                    </li>
+                    <li class="contacts-about-us-phone">
+                        <span>Телефон:</span>
+                        <span>{{contact.org_phone}}</span>
+                    </li>
+                    <li class="contacts-about-us-fax">
+                        <span>Факс:</span>
+                        <span>{{contact.org_fax}}</span>
+                    </li>
+                    <li class="contacts-about-us-email">
+                        <span>Электронная почта:</span>
+                        <span>{{contact.org_email}}</span>
+                    </li>
+                </ul>
+            </div>
+            <div class="feedback-wrapper">
+                <div class="feedback-label-wrapper">
+                    <h3 class="feedback-label-title">Предложите свой проект</h3>   
+                    <div class="feedback-label-text">
+                        Заполните форму, кратко опишите Ваш проект. Мы свяжемся с Вами в ближайшее время и пригласим на встречу для обсуждения всех деталей.
+                    </div>
+                </div>
+                <form id="feedback-form" action="" method="post">
+                    <div class="feedback-form-content-wrapper">
+                        {% csrf_token %}
+                        {{form.consumer_name}}
+                        {{form.consumer_email}}
+                        {{form.consumer_tel}}
+                        {{form.consumer_message}}
+                        <div class="feedback-consent-personal-data-wrapper">
+                            {{form.consent_personal_data}}
+                            <label for="feedback-consent-personal-data">Я согласен на передачу и обработку моих 
+                                <a class="personal-data-doc-link" href="">персональных данных</a>
+                            </label>
+                        </div>
+                    </div>
+                    {% if success_send_form %}
+                    <div class="modal-success">
+                        <div class="success_send_form">
+                            <div class="modal-label">
+                                <div class="close-button-modal">X</div>
+                            </div>
+                            <p>Спасибо! Ваше предложение успешно отправлено!</p>
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% if not success_send_form and error != ''%}
+                    <div class="modal-success">
+                        <div class="success_send_form">
+                            <div class="modal-label">
+                                <div class="close-button-modal">X</div>
+                            </div>
+                            <p>{{error}}</p>
+                        </div>
+                    </div>
+                    {% endif %}
+                    <div class="feedback-form-buttons-wrapper">
+                        <button class="feedback-form-submit-btn" type="submit">Отправить</button>
+                    </div>
+                </form>
+            </div>
+        </section>
+    </div>
+{%endblock%} 
+
+{%block custom_js%}
+    <script src="{% static 'js/contacts.js' %}"></script> 
+{%endblock%}
+
+        

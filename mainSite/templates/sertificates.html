@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block custom_css%}
+    <link rel="stylesheet" href="{% static 'css/sertificates.css' %}">
+{% endblock %}
+
+{% block custom_main%}
+    <div class="background-image"></div>
+    <section class="bread-crumbs-search">
+            <div class="bread-crumbs-wrapper">
+                <a href="{% url 'index' %}">
+                    <span>Главная</span>
+                </a>
+                <span>></span>
+                <a href="{% url 'sertificates' %}">
+                    <span>Сертификаты</span>
+                </a>
+            </div>
+    </section>
+    <h2 class="reward-title">{{title}}</h2>
+    <section class="rewards-content-section">
+        {% if sertificates %}
+            {% for sertificate in sertificates %}
+                <div class="reward-item">
+                    <img class="reward-item-img" src="/media/{{sertificate.sert_img}}" alt="{{sertificate.sert_title}}">
+                    <div class="reward-item-text">{{sertificate.sert_description}}</div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="nothing-data">Нет загруженных сертификатов...</div>
+        {% endif %}
+        
+    </section>
+{% endblock %} 
+
+{% block custom_js %}
+    <script src="{% static 'js/sertificates.js' %}"></script> 
+{% endblock %}

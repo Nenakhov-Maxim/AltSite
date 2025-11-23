@@ -1,0 +1,572 @@
+
+
+/* Верхний блок */
+.top-block-section {
+    position: relative;
+    background-image: url(../content/img/background-main.png);
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    z-index: 1;
+
+}
+
+.top-block-section::before {
+    position: absolute;
+    content: "";
+    width: 100%;
+    height: 100%;
+    background-color: var(--background-gradient-section);
+    box-shadow: 0px 0px 8px 0px rgba(255, 255, 255, 0.05) inset;
+    backdrop-filter: blur(10px);
+    top: 0;
+    left: 0;
+    z-index: -1;
+}
+
+.main-wrapper {
+    z-index: 999;
+}
+
+.title-text {
+    font-weight: 600;
+    font-size: 50px;
+
+    padding-top: 150px;
+    margin: 0;
+    margin-bottom: 40px;
+}
+
+.title-subtext {
+    font-weight: 500;
+    font-size: 33px;
+    margin-bottom: 40px;
+}
+
+.portfolio-btn {
+    width: 146px;
+    height: 48px;
+    background-color: var(--background-alt-red);
+    margin-bottom: 120px;
+    border: none;
+    color: rgba(255, 255, 255, 1);
+    transition: 0.7s;
+    padding: 15px
+}
+
+.portfolio-btn:hover {
+    background-color: transparent;
+    border: 2px solid var(--background-alt-red);
+    color: var(--background-alt-red);
+    transition: 0.7s;
+    cursor: pointer;
+}
+
+.products-block-title {
+    font-weight: 600;
+    font-size: 50px;
+    margin-bottom: 60px;
+}
+
+.products-list-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    column-gap: 120px;
+    row-gap: 80px;
+    padding-bottom: 120px;
+}
+
+.top-section-product-btn {
+    width: 354px;
+    height: 120px;
+    padding: 0;
+    text-align: center;
+    font-weight: 700;
+    font-size: 22px;
+    border: none;
+    background-color: rgba(255, 255, 255, 1);
+    cursor: pointer;
+    transition: 0.7S;
+    border-radius: 10px;
+    box-shadow: 8px 7px 10px black;
+}
+
+.top-section-product-btn:hover {
+    background-image: linear-gradient(90deg, rgba(105, 0, 0, 1), rgba(255, 0, 0, 1));
+    color: white;
+    transition: 0.7s;
+}
+
+/* География продаж секция */
+
+.middle-block-section {
+    background-image: var(--background-gradient-section);
+}
+
+.middle-block-title {
+    font-weight: 600;
+    font-size: 50px;
+    margin: 0;
+    padding-top: 55px;
+    margin-bottom: 60px;
+}
+
+/* Карта продаж */
+
+.rf-map,
+.rf-map *{
+    box-sizing: border-box;
+}    
+.rf-map {
+    position: relative;
+    max-width: 100%;
+    margin: auto;
+    padding: 20px;
+}
+.rf-map .district b {
+    position: absolute;
+    z-index: 5;
+    width: 18px;
+    height: 18px;
+    background: rgba(0, 0, 0, 0.85);
+    border-radius: 50%;
+    left: 6px;
+    top: 18px;
+    transition: all 0.3s;
+}
+.rf-map .district span {
+    position: absolute;
+    z-index: 5;
+    top: 20px;
+    left: 30px;
+    font-size: 13px;
+    font-weight: bold;
+    font-family: Tahoma, sans-serif;
+    line-height: 1;
+    color: #090808;
+}
+.rf-map .district {
+    display: none;
+}
+.rf-map.open .district b {
+    top: 0;
+    left: 0;
+    border-radius: 0;
+    width:100%;
+    height: 100%;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2), 0 16px 20px rgba(0,0,0,0.2);    
+}
+.rf-map.open .district span {
+    color: var(--background-alt-red);
+}
+.rf-map svg {
+    width: 100%;
+    height: 100%;
+    filter: drop-shadow(0 5px 12px rgba(0, 0, 0, 0.5));    
+}
+.rf-map path {
+    stroke: #FFFFFF;
+    stroke-width: 1;
+    stroke-linejoin: round; 
+}
+.rf-map [data-code] {
+    fill: #0a1621;  
+    transition: fill 0.2s;
+}
+
+.rf-map .district-text {
+    display: none;
+    position: absolute;
+    z-index: 6;
+    left: 0;
+    top: 60px;
+    width: calc(100% - 20px);
+    height: calc(100% - 90px);
+    padding: 0 20px;
+    overflow: auto;
+    color: var(--background-alt-red);
+    font-size: 13px;
+    font-weight: bold;   
+}
+.rf-map .close-district {
+    opacity: 0;
+    z-index: 6;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;    
+    width: 40px;
+    height: 40px;
+    line-height: 1;
+    font-size: 40px;
+    color: rgba(105, 0, 0, 1);
+    cursor: pointer;
+    transition: opacity 1s;
+    pointer-events: none;
+}
+.rf-map.open .close-district {
+    opacity: 1;
+    pointer-events: initial;
+}
+.rf-map .district-links {
+    margin-top: 10px;
+    display: flex;
+    flex-wrap: wrap;
+}
+.rf-map .district-links div {
+    font-size: 13px;
+    font-family: Verdana, sans-serif; 
+    padding: 4px;
+}
+.rf-map .district-links div:after {
+    content: " | ";
+    color: rgba(105, 0, 0, 1);
+}
+.rf-map .district-links div:last-child:after {
+    content: "";
+}
+/* .dropfill {
+    fill: #337AB7!important;
+} */
+.mainfill {
+    fill: #1d4567!important;
+}
+@media (min-width:768px){
+    .rf-map .district b {
+        width: 28px;
+        height: 28px;    
+        left: 6px;
+        top: 28px;
+    }
+    .rf-map .district span {
+        top: 30px;
+        left: 46px;
+        font-size: 20px;
+        font-weight: normal;
+    }
+    .rf-map .district-text {
+        left: 30px;
+        top: 80px;
+        width: calc(100% - 60px);
+        height: calc(100% - 130px);
+        font-size: 16px; 
+    }
+    .rf-map .close-district {  
+        width: 60px;
+        height: 60px;
+        font-size: 60px;
+    }
+    .rf-map .district-links {
+        display: none;
+    }
+}
+/* Цвета регионов */
+
+.rf-map [data-select="true"] {
+    fill: #B70101;
+    cursor: pointer; 
+}
+
+.rf-map [data-hover="true"]:hover {
+    fill: #6e0202;;
+}
+/* .rf-map [data-code="RU-ARK"], .rf-map [data-code="RU-BEL"], .rf-map [data-code="RU-MOW"], .rf-map [data-code="RU-MOS"] {
+    fill: #B70101;
+    cursor: pointer;
+}
+
+.rf-map [data-code="RU-ARK"]:hover, .rf-map [data-code="RU-BEL"]:hover, .rf-map [data-code="RU-MOW"]:hover, .rf-map [data-code="RU-MOS"]:hover {
+    fill: #6e0202;
+} */
+
+/* Альтернатива в цифрах */
+
+.alternative-numbers-block {
+    padding-bottom: 120px;
+}
+
+.alternative-numbers-list-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 250px;
+    row-gap: 80px;
+}
+
+.alternative-numbers-item {
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+    align-items: center;
+}
+
+.alternative-numbers-item--img {
+    width: 100px;
+    height: 100px;
+    margin-right: 35px;
+    object-fit: contain;
+}
+
+.alternative-numbers-item--text {
+    font-weight: 500;
+    font-style: Medium;
+    font-size: 33px;
+    text-align: right;
+    color: rgba(28, 28, 28, 1);
+}
+
+
+/* Современные системы вентфасадов. Карусель */
+
+.courusel-block {
+    padding-bottom: 120px;
+}
+
+.courusel-item {
+    display: grid;
+    grid-template-columns: 3fr 2fr;
+    column-gap: 30px;
+    width: 100%;
+    background-color: #FFFFFF;
+}
+
+
+.courusel-item-img {
+    padding: 10px 10px 10px 10px;
+    max-width: 100%;
+}
+
+.courusel-item-right-side {
+    padding: 10px;
+}
+
+.courusel-item-title {
+    position: relative;
+    font-size: 30px;
+    padding-left: 30px;
+    padding-top: 10px;
+    margin: 30px 0;
+}
+
+.courusel-item-title::before {
+    position: absolute;
+    content: "";
+    width: 5px;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-color: #B70101;
+}
+
+.courusel-item-line-title {
+    width: 100%;
+    height: 2px;
+    background-color: #090808;
+    margin-bottom: 30px;
+}
+
+.courusel-item-text {
+    font-size: 20px;
+}
+
+/* Слайдер примеров работ */
+
+.swiper {
+    text-align: center;
+    width: 100%;
+    height: 100%; 
+    padding-bottom: 100px;
+}
+
+.swiper h2 {
+    text-align: left;
+    padding-left: 150px;
+}
+
+
+.swiper-slide {
+    text-align: center;
+    font-size: 18px;
+    /* background: #444; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.swiper-slide img {
+    display: block;
+    width: 100%;
+    height: 100vh;
+    object-fit: cover;
+    position: relative;
+}
+
+.swiper-wrapper {
+    position: relative;
+}
+
+.img-wrapper {
+    width: 100%;
+}
+
+.img-wrapper::after {
+    position: absolute;
+    content: "";
+    background-color: rgba(0, 0, 0, 0.5);
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left:0;
+    z-index: 4;
+}
+
+.swiper-button-next {
+    background: #34343466;
+    backdrop-filter: blur(13px);
+    width: 75px;
+    height: 75px;
+    border-radius: 50%;
+    left: 50vw;
+    top: 100vh;  
+}
+
+@keyframes jumpInfinite {  
+0% { 
+    margin-top: 0; 
+} 
+15% {
+     margin-top: 10px; 
+}  
+30% {
+     margin-top: 20px; 
+    } 
+45% {
+    margin-top: 30px 
+}
+60% {
+     margin-top: 40px; 
+    }  
+75% {
+     margin-top: 50px; 
+    } 
+100% {
+    margin-top: 0;
+} 
+} 
+
+.arrow-1 {
+    display: none;
+}
+
+.swiper-button-next img:hover{
+        animation: jumpInfinite 0.8s infinite
+}
+
+.swiper-button-next::after {
+    font-size: 30px;
+    color: white;
+    padding: 0;
+    margin: 0;
+    z-index: -1;
+    content: "";
+}
+
+.swiper-slide-text {
+    position: absolute;
+    content: "";
+    top: 40vh;
+    left: 0;
+    right: 0;
+    font-size: 130px;
+    color: #FFFFFF;
+    z-index: 5;
+}
+
+.swiper-slide-link:hover {
+    cursor: pointer;
+    color: var(--background-alt-red);
+}
+
+/* Новосной раздел */
+
+.news-block {
+    padding-bottom: 150px;
+    overflow: hidden;
+}
+
+.news-swiper {
+    position: relative;
+    padding-bottom: 50px;
+}
+
+.news-card-item {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    width: 330px;
+    z-index: 2;
+    border-radius: 15px;
+}
+
+.news-card-item-backgroud {
+    position: absolute;
+    content: "";
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+
+.news-card-item-backgroud::before {
+    position: absolute;
+    content: "";
+    background-color: rgba(0, 0, 0, 0.6);
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    border-radius: 15px;
+    z-index: 2;
+}
+
+.news-card-item-backgroud img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 15px;
+}
+
+.news-card-item-inner-wrapper {
+    z-index: 3;
+    color: rgba(255, 255, 255, 0.9);
+    padding: 25px;
+    text-align: left;
+}
+
+.news-card-item--title {
+    font-size: 24px;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+}
+
+.news-card-item--text-body {
+    font-size: 16px;
+    margin-bottom: 45px;
+}
+
+.news-card-item-btn {
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 12px;
+}
+
+.news-card-item-btn:hover {
+    color: var(--background-alt-red);
+    cursor: pointer;
+    font-weight: bold;
+}

@@ -1,0 +1,125 @@
+main {
+    position: relative;
+    background:   var(--background-gradient-section);
+    z-index: 1;
+    padding: 50px 50px 100px 50px;
+
+}
+
+main::before {
+    position: absolute;
+    content: '';
+    background-color: rgba(255, 255, 255, 0.5);
+    box-shadow: 0px 0px 8px 0px rgba(255, 255, 255, 0.05) inset;
+    backdrop-filter: blur(10px);
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: -1;
+}
+
+.bread-crumbs-search {
+    padding: 0;
+    padding-bottom: 50px;
+}
+
+.background-image {
+    position: absolute;
+    content: '';
+    background-image: url(../content/img/background-main.png);
+    background-position: top center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 100%;
+    height: 100%;
+    max-height: 500px;
+    z-index: -2;
+    top: 0;
+    left: 0;
+}
+
+.main-about-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 5fr;
+    column-gap: 15px;
+}
+
+.about-us-numbers {
+    width: 100%;
+}
+
+.about-us-article-section {
+    width: 100%;
+}
+
+.about-us-img {
+    position: relative;
+    margin-bottom: 25px;
+    border-radius: 3px;
+}
+
+.about-us-img::after {
+    position: absolute;
+    content: '';
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 2;
+    border-radius: 3px;
+    
+}
+
+.about-us-img img{
+    display: block;
+    width: 100%;
+    object-fit: cover;
+    z-index: 1;
+    border-radius: 3px;
+}
+
+.about-us-img div{
+    position: absolute;
+    content: '';
+    width: 100%;
+    top: 200px;
+    left: 0;
+    color: var(--background-alt-red);
+    z-index: 3;
+    font-size: 60px;
+    font-weight: 600;
+    text-align: center;
+    letter-spacing: 10%;
+}
+
+.middle-block-title {
+    text-align: center;
+}
+
+.alternative-numbers-list-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.alternative-numbers-item {
+    margin-bottom: 50px;
+}
+
+.alternative-numbers-item--img {
+    margin-bottom: 10px;
+}
+
+.about-us-atrticle-text {
+    padding: 0 50px 0 10px;
+}
+
+.about-us-atrticle-text div{
+    margin-bottom: 10px;
+    letter-spacing: 3%;
+    line-height: 120%;
+    text-indent: 5%;
+}

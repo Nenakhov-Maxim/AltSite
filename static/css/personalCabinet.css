@@ -1,0 +1,88 @@
+main {
+    position: relative;
+    background:   var(--background-gradient-section);
+    z-index: 1;
+
+}
+
+main::before {
+    position: absolute;
+    content: '';
+    background-color: rgba(255, 255, 255, 0.5);
+    box-shadow: 0px 0px 8px 0px rgba(255, 255, 255, 0.05) inset;
+    backdrop-filter: blur(10px);
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: -1;
+}
+
+.personal-cabinet-wrapper {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    height: calc(100vh - 80px);
+    overflow: hidden;
+}
+
+.pc-left-menu-section {
+    width: 20%;
+    background-color: var(--background-alt-black);
+    height: 100%;
+    color: white;
+}
+
+.pc-left-menu-section {
+    box-sizing: border-box;
+    padding: 50px 20px 50px 20px;
+}
+
+.pc-menu-list a {
+    display: block;
+    font-size: 18px;
+    margin-bottom: 25px;
+    letter-spacing: 10%;
+    cursor: pointer;
+}
+
+.pc-right-content-section {
+    height: calc(100vh - 80px);
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px 20px 50px 20px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: self-start;
+    justify-content: flex-start;
+}
+
+.pc-content-label-wrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+    border-bottom: 1px solid var(--border);
+} 
+
+.pc-content-title {
+    font-size: 28px;
+    letter-spacing: 10%;
+}
+
+
+
+
+
+/* Модификаторы */
+
+.active-menu {
+    color: var(--background-alt-red);
+    font-style: italic;
+}

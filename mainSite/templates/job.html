@@ -1,0 +1,134 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block custom_css%}
+    <link rel="stylesheet" href="{% static 'css/job.css' %}">
+{%endblock%}
+    
+{% block custom_main%}
+    <section class="header-banner">
+        <div class="header-banner-text">АКТУАЛЬНЫЕ ВАКАНСИИ</div>
+        <div class="header-banner-arrow"><span>вниз</span></div>
+    </section>
+    <section class="our-advantages">
+        <div class="main-wrapper">
+            <h2 class="our-advantages-title">Работа в компании</h2>
+            <ul class="our-advantages-card-list">
+                {% for card in content %}
+                <li class="our-advantages-card-item {{ card.class_name }}">
+                    <img src="/media/{{ card.priority_img }}" alt="{{ card.priority_title }}">
+                    <div class="our-advantages-card-item--title">{{ card.priority_title }}</div>
+                    <div class="our-advantages-card-item--subtext">{{ card.priority_text }}</div>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </section>
+    <section class="current-vacancies">
+            <div class="main-wrapper">
+            <h2 class="current-vacancies-title">Актуальные вакансии</h2>
+            <ul class="current-vacancies-card-list">
+                {% if vacancies %}
+                    {% for job in vacancies %}
+                        <li class="current-vacancies-card-item">
+                            {% csrf_token %}
+                            <h3 class="current-vacancies-card-item--title">{{ job.title }}</h3>
+                            <div class="current-vacancies-card-item--location">{{ job.region }}</div>
+                            <div class="current-vacancies-card-item-inner">
+                                <div class="current-vacancies-card-item--work-schedule">
+                                    <div>График работы</div>
+                                    <div>{{ job.work_schedule }}</div>
+                                </div>
+                                <div class="current-vacancies-card-item--payment">
+                                    <div>Размер оплаты</div>
+                                    <div>от {{ job.salary }}</div>
+                                </div>
+                            </div>
+                            <div class="current-vacancies-card-item-buttons-wrapper">
+                                <button id="current-vacancies-card-item-more-info-btn" type="button" data-vacanciesId="{{ job.id }}">Узнать больше</button>
+                            </div>
+                        </li>
+                    {% endfor %}
+                {% else %}
+                        <div class="nothing-data">В данный момент вакансий нет...</div>
+                {% endif %}
+            </ul>
+        </div>
+    </section>
+{%endblock%} 
+
+{% block custom_popups%} 
+    <div class="popup-vacancies-more-detail popup-disable">
+        <div class="popup-vacancies-wrapper">
+            <div class="popup-vacancies-label-wrapper">
+                <h2 class="popup-vacancies-title">Нет данных</h2>
+                <div class="popup-close-btn">X</div>
+            </div>
+            <div class="popup-vacancies-location">
+                Нет данных
+            </div>
+            <h3 class="popup-vacancies-subtitle">Требования:</h3>
+            <ul class="popup-vacancies-requirements-list">
+            </ul>
+            <h3 class="popup-vacancies-subtitle">Обязанности:</h3>
+            <ul class="popup-vacancies-duties-list">
+            </ul>
+            <div class="popup-vacancies-button-wrapper">
+                <button class="popup-vacancies-approve-btn" type="button" data-vacanciesId="0">Откликнуться</button>
+            </div>
+            
+        </div>
+    </div>
+    <div class="popup-respond-vacancy popup-disable">
+        <div class="popup-respond-vacancy-wrapper">
+            <div class="popup-respond-vacancys-label-wrapper">
+                <h2 class="popup-respond-vacancy-title">Откликнуться на вакансию</h2>
+                <div class="popup-close-btn">X</div>
+            </div>
+            <form id="respond-vacancy-form" action="" method="post">
+                {% csrf_token %}
+                <div class="respond-vacancy-form-content-wrapper">
+                    <input type="hidden" name="vacancies-id">
+                    <input type="text" name="respond-vacancy-username" id="respond-vacancy-username-input" placeholder="ФИО">
+                    <input type="text" name="respond-vacancy-birthday" id="respond-vacancy-birthday-input" placeholder="Дата и место рождения">
+                    <input type="text" name="respond-vacancy-adress" id="respond-vacancy-adress-input" placeholder="Адрес места жительства">
+                    <input type="text" name="respond-vacancy-education-level" id="respond-vacancy-education-level-input" placeholder="Уровень образования">
+                    <input type="text" name="respond-vacancy-subeducation-level" id="respond-vacancy-subeducation-level-input" placeholder="Допобразование">
+                    <input type="text" name="respond-vacancy-marital-status" id="respond-vacancy-marital-status-input" placeholder="Семейное положение">
+                    <input type="number" name="respond-vacancy-desired-income" id="respond-vacancy-desired-income-input" placeholder="Уровень желаемого дохода" value=0>
+                    <input type="email" name="respond-vacancy-email" id="respond-vacancy-email-input" placeholder="Электронная почта">
+                    <input type="tel" name="respond-vacancy-tel" id="respond-vacancy-tel-input" placeholder="Номер телефона">
+                    <textarea name="respond-vacancy-information" id="respond-vacancy-information-textarea" placeholder="Иные сведения, которые вы бы хотели сообщить"></textarea>
+                    <div class="checkbox-wrapper">
+                        <input type="checkbox" name="respond-vacancy-personal-info-approve" id="respond-vacancy-personal-info-approve-checkbox">
+                        <label for="respond-vacancy-personal-info-approve">Я согласен на передачу и обработку моих <a href="link-to-download">персональных данных</a></label>
+                    </div>
+                    <div class="upload-file-wrapper">
+                        <label for="respond-vacancy-personal-info-approve">Загрузите файл с резюме (Поддерживаются форматы: *.pdf, *.doc, *.docx, *.jpg)</label>
+                        <input type="file" name="respond-vacancy-file-upload" id="respond-vacancy-file-upload-input" accept=".pdf, .doc, .docx, .jpeg, .jpg">
+                    </div>
+                    <ul class="form-errors"></ul>
+                </div>
+                <div class="respond-vacancy-form-buttons-wrapper">
+                    <button id="respond-vacancy-form-submit-btn" type="submit">Отправить</button>
+                </div>
+            </form>
+        </div>
+        <div class="complete-popup popup-disable"> 
+            <div class="complete-popup-wrapper">
+                <h3 class="">Спасибо за отклик на вакансию!</h3>
+                <div class="complete-send-email-or-phone">Мы свяжемся с Вами по Email: или телефону:</div>
+                <div class="complete-timer">Через 3 сек. окно закроется...</div>
+                <div>Если этого не произошло нажмите <a href="" style="font-weight: 600; border-bottom: 1px silid black;">здесь</a></div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{%block custom_js%}
+    <script src="{% static 'js/job.js' %}"></script> 
+{%endblock%}
+
+
+
+    

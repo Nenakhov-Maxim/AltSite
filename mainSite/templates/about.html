@@ -1,0 +1,56 @@
+{%extends 'base.html'%}
+{%load static%}
+{% block custom_css %}
+    <link rel="stylesheet" href="{% static 'css/about.css' %}">
+{%endblock%}
+    
+{% block custom_main%}
+    <div class="background-image"></div>
+    <section class="bread-crumbs-search">
+            <div class="bread-crumbs-wrapper">
+                {% for key, value in bread_crumbs.items %}
+                <a href="{{key}}">
+                    <span>{{value}}</span>
+                </a>
+                <span>></span>
+                {% endfor %}
+            </div>
+    </section>
+    <div class="about-us-img">
+            <img src="{% static 'content/img/about-us-top.jpg' %}" alt="О компании">
+            <div>О компании</div>
+    </div>
+    <div class="main-about-wrapper">
+        <section class="about-us-numbers">
+            <h2 class="middle-block-title">Альтернатива в цифрах</h2>
+                <div class="alternative-numbers-list-wrapper">
+                    <div class="alternative-numbers-item">
+                        <img class="alternative-numbers-item--img" src="{% static 'content/img/industrial areas.png' %}" alt="Площади">
+                        <div class="alternative-numbers-item--text">48 000 кв. метров промышленных площадей</div>
+                    </div>
+                    <div class="alternative-numbers-item">
+                        <img class="alternative-numbers-item--img" src="{% static 'content/img/facade systems.png' %}" alt="Фасадные системы">
+                        <div class="alternative-numbers-item--text">> 100 вариантов конструктивных решений фасадных систем</div>
+                    </div>
+                    <div class="alternative-numbers-item">
+                        <img class="alternative-numbers-item--img" src="{% static 'content/img/projects.png' %}" alt="Проекты">
+                        <div class="alternative-numbers-item--text">> 10 000 проектов реализованно</div>
+                    </div>
+                    <div class="alternative-numbers-item">
+                        <img class="alternative-numbers-item--img" src="{% static 'content/img/cladding materials.png' %}" alt="Облицовачные материалы">
+                        <div class="alternative-numbers-item--text">16 видов облицовочных материалов</div>
+                    </div>
+                </div>
+        </section>
+        <section class="about-us-article-section">
+            <article class="about-us-atrticle-text">
+                {{content.text_content|safe}}
+            </article>
+        </section>
+    </div>
+{%endblock%} 
+
+        
+{%block custom_js%}
+    <script src="{% static 'js/about.js' %}"></script> 
+{%endblock%}

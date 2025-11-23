@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block custom_css %}
+    <link rel="stylesheet" href="{% static 'css/articles.css' %}">
+{%endblock%}
+
+{% block custom_main %}
+    <div class="background-image"></div>
+    <div class="main-wrapper">
+        <section class="bread-crumbs-search">
+            <div class="bread-crumbs-wrapper">
+                <a href="{% url 'index' %}">
+                    <span>Главная</span>
+                </a>
+                <span>></span>
+                <a href="{% url 'articles' %}">
+                    <span>Статьи</span>
+                </a>
+            </div>
+            {% comment %} <div class="search-wrapper">
+                <input type="search" name="production-search" id="production-search">
+            </div> {% endcomment %}
+        </section>
+        <section class="production-main">
+            <div class="production-main-left-side-wrapper">
+                <h2 class="left-side-menu-title">{{title}}</h2>
+                <div class="left-side-menu-inner-wrapper">
+                    <ul class="left-side-menu-list">
+                        {% if articles %}
+                            {% csrf_token %}
+                            {% for article in articles %}
+                                {% if active_slug and active_slug == article.slug %}
+                                    <a href="/articles/{{article.slug}}" class="left-side-menu-link" data-slug="{{ article.slug }}"><li class="left-side-menu-item menu-active">{{article.article_title}}</li></a> 
+                                {% else %}
+                                    <a href="/articles/{{article.slug}}" class="left-side-menu-link" data-slug="{{ article.slug }}"><li class="left-side-menu-item">{{article.article_title}}</li></a> 
+                                {% endif %}
+                            {% endfor %}
+                            <button class="get-next-article" type='button'>Загрузить другие статьи</button>
+                        {% else %}
+                            <p class="nothing-data">Не удалось загрузить статьи...</a>
+                        {% endif %}
+                        
+                    </ul>
+                </div>
+            </div>
+            <div class="news-content-right-side-wrapper">
+                <article class="news-article">
+                    {% if active_slug %}
+                        {% for art in article_active%}
+                            <h2 class="news-article-title">{{art.article_title}}</h2>
+                            <div class="news-article-date-info">{{art.created_at}}</div>
+                            <div class="news-content">
+                                {{art.article_text|safe}}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                </article>    
+                <div class="new-content-slider-wrapper"></div>
+            </div>
+        </section>
+    </div>
+{% endblock %} 
+
+{% block custom_js %}
+
+<script src="{% static 'js/articles.js' %}"></script> 
+{% endblock %}
+        
+

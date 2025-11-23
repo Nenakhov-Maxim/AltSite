@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% load static%}
+{% block custom_css%}
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+{%endblock%}
+{% block custom_main%}
+    <div class="background-image"></div>
+    <section class="login-content">
+        <h2 class="login-title">Вход</h2>
+        <form id="login-form" action="" method="post">
+            {% csrf_token %}
+            {{form.username}}
+            {{form.password}}
+            <!-- <input name="login-form-email" id="login-form-email-input" type="email" placeholder="Электронная почта">
+            <input name="login-form-password" id="login-form-password-input" type="password" placeholder="Пароль"> -->
+            <div class="login-form-remember-me-wrapper">
+                <input type="checkbox" name="login-form-remember-me" id="login-form-remember-me-checkbox">
+                <label for="login-form-remember-me">Запомнить меня</label>
+            </div>
+            <input type="hidden" name="next" value="{% url 'index' %}" />
+            <button class="login-btn" id="login-form-submit-btn" type="submit">Войти</button>
+        </form>
+        <div class="login-content-buttons-wrapper">
+            <a class="login-content-remember-password" href="">Забыли пароль?</a>
+            <a class="login-content-register" href="">Регистрация</a>
+        </div>
+    </section>
+{%endblock%}  
+{%block custom_js%}
+    <script src="../static/js/login.js"></script> 
+{%endblock%}

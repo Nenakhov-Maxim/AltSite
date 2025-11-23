@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block custom_css%}
+    <link rel="stylesheet" href="{% static 'css/lightgallery/bizon2.css' %}">
+    <link rel="stylesheet" href="{% static 'css/portfolio.css' %}">
+{%endblock%}
+
+{% block custom_main%}
+    <h1 class="title-text">Портфолио</h1>
+    <section class="portfolio-grid-gallery">
+        {% for project in portfolio_lib %}
+        <div class="portfolio-gallery-item">
+            <div class="portfolio-gallery-item-text">
+                 {% csrf_token %}
+                 <a class="portfolio-gallery-item-open-gal" href="/portfolio/{{ project.slug }}" data-portfolioId="{{ project.id }}">{{ project.title }}</a></div>
+            <img class="portfolio-gallery-item-img" src="/media/{{project.main_img}}" alt="{{ project.title }}">
+        </div>
+        {% endfor %}
+    </section>
+{%endblock%}  
+
+{%block custom_js%}
+    <script src="{% static 'js/lightgallery/bizon2.js' %}"></script>
+    <script src="{% static 'js/portfolio.js' %}"></script> 
+{%endblock%}

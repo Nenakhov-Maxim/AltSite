@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{%load static%}
+
+
+{% block custom_css%}
+<link rel="stylesheet" href="{% static 'css/rewards.css' %}">
+{%endblock%}
+{% block custom_main%}
+<div class="background-image"></div>
+<section class="bread-crumbs-search">
+        <div class="bread-crumbs-wrapper">
+            <a href="{% url 'index' %}">
+                <span>Главная</span>
+            </a>
+            <span>></span>
+            <a href="{% url 'rewards' %}">
+                <span>Награды</span>
+            </a>
+        </div>
+</section>
+<h2 class="reward-title">{{title}}</h2>
+        <section class="rewards-content-section">
+            {% if rewards %}
+                {% for reward in rewards %}
+                    <div class="reward-item">
+                        <img class="reward-item-img" src="/media/{{reward.reward_img}}" alt="{{reward.reward_title}}">
+                        <div class="reward-item-text">{{reward.reward_description}}</div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="nothing-data">Нет загруженных наград...</div>
+            {% endif %}
+        </section>
+{%endblock%}  
+       
+{%block custom_js%}
+<script src="../static/js/rewards.js"></script> 
+{%endblock%}
+    

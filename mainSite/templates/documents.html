@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% load static %}
+    
+{% block custom_css %}
+    <link rel="stylesheet" href="{% static "css/documents.css" %}">
+{% endblock %}
+
+{% block custom_main %}
+    <div class="background-image"></div>
+    <section class="bread-crumbs-search">
+            <div class="bread-crumbs-wrapper">
+                <a href="{% url 'index' %}">
+                    <span>Главная</span>
+                </a>
+                <span>></span>
+                <a href="{% url 'documents' %}">
+                    <span>Технические свидетельства</span>
+                </a>
+            </div>
+    </section>
+    <h2 class="reward-title">{{title}}</h2>
+    <section class="rewards-content-section">
+        {% if documents %}
+            {% for doc in documents %}
+                <div class="reward-item">
+                    <img class="reward-item-img" src="/media/{{doc.doc_img}}" alt="{{doc.doc_title}}">
+                    <div class="reward-item-text">{{doc.doc_description}}</div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="nothing-data">Нет загруженных технических свитетельств...</div>
+        {% endif %}
+    </section>
+{% endblock %}  
+
+{% block custom_js %}
+    <script src="{% static "js/documents.js" %}"></script> 
+{% endblock %}

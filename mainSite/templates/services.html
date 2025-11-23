@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block custom_css%}
+    <link rel="stylesheet" href="{% static 'css/services.css' %}">
+{%endblock%}
+    
+{% block custom_main%}
+    <div class="background-image"></div>
+    <div class="services-wrapper">
+        <section class="bread-crumbs-search">
+            <div class="bread-crumbs-wrapper">
+                <a href="{% url 'index' %}">
+                    <span>Главная</span>
+                </a>
+                <span>></span>
+                <a href="{% url 'technology' %}">
+                    <span>Технологии</span>
+                </a>
+            </div>
+        </section>
+        <h2 class="services-title">{{title}}</h2>
+        {{content.text_content|safe}}    
+    </div>
+{%endblock%} 
+
+{%block custom_js%}
+    <script src="{% static 'js/services.js' %}"></script> 
+{%endblock%}

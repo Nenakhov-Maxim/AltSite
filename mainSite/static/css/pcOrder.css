@@ -1,0 +1,209 @@
+.pc-content-order-grid {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    overflow: scroll;
+    width: 100%;
+}
+
+
+#pc-content-filter-select {
+    background: transparent;
+    border: none;
+    width: 175px;
+    height: 25px;
+}
+
+#pc-content-new-order-btn {
+    position: relative;
+    display: block;
+    width: 175px;
+    height: 35px;
+    background-color: var(--background-alt-red);
+    border: 1px solid transparent;
+    color: white;
+    border-radius: 10px;
+    cursor: pointer;
+    padding-top: 8px;
+}
+
+#pc-content-new-order-btn::before {
+    position: absolute;
+    content: '+';
+    width: 25px;
+    height: 25px;
+    top: 1px;
+    left: 5px;
+    font-size: 32px;
+}
+
+#pc-content-new-order-btn:hover {
+    color: black;
+    background: transparent;
+    border: 1px solid var(--background-alt-red);
+}
+
+.pc-content-order-item {
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    column-gap: 10px;
+    width: 100%;
+    margin-bottom: 15px;
+    background: rgba(129, 129, 129, 0.3);
+    border: 1px solid var(--border);
+    padding: 15px;
+    box-sizing: border-box;
+    border-radius: 15px;
+    
+}
+
+.pc-order-item-label-wrapper {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.pc-order-item-title {
+    font-size: 20px;
+    font-weight: 600;
+    margin-right: 15px;
+}
+
+.pc-order-item-status {
+    font-size: 12px;
+    padding: 5px 5px 5px 5px;
+    border-radius: 10px;
+}
+
+.pc-order-item-information-wrapper {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: start;
+}
+
+.pc-order-item-info-consumer-wrapper {
+    margin-right: 15px;
+}
+
+.pc-order-item-info-consumer-title {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.pc-order-item-info-consumer-name, .pc-order-item-info-consumer-tel, .pc-order-item-info-consumer-email {
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+.pc-order-item-info-product-title {
+    font-size: 18px;
+    margin-bottom: 10px;  
+}
+
+.pc-order-item-info-product-name, .pc-order-item-info-product-count {
+    font-size: 14px;
+    margin-bottom: 5px;   
+}
+
+.pc-order-buttons-wrapper {
+    display: grid;
+    grid-template-rows: 1fr 1fr 1fr;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+}
+
+.pc-order-buttons-wrapper a {
+    position: relative;
+    width: 35px;
+    height: 35px;
+    margin-bottom: 10px;
+    
+}
+
+.pc-order-buttons-wrapper a:hover {
+    transform: scale(1.1);
+    transition: 0.7s;
+    
+}
+
+.pc-order-buttons-wrapper a span {
+    visibility: hidden;
+}
+
+/* Кнопки */
+
+.pc-btn-delete-order::before {
+    position: absolute;
+    content: '';
+    width: 35px;
+    height: 35px;
+    top: 0;
+    left: 0;
+    background-image: url(../icon/delete.svg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.pc-btn-edit-order::before {
+    position: absolute;
+    content: '';
+    width: 35px;
+    height: 35px;
+    top: 0;
+    left: 0;
+    background-image: url(../icon/edit.svg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.pc-btn-change-status-order::before {
+    position: absolute;
+    content: '';
+    width: 35px;
+    height: 35px;
+    top: 0;
+    left: 0;
+    background-image: url(../icon/change.svg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+/* Статусы */
+
+.pc-status--init {
+    background-color: rgba(140, 239, 254, 0.3);
+    border: 1px solid rgba(28, 113, 126, 0.5);
+}
+
+.pc-status--in-work {
+    background-color: rgba(140, 189, 254, 0.3);
+    border: 1px solid rgba(31, 76, 135, 0.5);
+}
+
+.pc-status--in-production {
+    background-color: rgba(254, 237, 140, 0.3);
+    border: 1px solid rgba(120, 107, 34, 0.5);
+}
+
+.pc-status--wait-to-send {
+    background-color: rgba(206, 140, 254, 0.3);
+    border: 1px solid rgba(68, 22, 100, 0.5);
+}
+
+.pc-status--send {
+    background-color: rgba(237, 254, 140, 0.3);
+    border: 1px solid rgba(110, 124, 29, 0.5);
+}
+
+.pc-status--complited {
+    background-color: rgba(140, 254, 157, 0.3);
+    border: 1px solid rgba(28, 115, 41, 0.5);
+}

@@ -1,0 +1,489 @@
+main {
+    background: linear-gradient(180deg, #EAEAEA, #737373);
+}
+
+.header-banner {
+    position: relative;
+    height: 585px;
+    background-image: url(../content/img/job_background.jpg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    z-index: 1;
+}
+
+.header-banner::after {
+    position: absolute;
+    content: "";
+    background-color: rgba(29, 27, 27, 0.85);
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: -1;
+}
+
+.header-banner-text {
+    color: white;
+    font-weight: 800;
+    font-size: 96px;
+    line-height: 150px;
+    letter-spacing: 24%;
+    z-index: 2;
+    padding: 60px 0 60px 60px;
+}
+
+.header-banner-arrow {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 800;
+    font-size: 96px;
+    line-height: 150px;
+    letter-spacing: 24%;
+    z-index: 2;
+}
+
+.header-banner-arrow span{
+    visibility: hidden;
+}
+
+.header-banner-arrow::before{
+    position: absolute;
+    content: "";
+    width: 100px;
+    height: 100px;
+    top: 0;
+    background-image: url(../icon/icon/arrow-right.svg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.our-advantages {
+ margin-bottom: 100px;
+}
+
+.our-advantages-title {
+    font-weight: 600;
+    font-size: 60px;
+    letter-spacing: 16%;
+    text-transform: uppercase;
+    text-align: center;
+    margin-bottom: 100px;
+}
+
+.our-advantages-card-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    column-gap: 10px;
+    align-items: center;
+    text-align: center;
+}
+
+.our-advantages-card-item {
+    height: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.our-advantages-card-item img {
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+}
+
+.our-advantages-card-item--title {
+    font-weight: 700;
+    font-style: Bold;
+    font-size: 28px;
+    letter-spacing: 8%;
+}
+
+.our-advantages-card-item--subtext {
+    font-weight: 400;
+    font-size: 18px;
+}
+
+.current-vacancies-title {
+    font-weight: 600;
+    font-size: 40px;
+    text-transform: uppercase;
+}
+
+.current-vacancies-card-list {
+    padding-bottom: 50px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+.current-vacancies-card-item {
+    width: 100%;
+    background-color: #EBEBEB;
+    border: none;
+    border-radius: 10px;
+    padding: 15px;
+    font-size: 18px;
+    box-shadow: -3px 7px 10px black;
+    box-sizing: border-box;
+    border: 3px solid transparent;
+}
+
+.current-vacancies-card-item:hover {
+   border: 3px solid #B70101;
+   border-style:double;
+}
+
+
+.current-vacancies-card-item--title {
+    font-weight: 700;
+    font-size: 24px;
+    text-transform: uppercase;
+    margin-bottom: 30px;
+    margin-top: 0;
+}
+
+.current-vacancies-card-item--location {
+    position: relative;
+    padding-left: 30px;
+    margin-bottom: 20px;
+}
+
+.current-vacancies-card-item--location::before {
+    position: absolute;
+    content: '';
+    width: 30px;
+    height: 30px;
+    top: -5px;
+    left: 0;
+    background-image: url(../icon/location.svg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+.current-vacancies-card-item-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 20px;
+    margin-bottom: 20px;
+}
+
+.current-vacancies-card-item--work-schedule div:first-child {
+    margin-bottom: 15px;
+}
+
+.current-vacancies-card-item--payment div:first-child{
+    margin-bottom: 15px;    
+}
+
+.current-vacancies-card-item-buttons-wrapper {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: end;
+}
+
+#current-vacancies-card-item-more-info-btn {
+    background: transparent;
+    padding: 10px;
+    font-size: 18px;
+    border: 3px solid #B70101;
+    border-radius: 10px;
+    color: #9F0000;
+    padding-top: 15px;
+}
+
+#current-vacancies-card-item-more-info-btn:hover {
+    cursor: pointer;
+    background: #B70101;
+    border: none;
+    color: white;
+    transition: background 0.7s;
+    padding: 18px 13px 13px 13px;
+}
+
+
+/* POPUP  Подробнее о вакансии*/
+
+.popup-vacancies-more-detail {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 99;
+    overflow: auto;
+}
+
+.popup-vacancies-wrapper {
+    
+    width: 60%;
+    /* height: 80vh; */
+    overflow: scroll;
+    background-color: #EBEBEB;
+    padding: 30px;
+    margin: 0 auto;
+    margin-top: 100px;
+}
+
+.popup-vacancies-label-wrapper {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.popup-close-btn {
+    font-size: 34px;
+    
+}
+
+.popup-close-btn:hover {
+    color: var(--background-alt-red);
+    cursor: pointer;
+    transform: scale(1.05);
+    
+}
+
+.popup-vacancies-location {
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 35px;
+}
+
+.popup-vacancies-location::before {
+    position: absolute;
+    content: '';
+    width: 25px;
+    height: 25px;
+    top: -5px;
+    left: 0;
+    background-image: url(../icon/location.svg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+.popup-vacancies-subtitle {
+    color: #690000;
+    font-weight: 500;
+}
+
+.popup-vacancies-requirements-list {
+    list-style:circle ;
+    margin-bottom: 15px;
+}
+
+.popup-vacancies-requirements-item {
+    margin-left: 30px;
+    margin-bottom: 15px;
+}
+
+.popup-vacancies-duties-list {
+    list-style:circle ;
+    margin-bottom: 35px;
+}
+
+.popup-vacancies-duties-item {
+    margin-left: 30px;
+    margin-bottom: 15px;
+}
+
+.popup-vacancies-button-wrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.popup-vacancies-approve-btn {
+    width: 200px;
+    height: 65px;
+    background-color: var(--background-alt-red);
+    border: 1px solid transparent;
+    color: white;
+    border-radius: 10px;
+    text-align: center;
+    padding-top: 8px;
+}
+
+.popup-vacancies-approve-btn:hover {
+    cursor: pointer;
+    background-color: transparent;
+    border: 1px solid var(--background-alt-red);
+    color: black;
+    transition: 0.7s;
+}
+
+
+/* POPUP откликнуться на вакансию */
+
+.popup-respond-vacancy {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 10;
+    overflow: auto;   
+}
+
+.popup-respond-vacancy-wrapper {
+    width: 60%;
+    overflow: scroll;
+    background-color: #EBEBEB;
+    padding: 30px;
+    margin: 0 auto;
+    margin-top: 100px;
+}
+
+.popup-respond-vacancys-label-wrapper {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 35px;
+}
+
+.respond-vacancy-form-content-wrapper {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    overflow: scroll;
+}
+
+.respond-vacancy-form-content-wrapper input {
+    background: transparent;
+    border: 1px solid rgba(0, 0, 0, 0.7);
+    width: 100%;
+    height: 45px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    padding: 5px 15px;
+    box-sizing: border-box;
+    font-size: 14px;
+}
+
+.respond-vacancy-form-content-wrapper input:focus {
+    outline: 2px solid var(--background-alt-red);
+}
+
+#respond-vacancy-information-textarea {
+    width: 100%;
+    height: 100px;
+    resize: none;
+    font-size: 14px;
+    padding: 10px 25px;
+    box-sizing: border-box;
+    background: transparent;
+    border-radius: 5px;
+}
+
+#respond-vacancy-information-textarea:focus {
+    outline: 2px solid var(--background-alt-red);
+}
+
+.checkbox-wrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: nowrap;
+    justify-content: left;
+    margin-bottom: 35px;
+}
+
+.checkbox-wrapper label{
+   padding-top: 6px;
+}
+
+#respond-vacancy-personal-info-approve-checkbox {
+    width: inherit;
+    margin-right: 15px;
+    margin-bottom: 0;
+}
+
+.upload-file-wrapper label {
+    display: block;
+    margin-bottom: 10px;
+}
+
+#respond-vacancy-file-upload-input {
+    border: none;
+    padding-left: 0;
+    text-align: center;
+}
+
+.respond-vacancy-form-buttons-wrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+#respond-vacancy-form-submit-btn {
+    width: 200px;
+    height: 65px;
+    background-color: var(--background-alt-red);
+    border: 1px solid transparent;
+    color: white;
+    border-radius: 10px;
+    text-align: center;
+    padding-top: 8px;   
+}
+
+#respond-vacancy-form-submit-btn:hover {
+    cursor: pointer;
+    background-color: transparent;
+    border: 1px solid var(--background-alt-red);
+    color: black;
+    transition: 0.7s;
+}
+
+/* POPUP спасибо за отклик */
+
+.complete-popup {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 99;
+    overflow: auto; 
+}
+
+.complete-popup-wrapper {
+    width: 550px;
+    height: 250px;
+    margin: 0 auto;
+    margin-top: 150px;
+    padding: 15px;
+    background-color: white;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+
+
+
+
+/* Модификаторы */
+
+.popup-disable {
+    visibility: hidden;
+}
