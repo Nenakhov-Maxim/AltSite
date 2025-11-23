@@ -42,10 +42,22 @@ const swiper = new Swiper('.swiper', {
 });
 
 //Слайдер для новостей
+let slides_card_number = 3
+let spaces = 30
+if (window.innerWidth < 800) {
+    slides_card_number = 2
+    spaces = 20
+}
+if (window.innerWidth < 640) {
+    slides_card_number = 1
+    spaces = 10
+}
+
 
 const news_slider = new Swiper('.news-swiper', {
-  slidesPerView: 3,
-  spaceBetween: 30,
+  
+  slidesPerView: slides_card_number,
+  spaceBetween: spaces,
   pagination: {
     el: ".swiper-pagination",
     clickable: true,

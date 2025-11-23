@@ -7,8 +7,10 @@
     
     <link rel="stylesheet" href="{% static 'css/normalize.css' %}">
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    
     {% block custom_css%}
     {% endblock %}
+    <link rel="stylesheet" href="{% static 'css/media.css' %}">
     <title>Альтернатива</title>
 </head>
 <body>
@@ -20,6 +22,11 @@
                         <img src="{% static 'icon/logo.png'%}" alt="Альтернатива. Логотип">
                     </a>
                 </div>
+                <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Открыть меню">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
                 <nav class="header-nav-menu">
                     <ul class="nav-menu-list">
                         <li class="nav-menu-item">
