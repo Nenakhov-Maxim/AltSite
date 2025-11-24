@@ -1,0 +1,52 @@
+/* ========================================
+   Страница "Статьи"
+   ======================================== */
+
+@media screen and (max-width: 680px) {
+    .bread-crumbs-search {
+        padding: 15px 0 15px 0;
+        gap: 10px;
+    }
+
+    .bread-crumbs-wrapper {
+        font-size: 12px;
+    }
+
+    .left-side-menu-title {
+        font-size: 22px;
+    }
+
+    .left-side-menu-inner-wrapper {
+        padding-bottom: 15px;
+        margin-bottom: 15px;
+        padding-right: 15px;
+        min-height: 50vh;
+    }
+
+    .left-side-menu-item {
+        font-size: 12px;
+    }
+
+    .news-article {
+        padding-top: 40px;
+    }
+
+    h2 {
+        margin-top: 0;
+        font-size: 18px;
+    }
+
+    .news-content {
+        font-size: 12px;
+    }
+
+    .news-article-date-info {
+        font-size: 10px;
+    }
+
+    iframe {
+        width: 100%;
+        height: max-content;
+    }
+
+}

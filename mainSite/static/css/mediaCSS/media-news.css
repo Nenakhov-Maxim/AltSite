@@ -1,0 +1,54 @@
+/* ========================================
+   Страница "Новости"
+   ======================================== */
+
+@media screen and (max-width: 680px) {
+    .bread-crumbs-search {
+        padding: 15px 0 15px 0;
+        gap: 10px;
+    }
+
+    .bread-crumbs-wrapper {
+        font-size: 12px;
+    }
+
+    .production-main {
+        column-gap: 10px;
+    }
+
+    .left-side-menu-title {
+        font-size: 22px;
+    }
+
+    .left-side-menu-inner-wrapper {
+        margin-bottom: 15px;
+        min-height: 50vh;
+        padding-right: 10px;
+    }
+
+    .left-side-menu-item {
+        font-size: 12px;
+        padding: 10px 0;
+    }
+
+    .news-article {
+        padding-top: 40px;
+    }
+
+    .news-article-title {
+        font-size: 22px;
+    }
+
+    .news-content {
+        font-size: 14px;
+    }
+
+    .news-content img {
+        width: 100% !important;
+    }
+
+    .news-content p {
+        font-size: 12px !important;
+    }
+
+}

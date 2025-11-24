@@ -1,0 +1,82 @@
+/* ========================================
+   Страница "Продукция"
+   ======================================== */
+
+@media screen and (max-width: 680px) {
+    .production-main {
+        display: grid;
+        grid-template-columns: 1fr;
+        row-gap: 30px;
+    }
+
+    .production-main-right-side-wrapper {
+        padding: 20px;
+        background-color: #D9D9D9;
+    }
+
+    .right-side-cards-list {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 30px;
+    }
+
+    .card-item {
+        background-color: #FFFFFF66;
+        padding: 15px;
+    }
+
+    .card-item-text-block-wrapper {
+        font-size: 14px;
+        text-align: center;
+    }
+
+    .card-item-image-block-wrapper {
+        margin-bottom: 20px;
+    }
+
+    .bread-crumbs-search {
+        padding: 30px 0 30px 0;
+    }
+
+    .bread-crumbs-wrapper {
+        font-size: 12px;
+    }
+
+    #production-search {
+        height: 35px;
+        padding: 5px 15px;
+        font-size: 12px;
+        border-radius: 15px;
+    }
+
+    .search-wrapper::after {
+        width: 15px;
+        height: 15px;
+        right: 15px;
+        top: 10px;
+    }
+
+    .left-side-menu-title {
+        font-weight: 700;
+        font-style: Bold;
+        font-size: 36px;
+    }
+
+    .left-side-menu-item {
+        font-size: 18px;
+        border-bottom: none;
+        padding: 5px 0;
+    }
+
+    .left-side-menu-item:first-child {
+        border-top: none;
+    }
+
+    .left-side-menu-list {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        column-gap: 15px;
+        border-bottom: 1px solid var(--border);
+        align-items: center;
+    }
+}

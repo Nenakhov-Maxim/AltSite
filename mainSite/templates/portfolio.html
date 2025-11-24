@@ -6,6 +6,10 @@
     <link rel="stylesheet" href="{% static 'css/portfolio.css' %}">
 {%endblock%}
 
+{% block custom_css_media%}
+    <link rel="stylesheet" href="{% static 'css/mediaCSS/media-portfolio.css' %}">
+{% endblock %}
+
 {% block custom_main%}
     <h1 class="title-text">Портфолио</h1>
     <section class="portfolio-grid-gallery">

@@ -543,4 +543,8 @@
     .footer-menu-wrapper {
         grid-template-columns: 1fr;
     }
+
+    .copyright {
+        font-size: 12px;
+    }
 }

@@ -1,0 +1,23 @@
+/* ========================================
+   Страница "Технологии"
+   ======================================== */
+
+@media screen and (max-width: 680px) {
+    main {
+        padding: 15px;
+    }
+
+    .bread-crumbs-search {
+        padding: 15px 0;
+        gap: 10px;
+    }
+    
+    .bread-crumbs-wrapper {
+        font-size: 12px;
+    }
+
+    .services-title {
+        font-size: 22px;
+        margin: 15px 0;
+    }
+}

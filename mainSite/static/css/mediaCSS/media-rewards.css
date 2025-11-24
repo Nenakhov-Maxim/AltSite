@@ -1,0 +1,50 @@
+/* ========================================
+   Страница "Награды"
+   ======================================== */
+
+@media screen and (max-width: 680px) {
+    .bread-crumbs-search {
+        padding: 15px 0 15px 0;
+        gap: 10px;
+    }
+
+    .bread-crumbs-wrapper {
+        font-size: 12px;
+    }
+
+    .reward-title {
+        font-size: 22px;
+    }
+
+    .rewards-content-section {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        column-gap: 5px;
+        row-gap: 10px;
+    }
+
+    .reward-item {
+        width: 100%;
+        padding: 10px;
+        border-radius: 5px;
+        margin: 0;
+        box-sizing: border-box;
+    }
+
+    .reward-item-img {
+        width: 100%;
+        height: max-content;
+        object-fit: contain;
+        margin-bottom: 10px;
+    }
+
+    .reward-item-text {
+        font-size: 12px;
+        padding-bottom: 10px;
+    }
+
+    main {
+        min-height: 50vh;
+    }
+
+}

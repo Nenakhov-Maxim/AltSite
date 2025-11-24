@@ -1,0 +1,94 @@
+/* ========================================
+   Страница "Продукция"
+   ======================================== */
+
+@media screen and (max-width: 680px) {
+
+    .header-banner {
+        height: 200px;
+        background-size: cover;
+    }
+
+    .header-banner-text {
+        font-size: 28px;
+        line-height: 55px;
+        padding: 25px;
+    }
+
+    .header-banner-arrow {
+        line-height: 37px;
+    }
+
+    .header-banner-arrow::before {
+        width: 35px;
+        height: 35px;
+    }
+
+    .our-advantages-title {
+        font-size: 22px;
+        margin-bottom: 35px;
+    }
+
+    .our-advantages-card-list {
+        display: block;
+    }
+
+    .our-advantages-card-item img {
+        width: 50px;
+        height: 50px;
+        margin-bottom: 15px;
+    }
+
+    .our-advantages-card-item {
+        height: max-content;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 15px;
+    }
+
+    .our-advantages-card-item--title {
+        font-size: 20px;
+        margin-bottom: 10px;
+    }
+
+    .our-advantages-card-item--subtext {
+        font-size: 14px;
+    }
+
+    .current-vacancies-title {
+        font-size: 22px;
+    }
+
+    .current-vacancies-card-list {
+        padding-bottom: 15px;
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .current-vacancies-card-item {
+        border-radius: 7px;
+        padding: 10px;
+        font-size: 14px;
+    }
+
+    .current-vacancies-card-item--title {
+        font-size: 18px;
+        margin-bottom: 10px;
+    }
+
+    #current-vacancies-card-item-more-info-btn {
+        padding: 5px;
+        font-size: 12px;
+        border: 1px solid #B70101;
+        border-radius: 5px;
+    }
+
+    #current-vacancies-card-item-more-info-btn:hover {
+        transition: background 0.7s;
+        padding: 5px 5px 5px 5px;
+    }
+
+}

@@ -5,6 +5,10 @@
     <link rel="stylesheet" href="{% static "css/news.css" %}">
 {%endblock%}
 
+{% block custom_css_media%}
+    <link rel="stylesheet" href="{% static 'css/mediaCSS/media-news.css' %}">
+{% endblock %}
+
 {% block custom_main%}
     <div class="background-image"></div>
     <div class="main-wrapper">
@@ -36,7 +40,7 @@
                                     <a href='/news/{{news_item.slug}}' class="left-side-menu-link" data-slug="{{ news_item.slug }}"><li class="left-side-menu-item">{{news_item.news_title}}</li></a>
                                 {% endif %}
                             {% endfor %}
-                            <button class="get-next-news" type="button">Загрузить другие новости</button>
+                            {% comment %} <button class="get-next-news" type="button">Загрузить другие новости</button> {% endcomment %}
                         {% else %}
                             <p class="nothing-data">Не удалось загрузить новости...</a>
                         {% endif %}
@@ -56,9 +60,14 @@
                                 {{news.news_text|safe}}
                             </div>
                         {% endfor %}
+                    {% else %}
+                           <h2 class="news-article-title">Просмотр новостей</h2> 
+                           <div class="news-content">
+                                Выберете новость в навигационном меню слева
+                            </div>
                     {% endif %}
                 </article>    
-                <div class="new-content-slider-wrapper"></div>
+                {% comment %} <div class="new-content-slider-wrapper"></div> {% endcomment %}
             </div>
         </section>
     </div>

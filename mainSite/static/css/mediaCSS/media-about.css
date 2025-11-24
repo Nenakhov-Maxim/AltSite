@@ -1,0 +1,41 @@
+/* ========================================
+   Страница "О компании"
+   ======================================== */
+
+@media screen and (max-width: 680px) {
+    main {
+        padding: 15px 10px;
+    }
+
+    .about-us-img div {
+        top: 45px;
+        font-size: 22px;
+    }
+
+    .main-about-wrapper {
+        display: grid;
+        grid-template-columns: 1fr;
+        column-gap: none;
+    }
+
+    .middle-block-title {
+        display: none;
+    }
+
+    .alternative-numbers-list-wrapper {
+        display: none;
+    }
+
+    .bread-crumbs-wrapper {
+        font-size: 12px;
+    }
+
+    .bread-crumbs-search {
+        padding: 30px 0 30px 0;
+        gap: 20px;
+    }
+
+    .about-us-atrticle-text {
+        padding: 0 10px 0 10px;
+    }
+}

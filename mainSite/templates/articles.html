@@ -5,6 +5,10 @@
     <link rel="stylesheet" href="{% static 'css/articles.css' %}">
 {%endblock%}
 
+{% block custom_css_media%}
+    <link rel="stylesheet" href="{% static 'css/mediaCSS/media-articles.css' %}">
+{% endblock %}
+
 {% block custom_main %}
     <div class="background-image"></div>
     <div class="main-wrapper">
@@ -36,7 +40,7 @@
                                     <a href="/articles/{{article.slug}}" class="left-side-menu-link" data-slug="{{ article.slug }}"><li class="left-side-menu-item">{{article.article_title}}</li></a> 
                                 {% endif %}
                             {% endfor %}
-                            <button class="get-next-article" type='button'>Загрузить другие статьи</button>
+                            {% comment %} <button class="get-next-article" type='button'>Загрузить другие статьи</button> {% endcomment %}
                         {% else %}
                             <p class="nothing-data">Не удалось загрузить статьи...</a>
                         {% endif %}
@@ -54,9 +58,14 @@
                                 {{art.article_text|safe}}
                             </div>
                         {% endfor %}
+                    {% else %}
+                            <h2 class="news-article-title">Просмотр статей</h2>
+                            <div class="news-content">
+                                Выберете статью в навигационном меню слева
+                            </div>
                     {% endif %}
                 </article>    
-                <div class="new-content-slider-wrapper"></div>
+                {% comment %} <div class="new-content-slider-wrapper"></div> {% endcomment %}
             </div>
         </section>
     </div>

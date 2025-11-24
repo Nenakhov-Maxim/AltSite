@@ -1,0 +1,20 @@
+/* ========================================
+   Страница "Портфолио"
+   ======================================== */
+
+@media screen and (max-width: 680px) {
+    main {
+        padding: 15px;
+    }
+
+    .title-text {
+        font-size: 22px;
+        padding-top: 15px;
+    }
+
+    .portfolio-grid-gallery {
+        grid-template-columns: 1fr;
+        gap: 10px;
+        padding: 5px;
+    }
+}
