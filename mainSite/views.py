@@ -207,11 +207,13 @@ def jobApplication(request):
 def contacts(request):
     form = ProjectForm()
     contact = ContactPage.objects.last()
+    representatives = Representatives.objects.all()
     data = {
         'contact': contact,
         'form':form,
         'success_send_form': False,
-        'error': ''
+        'error': '',
+        'representatives': representatives
     }
     if request.method == 'GET':
         return render(request, 'contacts.html', data)

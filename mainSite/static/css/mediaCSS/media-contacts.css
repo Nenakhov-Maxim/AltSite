@@ -28,7 +28,7 @@
     }
 
     .contacts-about-us-wrapper {
-        margin-bottom: 25px;
+        margin-bottom: 16px;
     }
 
     .feedback-label-title {
@@ -39,6 +39,7 @@
     .feedback-label-text {
         line-height: 20px;
         margin-bottom: 25px;
+        font-size: 14px;
     }
 
     .feedback-form-content-wrapper input {
@@ -77,5 +78,22 @@
     main {
         padding-bottom: 30px;
         }
+
+    h2{
+        font-weight: 600;
+        font-size: 22px;
+        line-height: 30px;
+        letter-spacing: 0%;
+    }
+
+    .rus-representatives-item {
+        margin-bottom: 10px;
+        font-size: 12px;
+    }
+
+    .sng-representatives-item {
+        margin-bottom: 10px;
+        font-size: 12px;  
+    }
 
 }

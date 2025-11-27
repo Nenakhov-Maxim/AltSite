@@ -53,6 +53,10 @@ class ProductModelAdmin(admin.ModelAdmin):
     list_display = ('product_name', 'product_type') 
     list_filter = ('product_type',)
     
+class RepresentativesAdmin(admin.ModelAdmin):
+    list_display = ('city', 'country', 'company_name') 
+    list_filter = ('country', 'city')
+    search_fields = ['city', 'company_name']
 
 
 # Register your models here.
@@ -78,3 +82,5 @@ admin.site.register(Documents)
 admin.site.register(FacadeSystemBase, FacadeSystemBaseAdmin)
 admin.site.register(FacadeSystem, FacadeSystemAdmin)
 admin.site.register(FacadeSystemStartPage, FacadeSystemContentPageAdmin)
+admin.site.register(RepresentativesCountry)
+admin.site.register(Representatives, RepresentativesAdmin)

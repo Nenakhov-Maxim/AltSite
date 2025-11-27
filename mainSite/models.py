@@ -380,3 +380,31 @@ class FacadeSystemStartPage(models.Model):
         
     def __str__(self):
         return 'Контент от ' + str(self.created_at)
+    
+class RepresentativesCountry(models.Model):
+    full_country_name_rus = models.CharField(max_length=50, blank=True, verbose_name = 'Полное наименование страны на русском')
+    full_country_name_eng = models.CharField(max_length=50, blank=True, verbose_name = 'Полное наименование страны на английском')
+    short_country_name_rus = models.CharField(max_length=10, blank=True, verbose_name = 'Сокращенное наименование страны на русском')
+    short_country_name_eng = models.CharField(max_length=10, blank=True, verbose_name = 'Сокращенное наименование страны на английском')
+    
+    class Meta:
+        verbose_name = 'Страна (справочник)'
+        verbose_name_plural = 'Страны (справочник)' 
+        
+    def __str__(self):
+        return self.full_country_name_rus
+
+class Representatives(models.Model):
+    country = models.ForeignKey(RepresentativesCountry, verbose_name='Страна', on_delete=models.CASCADE)
+    city = models.CharField(max_length=30, blank=False, verbose_name = 'Город')
+    company_name = models.CharField(max_length=130, blank=False, verbose_name = 'Наименование организации (полное)')
+    company_adress = models.CharField(max_length=50, blank=True, verbose_name = 'Адрес организации')
+    company_phone = models.CharField(max_length=50, blank=False, verbose_name = 'Телефон организации')
+    company_email = models.CharField(max_length=50, blank=False, verbose_name = 'Email организации')
+    
+    class Meta:
+        verbose_name = 'Представительство'
+        verbose_name_plural = 'Представительства' 
+        
+    def __str__(self):
+        return f'{self.city} ({self.country.full_country_name_rus}), компания - {self.company_name}'

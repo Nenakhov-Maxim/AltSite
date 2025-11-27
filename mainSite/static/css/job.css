@@ -63,7 +63,11 @@ main {
 }
 
 .our-advantages {
- margin-bottom: 100px;
+    margin-bottom: 50px;
+}
+
+.HR-video {
+    margin-bottom: 50px;
 }
 
 .our-advantages-title {
@@ -113,6 +117,7 @@ main {
     font-weight: 600;
     font-size: 40px;
     text-transform: uppercase;
+    margin-bottom: 0;
 }
 
 .current-vacancies-card-list {
@@ -478,6 +483,22 @@ main {
     justify-content: center;
 }
 
+
+.current-vacancies-subtitle {
+    margin: 0;
+    margin-bottom: 30px;
+}
+
+.current-vacancies-subtitle a{
+    color: var(--background-alt-red);
+    border-bottom: 1px solid var(--background-alt-red);
+}
+
+.video-content {
+    width: 100%;
+    object-fit: cover;
+    object-position: center center;
+}
 
 
 

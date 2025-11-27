@@ -22,9 +22,6 @@
                     <span>Контакты</span>
                 </a>
             </div>
-            {% comment %} <div class="search-wrapper">
-                <input type="search" name="production-search" id="production-search">
-            </div> {% endcomment %}
         </section>
         <section class="contacts-main">
             <div class="contacts-about-us-wrapper">
@@ -46,6 +43,35 @@
                         <span>Электронная почта:</span>
                         <span>{{contact.org_email}}</span>
                     </li>
+                </ul>
+            </div>
+            <div class="contact-rus-representatives">
+                <h2 class="rus-representatives-title">Представительства</h2>
+                <ul class="rus-representatives-list">
+                    {% for repr in representatives %}
+                        {% if repr.country.short_country_name_eng == 'Russia' %}
+                            {% if repr.company_adress %}
+                                <li class="rus-representatives-item">{{repr.city}}, {{repr.company_adress}}; {{repr.company_name}}; Тел.: {{repr.company_phone}}, e-mail: {{repr.company_email}}</li>
+                            {% else %}
+                                <li class="rus-representatives-item">{{repr.city}}, {{repr.company_name}}; Тел.: {{repr.company_phone}}, e-mail: {{repr.company_email}}</li>
+                            {% endif %}
+                        {% endif %}
+                    {% endfor %}
+                    
+                </ul>
+            </div>
+            <div class="contact-sng-representatives">
+                <h2 class="sng-representatives-title">Зарубежные представительства</h2>
+                <ul class="sng-representatives-list">
+                    {% for repr in representatives %}
+                        {% if repr.country.short_country_name_eng != 'Russia' %}
+                            {% if repr.company_adress %}
+                                <li class="sng-representatives-item">{{repr.country.full_country_name_rus}}, {{repr.company_name}}, {{repr.city}}, {{repr.company_adress}}; Тел.: {{repr.company_phone}}, e-mail: {{repr.company_email}}</li>
+                            {% else %}    
+                                <li class="sng-representatives-item">{{repr.country.full_country_name_rus}}, {{repr.company_name}}, {{repr.city}}; Тел.: {{repr.company_phone}}, e-mail: {{repr.company_email}}</li>
+                            {% endif %}
+                        {% endif %}
+                    {% endfor %}
                 </ul>
             </div>
             <div class="feedback-wrapper">
