@@ -1,6 +1,38 @@
 from django.db import models
 from django.utils.text import slugify
 from django.utils.html import strip_tags
+import os
+import uuid
+from unidecode import unidecode
+
+
+def sanitize_filename(filename):
+    """
+    Sanitize filename by transliterating non-ASCII characters to ASCII.
+    Handles Russian and other Unicode characters to prevent filename too long errors.
+    """
+    name, ext = os.path.splitext(filename)
+    # Transliterate to ASCII
+    sanitized_name = unidecode(name)
+    # Remove any remaining problematic characters
+    sanitized_name = "".join(c for c in sanitized_name if c.isalnum() or c in ('-', '_'))
+    # Limit length to prevent issues (max 100 chars for name)
+    sanitized_name = sanitized_name[:100]
+    # Add a short unique identifier to prevent collisions
+    unique_id = uuid.uuid4().hex[:8]
+    return f"{sanitized_name}_{unique_id}{ext}"
+
+
+def portfolio_upload_path(instance, filename):
+    """Custom upload path for Portfolio main images with sanitized filenames."""
+    sanitized = sanitize_filename(filename)
+    return os.path.join('portfolio', sanitized)
+
+
+def portfolio_image_upload_path(instance, filename):
+    """Custom upload path for PortfolioImage with sanitized filenames."""
+    sanitized = sanitize_filename(filename)
+    return os.path.join('portfolio', sanitized)
 
 
 class ProductionBase(models.Model):
@@ -89,7 +121,7 @@ class Product(models.Model):
 
 class Portfolio(models.Model):
     title = models.CharField(max_length=350, blank=False, verbose_name = 'Наименование портфолио')
-    main_img = models.FileField(upload_to='portfolio/', blank=False, verbose_name = 'Главное изображение')
+    main_img = models.FileField(upload_to=portfolio_upload_path, blank=False, verbose_name = 'Главное изображение')
     slug = models.SlugField(
         max_length=255,
         unique=True,
@@ -114,7 +146,7 @@ class Portfolio(models.Model):
 
 class PortfolioImage(models.Model):
     alt = models.CharField(max_length=150, blank=False, verbose_name = 'Описание к изображению')
-    image_link = models.FileField(upload_to='portfolio/', blank=False, verbose_name = 'Изображение')
+    image_link = models.FileField(upload_to=portfolio_image_upload_path, blank=False, verbose_name = 'Изображение')
     portfolio = models.ForeignKey(
         Portfolio,
         related_name='images',
