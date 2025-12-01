@@ -34,6 +34,11 @@ def portfolio_image_upload_path(instance, filename):
     sanitized = sanitize_filename(filename)
     return os.path.join('portfolio', sanitized)
 
+def production_image_upload_path(instance, filename):
+    """Custom upload path for Production with sanitized filenames."""
+    sanitized = sanitize_filename(filename)
+    return os.path.join('production', sanitized)
+
 
 class ProductionBase(models.Model):
     title = models.CharField(max_length=100)
@@ -108,7 +113,7 @@ class ProductType(models.Model):
 class Product(models.Model):
     product_name = models.CharField(max_length=350, blank=False, verbose_name = 'Наименование продукта')
     product_type = models.ForeignKey(ProductType, on_delete=models.CASCADE, verbose_name = 'Тип продукта')
-    product_img = models.FileField(upload_to=f'production/', blank=True, verbose_name = 'Изображение')
+    product_img = models.FileField(upload_to=production_image_upload_path, blank=True, verbose_name = 'Изображение')
     created_at = models.DateTimeField(auto_now_add=True, blank=True)
     
     class Meta:
