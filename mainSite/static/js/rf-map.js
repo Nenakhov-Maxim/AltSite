@@ -41,9 +41,12 @@ document.addEventListener('DOMContentLoaded', ()=> {
     all_district = document.querySelector('.rf-map').querySelectorAll('.district-text');
     for (const dis of all_district) {
         code_id = dis.id
-        svg_element = document.querySelector('.rf-map').querySelector(`[data-code="${code_id}"]`)
-        svg_element.dataset.select = 'true'
-        svg_element.dataset.hover = 'true';
+        svg_element = document.querySelector('.rf-map').querySelectorAll(`[data-code="${code_id}"]`)
+        for (svg of svg_element) {
+            svg.dataset.select = 'true'
+            svg.dataset.hover = 'true';
+        }
+        
     }
 
 })
