@@ -5,7 +5,7 @@ main {
 .header-banner {
     position: relative;
     height: 585px;
-    background-image: url(../content/img/job_background.jpg);
+    background-image: url(../content/img/background_job.webp);
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;

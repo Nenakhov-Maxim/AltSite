@@ -8,7 +8,7 @@ main {
 .background-image {
     position: absolute;
     content: '';
-    background-image: url(../content/img/background-main.png);
+    background-image: url(../content/img/background-main.jpg);
     background-position: top center;
     background-repeat: no-repeat;
     width: 100%;
