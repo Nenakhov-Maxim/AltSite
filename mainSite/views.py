@@ -1,4 +1,5 @@
 from django.http import Http404, JsonResponse
+from django.db.models import Prefetch
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from .models import *
@@ -12,7 +13,40 @@ from .forms import ProjectForm
 def index(request):
     uuid = 'index'
     title_content = PageContent.objects.get(page_uuid=uuid)
-    geo_content = RegionAdress.objects.filter(visible_on_site=True)
+    geo_content = list(
+        GeographicalPresence.objects.filter(visible_on_map=True).prefetch_related(
+            Prefetch(
+                'adresses',
+                queryset=RegionAdress.objects.filter(visible_on_site=True).order_by('id'),
+                to_attr='visible_addresses'
+            ),
+            'linked_regions'
+        ).order_by('region_name')
+    )
+    geo_map_config = {
+        'regionLinks': {
+            region.region_code: sorted({
+                linked_region.region_code
+                for linked_region in region.linked_regions.all()
+                if linked_region.region_code
+            })
+            for region in geo_content
+        },
+        'cityMarkers': [
+            {
+                'code': region.region_code,
+                'label': region.city_name.strip(),
+                'offsetX': region.city_offset_x,
+                'offsetY': region.city_offset_y
+            }
+            for region in geo_content
+            if region.show_city_label and region.city_name.strip()
+        ],
+        'titlesByCode': {
+            region.region_code: region.region_name
+            for region in geo_content
+        }
+    }
     product_content = ProductionBase.objects.all()
     portfolio_lib = Portfolio.objects.all()
     news_lib = News.objects.all().order_by('created_at')[0:10]
@@ -20,6 +54,7 @@ def index(request):
     data = {
         'title_content' : title_content,
         'geo_content' : geo_content,
+        'geo_map_config': geo_map_config,
         'product_content' : product_content,
         'portfolio_lib': portfolio_lib,
         'news_lib': news_lib,

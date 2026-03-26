@@ -69,6 +69,36 @@ class PageContent(models.Model):
 class GeographicalPresence(models.Model):
     region_name = models.CharField(max_length=150, blank=False, verbose_name = 'Наименование региона')
     region_code = models.CharField(max_length=50, blank=False, verbose_name = 'КОД')
+    visible_on_map = models.BooleanField(default=False, verbose_name='Показывать на карте')
+    linked_regions = models.ManyToManyField(
+        'self',
+        blank=True,
+        symmetrical=True,
+        verbose_name='Связанные регионы',
+        help_text='Эти регионы будут подсвечиваться вместе с текущим.'
+    )
+    popup_description = models.TextField(
+        blank=True,
+        verbose_name='Описание для popup',
+        help_text='Необязательный текст, который показывается над адресами.'
+    )
+    city_name = models.CharField(
+        max_length=150,
+        blank=True,
+        verbose_name='Город для подписи на карте'
+    )
+    city_offset_x = models.IntegerField(
+        default=0,
+        verbose_name='Смещение города по X'
+    )
+    city_offset_y = models.IntegerField(
+        default=0,
+        verbose_name='Смещение города по Y'
+    )
+    show_city_label = models.BooleanField(
+        default=False,
+        verbose_name='Показывать город на карте'
+    )
     
     class Meta:
         verbose_name = 'Регион и представительства'
@@ -80,7 +110,7 @@ class GeographicalPresence(models.Model):
 class RegionAdress(models.Model):
     adress_name = models.TextField(verbose_name = 'Адрес')
     geographical_presence = models.ForeignKey(GeographicalPresence, related_name='adresses', on_delete=models.CASCADE)
-    visible_on_site = models.BooleanField(default=False, verbose_name = 'Включить на сайте?')
+    visible_on_site = models.BooleanField(default=False, verbose_name = 'Показывать в popup?')
     
     class Meta:
         verbose_name = 'Адрес представительства'

@@ -36,7 +36,7 @@ class PortfolioInLine(admin.StackedInline):
 
 class RegionAdressInLine(admin.StackedInline):
     model = RegionAdress
-    can_delete = False
+    extra = 0
     verbose_name_plural = "Адреса представительств"
 
 class PortfolioInlineImage(admin.ModelAdmin):
@@ -46,7 +46,24 @@ class PortfolioInlineImage(admin.ModelAdmin):
 
 class RegionInLine(admin.ModelAdmin):
     inlines = [RegionAdressInLine]
-    search_fields = ['region_name',]
+    list_display = ('region_name', 'region_code', 'visible_on_map', 'show_city_label', 'city_name', 'city_offset_x', 'city_offset_y')
+    list_filter = ('visible_on_map', 'show_city_label')
+    search_fields = ['region_name', 'region_code', 'city_name']
+    filter_horizontal = ('linked_regions',)
+    fieldsets = (
+        ('Регион', {
+            'fields': ('region_name', 'region_code', 'visible_on_map')
+        }),
+        ('Подсветка', {
+            'fields': ('linked_regions',)
+        }),
+        ('Popup', {
+            'fields': ('popup_description',)
+        }),
+        ('Город на карте', {
+            'fields': ('show_city_label', 'city_name', 'city_offset_x', 'city_offset_y')
+        }),
+    )
     
     
 class ProductModelAdmin(admin.ModelAdmin):
