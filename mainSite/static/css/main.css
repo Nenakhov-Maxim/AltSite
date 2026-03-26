@@ -171,17 +171,17 @@
 }
 
 .rf-map__city-dot {
-    width: 8px;
-    height: 8px;
-    flex: 0 0 8px;
+    width: 4px;
+    height: 4px;
+    flex: 0 0 4px;
     border-radius: 50%;
     background: #1d4567;
     box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.9);
 }
 
 .rf-map__city-label {
-    font-size: 12px;
-    font-weight: 600;
+    font-size: 10px;
+    font-weight: 500;
     line-height: 1;
     color: #0a1621;
     text-shadow: 0 1px 0 rgba(255, 255, 255, 0.85);
@@ -345,10 +345,11 @@
         height: 52px;
         font-size: 40px;
     }
+    
+}
 
-    .rf-map .district-links {
+.rf-map .district-links {
         display: none;
-    }
 }
 /* Цвета регионов */
 
@@ -413,7 +414,7 @@
 
 
 .courusel-item-img {
-    padding: 10px 10px 10px 10px;
+    /* padding: 10px 10px 10px 10px; */
     max-width: 100%;
 }
 
@@ -506,7 +507,7 @@
 .img-wrapper::after {
     position: absolute;
     content: "";
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.2);
     width: 100%;
     height: 100%;
     top: 0;
@@ -568,10 +569,10 @@
 .swiper-slide-text {
     position: absolute;
     content: "";
-    top: 40vh;
+    top: 65vh;
     left: 0;
     right: 0;
-    font-size: 130px;
+    font-size: 100px;
     color: #FFFFFF;
     z-index: 5;
 }
@@ -641,13 +642,13 @@
 }
 
 .news-card-item--title {
-    font-size: 24px;
+    font-size: 18px;
     margin-bottom: 20px;
     text-transform: uppercase;
 }
 
 .news-card-item--text-body {
-    font-size: 16px;
+    font-size: 14px;
     margin-bottom: 45px;
 }
 

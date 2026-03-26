@@ -25,11 +25,27 @@
     src: url(../fonts/Montserrat-Light.ttf);
 }
 
+@font-face {
+    font-family: Magistral-light;
+    src: url(../fonts/Magistral-Light.woff2);
+    color: #2B2A29;
+}
+@font-face {
+    font-family: Magistral-bold;
+    src: url(../fonts/Magistral-Bold.woff2);
+    color: #2B2A29;
+}
+@font-face {
+    font-family: Magistral-book;
+    src: url(../fonts/Magistral-Book.woff2);
+    color: #2B2A29;
+}
+
 /* Цвета */
 :root {
-    --background-alt-red: #B70101;
-    --background-alt-black: #1E1E1E;
-    --btn-hover: linear-gradient(90deg, rgba(105, 0, 0, 1), rgba(255, 0, 0, 1));
+    --background-alt-red: #C62829;
+    --background-alt-black: #2B2A29;
+    --btn-hover: linear-gradient(90deg, rgba(105, 0, 0, 1), #C62829);
     --background-gradient-section: linear-gradient(180deg, rgba(234, 234, 234, 1), rgba(65, 65, 65, 1));
     --background-footer-section: rgba(47, 47, 47, 1);
     --border: #737373;
@@ -42,11 +58,11 @@ html {
 }
 
 body {
-    font-family: Montserrat-reg;
+    font-family: Magistral-book;
 }
 
 header {
-    font-family: Manjary-reg;  
+    font-family: Magistral-book;  
 }
 
 footer {
@@ -79,12 +95,14 @@ header {
 }
 
 .header-logo {
-    margin-right: 50px;
-    width: 300px;
+    margin-right: 30px;
+    width: 40rem;
+    min-width: 200px;
+    max-width: 400px;
 }
 
 .header-logo img {
-    width: 300px;
+    width: 100%;
 }
 
 .header-wrapper {

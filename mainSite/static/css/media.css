@@ -1,4 +1,93 @@
 /* ========================================
+   АДАПТИВНЫЕ СТИЛИ ДЛЯ ШИРОКИХ УСТРОЙСТВ
+   ======================================== */
+@media screen and (min-width: 1250px) {
+
+    .header-nav-menu {
+        font-size: calc(16px + 18 * ((100vw - 1250px) / 1250));
+    }
+
+    .title-text {
+        font-size: calc(50px + 60 * ((100vw - 1250px) / 1250));
+    }
+
+    .portfolio-btn {
+        display: block;
+        font-size: calc(16px + 15 * ((100vw - 1250px) / 1250));
+        padding: calc(15px + 15 * ((100vw - 1250px) / 1250));
+        width: calc(146px + 75 * ((100vw - 1250px) / 1250));
+        height: calc(48px + 15 * ((100vw - 1250px) / 1250));
+        text-align: center;
+        line-height: 3;
+    }
+
+    .top-section-product-btn {
+        width: calc(250px + 400 * ((100vw - 1250px) / 1250));
+        font-size: calc(16px + 18 * ((100vw - 1250px) / 1250));
+        height: calc(120px + 140 * ((100vw - 1250px) / 1250));
+    }
+
+    .title-subtext {
+        font-size: calc(33px + 5 * ((100vw - 1250px) / 1250));
+    }
+
+    .alternative-numbers-item--text {
+        font-size: calc(33px + 5 * ((100vw - 1250px) / 1250));
+    }
+
+    .rf-map__city-label {
+        font-size: calc(10px + 12 * ((100vw - 1250px) / 1250));
+    }
+
+    .courusel-item-title {
+        font-size: calc(30px + 10 * ((100vw - 1250px) / 1250));   
+    }
+
+    .courusel-item-text {
+        font-size: calc(20px + 10 * ((100vw - 1250px) / 1250));
+    }
+
+    .courusel-item-link {
+        font-size: calc(18px + 5 * ((100vw - 1250px) / 1250));
+    }
+
+    .news-card-item--title {
+        font-size: calc(18px + 6 * ((100vw - 1250px) / 1250));
+    }
+
+    .news-card-item--text-body {
+        font-size: calc(14px + 6 * ((100vw - 1250px) / 1250));
+    }
+
+    .news-card-item-btn {
+        font-size: calc(12px + 6 * ((100vw - 1250px) / 1250));
+    }
+
+    .footer-menu-item {
+        font-size: calc(14px + 6 * ((100vw - 1250px) / 1250));
+    }
+
+    .social-item-link li {
+        width: calc(30px + 20 * ((100vw - 1250px) / 1250));
+        height: calc(30px + 20 * ((100vw - 1250px) / 1250));
+    }
+
+    .social-item-link {
+        width: calc(30px + 20 * ((100vw - 1250px) / 1250));
+        height: calc(30px + 20 * ((100vw - 1250px) / 1250));
+        
+    }
+
+    .social-list a {
+        margin-right: calc(10px + 10 * ((100vw - 1250px) / 1250));
+    }
+
+}
+
+
+
+
+/* ========================================
    АДАПТИВНЫЕ СТИЛИ ДЛЯ МОБИЛЬНЫХ УСТРОЙСТВ
    ======================================== */
 
@@ -8,14 +97,29 @@
 }
 
 /* Общие стили для всех мобильных устройств */
-@media screen and (max-width: 1024px) {
+@media screen and (max-width: 1249px) {
     .main-wrapper {
         margin: 0 50px;
+    }
+
+    .products-list-wrapper {
+        column-gap: 40px;
+        row-gap: 40px;
+    }
+
+    .top-section-product-btn {
+        width: 15rem;
+        font-size: 16px;
     }
 }
 
 /* Планшеты */
 @media screen and (max-width: 768px) {
+
+    /* .products-list-wrapper {
+
+    } */
+
     .main-wrapper {
         margin: 0 30px;
     }
