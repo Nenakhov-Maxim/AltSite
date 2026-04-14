@@ -257,6 +257,14 @@ header {
 
 .footer-logo {
     cursor: pointer;
+    margin-right: 30px;
+    width: 40rem;
+    min-width: 200px;
+    max-width: 400px;
+}
+
+.footer-logo img {
+    width: 100%;
 }
 
 .footer-logo-contact {
@@ -281,7 +289,7 @@ header {
 .footer-logo-contact--border-bottom {
     position: absolute;
     content: "";
-    top: 120px;
+    top: 225px;
     left: 0;
     width: 100%;
     height: 2px;
