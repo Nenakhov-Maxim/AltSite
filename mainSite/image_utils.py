@@ -1,6 +1,7 @@
 from pathlib import Path
 
 from django.conf import settings
+from unidecode import unidecode
 
 try:
     from PIL import Image, ImageOps, UnidentifiedImageError
@@ -44,9 +45,16 @@ def get_media_url():
     return media_url
 
 
+def sanitize_variant_stem(stem):
+    ascii_stem = unidecode(stem)
+    ascii_stem = ''.join(char for char in ascii_stem if char.isalnum() or char in ('-', '_'))
+    return ascii_stem[:100] or 'image'
+
+
 def get_variant_relative_name(file_name, variant_name):
     original_path = Path(file_name)
-    return original_path.with_name(f'{original_path.stem}__{variant_name}.webp').as_posix()
+    sanitized_stem = sanitize_variant_stem(original_path.stem)
+    return original_path.with_name(f'{sanitized_stem}__{variant_name}.webp').as_posix()
 
 
 def generate_image_variant(file_field, variant_name, force=False):
