@@ -72,3 +72,48 @@ const news_slider = new Swiper('.news-swiper', {
       onlyInViewport: true,
   },
 })
+
+document.addEventListener('DOMContentLoaded', () => {
+  const productButtons = document.querySelectorAll('.top-section-product-btn');
+  const alternativeItems = document.querySelectorAll('.alternative-numbers-item');
+  const revealItems = [];
+
+  for (const button of productButtons) {
+    button.classList.add('scroll-reveal', 'from-left');
+    revealItems.push(button);
+  }
+
+  alternativeItems.forEach((item, index) => {
+    item.classList.add('scroll-reveal', index % 2 === 0 ? 'from-left' : 'from-right');
+    revealItems.push(item);
+  });
+
+  if (!revealItems.length) {
+    return;
+  }
+
+  if (!('IntersectionObserver' in window)) {
+    for (const item of revealItems) {
+      item.classList.add('is-visible');
+    }
+    return;
+  }
+
+  const observer = new IntersectionObserver((entries, currentObserver) => {
+    for (const entry of entries) {
+      if (!entry.isIntersecting) {
+        continue;
+      }
+
+      entry.target.classList.add('is-visible');
+      currentObserver.unobserve(entry.target);
+    }
+  }, {
+    threshold: 0.18,
+    rootMargin: '0px 0px -8% 0px',
+  });
+
+  for (const item of revealItems) {
+    observer.observe(item);
+  }
+});

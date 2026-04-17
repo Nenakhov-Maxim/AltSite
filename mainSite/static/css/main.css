@@ -97,6 +97,27 @@
     transition: 0.7s;
 }
 
+.scroll-reveal {
+    opacity: 0;
+    transition:
+        opacity 1.75s ease,
+        transform 1.75s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: opacity, transform;
+}
+
+.scroll-reveal.from-left {
+    transform: translate3d(-56px, 0, 0);
+}
+
+.scroll-reveal.from-right {
+    transform: translate3d(56px, 0, 0);
+}
+
+.scroll-reveal.is-visible {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+}
+
 /* География продаж секция */
 
 .middle-block-section {
@@ -395,6 +416,17 @@
     font-size: 33px;
     text-align: right;
     color: rgba(28, 28, 28, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .scroll-reveal,
+    .scroll-reveal.from-left,
+    .scroll-reveal.from-right,
+    .scroll-reveal.is-visible {
+        opacity: 1;
+        transform: none;
+        transition: none;
+    }
 }
 
 
