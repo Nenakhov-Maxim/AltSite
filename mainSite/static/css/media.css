@@ -32,7 +32,7 @@
     }
 
     .alternative-numbers-item--text {
-        font-size: calc(33px + 5 * ((100vw - 1250px) / 1250));
+        font-size: calc(24px + 5 * ((100vw - 1250px) / 1250));
     }
 
     .rf-map__city-label {
