@@ -27,6 +27,12 @@ HOMEPAGE_IMAGE_VARIANTS = {
 }
 
 RASTER_EXTENSIONS = {'.jpg', '.jpeg', '.png', '.webp'}
+EMPTY_IMAGE_PLACEHOLDER = (
+    "data:image/svg+xml;utf8,"
+    "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 3'>"
+    "<rect width='4' height='3' fill='%23e5e7eb'/>"
+    "</svg>"
+)
 
 
 def get_media_root():
@@ -55,6 +61,14 @@ def get_variant_relative_name(file_name, variant_name):
     original_path = Path(file_name)
     sanitized_stem = sanitize_variant_stem(original_path.stem)
     return original_path.with_name(f'{sanitized_stem}__{variant_name}.webp').as_posix()
+
+
+def media_file_exists(file_name):
+    if not file_name:
+        return False
+
+    media_root = get_media_root()
+    return (media_root / Path(file_name)).exists()
 
 
 def generate_image_variant(file_field, variant_name, force=False):
@@ -116,10 +130,13 @@ def generate_image_variant(file_field, variant_name, force=False):
 
 def get_image_variant_url(file_field, variant_name):
     if not file_field:
-        return ''
+        return EMPTY_IMAGE_PLACEHOLDER
 
     variant_relative_name = generate_image_variant(file_field, variant_name)
     if variant_relative_name:
         return f'{get_media_url()}{variant_relative_name}'
 
-    return getattr(file_field, 'url', '')
+    if getattr(file_field, 'name', None) and media_file_exists(file_field.name):
+        return getattr(file_field, 'url', EMPTY_IMAGE_PLACEHOLDER)
+
+    return EMPTY_IMAGE_PLACEHOLDER
