@@ -42,7 +42,13 @@
                     {% for product in products %}
                     <div class="card-item">
                         <div class="card-item-image-block-wrapper">
-                            <img src="/media/{{ product.product_img }}" alt="{{ product.product_name}}" class="card-item--img">
+                            <img
+                                src="{{ product.get_card_image_url }}"
+                                alt="{{ product.product_name}}"
+                                class="card-item--img"
+                                loading="lazy"
+                                decoding="async"
+                            >
                         </div>
                         <div class="card-item-text-block-wrapper">
                             {{product.product_name}}

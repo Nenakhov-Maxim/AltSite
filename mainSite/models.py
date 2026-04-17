@@ -231,6 +231,10 @@ class Product(models.Model):
     def save(self, *args, **kwargs):
         optimize_model_images(self, ['product_img'])
         super().save(*args, **kwargs)
+        generate_image_variant(self.product_img, 'product_card')
+
+    def get_card_image_url(self):
+        return get_image_variant_url(self.product_img, 'product_card')
 
     def __str__ (self):
         return self.product_name

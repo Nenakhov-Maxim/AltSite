@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static %}
+{% load static image_variants %}
 
 {% block custom_css %}
     <link rel="stylesheet" href="{% static 'css/articles.css' %}">
@@ -55,7 +55,7 @@
                             <h2 class="news-article-title">{{art.article_title}}</h2>
                             <div class="news-article-date-info">{{art.created_at}}</div>
                             <div class="news-content">
-                                {{art.article_text|safe}}
+                                {{art.article_text|richtext_image_variants|safe}}
                             </div>
                         {% endfor %}
                     {% else %}
@@ -76,4 +76,3 @@
 <script src="{% static 'js/articles.js' %}"></script> 
 {% endblock %}
         
-
