@@ -31,7 +31,7 @@ for (const btn of open_gallery_btns) {
                     for (const img of data.data) {
                         img_data = {
                             src: img.src,
-                            thumb: img.src,
+                            thumb: img.thumb || img.src,
                             width: 600,
                             height: 400,
                             caption: img.caption

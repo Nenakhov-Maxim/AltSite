@@ -20,6 +20,14 @@ HOMEPAGE_IMAGE_VARIANTS = {
         'size': (900, 680),
         'quality': 80,
     },
+    'portfolio_gallery_image': {
+        'size': (1800, 1350),
+        'quality': 82,
+    },
+    'portfolio_gallery_thumb': {
+        'size': (420, 315),
+        'quality': 78,
+    },
     'news_card': {
         'size': (720, 540),
         'quality': 80,

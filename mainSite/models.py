@@ -282,6 +282,14 @@ class PortfolioImage(models.Model):
     def save(self, *args, **kwargs):
         optimize_model_images(self, ['image_link'])
         super().save(*args, **kwargs)
+        generate_image_variant(self.image_link, 'portfolio_gallery_image')
+        generate_image_variant(self.image_link, 'portfolio_gallery_thumb')
+
+    def get_gallery_image_url(self):
+        return get_image_variant_url(self.image_link, 'portfolio_gallery_image')
+
+    def get_gallery_thumb_url(self):
+        return get_image_variant_url(self.image_link, 'portfolio_gallery_thumb')
 
     def __str__(self):
         return self.alt

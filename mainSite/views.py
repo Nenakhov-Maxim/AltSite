@@ -123,7 +123,8 @@ def portfolio(request, slug_name=None):
             for image in images_list:
                 images.append({
                     'id': image.id,
-                    'src': image.image_link.url,
+                    'src': image.get_gallery_image_url(),
+                    'thumb': image.get_gallery_thumb_url(),
                     'caption': image.alt
                 })
             

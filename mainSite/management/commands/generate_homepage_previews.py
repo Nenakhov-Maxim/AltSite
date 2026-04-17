@@ -1,11 +1,11 @@
 from django.core.management.base import BaseCommand
 
 from mainSite.image_utils import generate_image_variant
-from mainSite.models import FacadeSystem, News, Portfolio
+from mainSite.models import FacadeSystem, News, Portfolio, PortfolioImage
 
 
 class Command(BaseCommand):
-    help = 'Generate cached preview images for homepage cards.'
+    help = 'Generate cached preview images for homepage cards and portfolio gallery.'
 
     def add_arguments(self, parser):
         parser.add_argument(
@@ -21,6 +21,8 @@ class Command(BaseCommand):
         jobs = (
             ('FacadeSystem', FacadeSystem.objects.all(), 'main_img', 'facade_system_card'),
             ('Portfolio', Portfolio.objects.all(), 'main_img', 'portfolio_card'),
+            ('PortfolioImage gallery', PortfolioImage.objects.all(), 'image_link', 'portfolio_gallery_image'),
+            ('PortfolioImage thumb', PortfolioImage.objects.all(), 'image_link', 'portfolio_gallery_thumb'),
             ('News', News.objects.all(), 'title_img', 'news_card'),
         )
 
