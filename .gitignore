@@ -4,6 +4,13 @@ __pycache__/
 *$py.class
 .DS_Store
 AltSite/.DS_Store
+
+# OS / file manager junk
+**/.DS_Store
+._*
+.AppleDouble
+.LSOverride
+Thumbs.db
 # C extensions
 *.so
 
@@ -193,7 +200,10 @@ cython_debug/
 #  that can be found at https://github.com/github/gitignore/blob/main/Global/VisualStudioCode.gitignore
 #  and can be added to the global gitignore or merged into this file. However, if you prefer, 
 #  you could uncomment the following to ignore the entire vscode folder
-# .vscode/
+.vscode/
+
+# JetBrains IDEs
+.idea/
 
 # Ruff stuff:
 .ruff_cache/

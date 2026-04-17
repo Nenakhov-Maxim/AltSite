@@ -61,8 +61,8 @@ h4 {
 
 .main-inner-wrapper {
     display: grid;
-    grid-template-columns: 1fr 3fr;
-    column-gap: 20px;
+    grid-template-columns: 2fr 3fr;
+    column-gap: 10px;
 }
 
 .facade-menu-list:first-child{
@@ -70,7 +70,7 @@ h4 {
 }
 
 #type-facade-system {
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 800;
     margin-bottom: 20px;
 }
@@ -105,6 +105,47 @@ h4 {
 
 .facade-menu-item {
     margin-bottom: 15px;
+    font-size: 14px;
+}
+
+.subitem {
+    overflow: hidden;
+    transform-origin: top;
+    will-change: max-height, opacity, transform;
+}
+
+.facade-menu-item-text {
+    position: relative;
+}
+
+.close-facade-menu-item::after {
+    position: absolute;
+    content: '';
+    width: 25px;
+    height: 25px;
+    top: -5px;
+    right: -35px;
+    background: url(../icon/plus.svg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    transform: rotate(90deg);
+    transition: 0.7s;
+}
+
+.open-facade-menu-item::after {
+    position: absolute;
+    content: '';
+    width: 28px;
+    height: 28px;
+    top: -7px;
+    right: -37px;
+    background: url(../icon/minus.svg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    transform: rotate(180deg);
+    transition: 0.7s;
 }
 
 .facade-menu-item:nth-child(n+2) {

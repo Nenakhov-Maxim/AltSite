@@ -41,6 +41,30 @@
     color: #2B2A29;
 }
 
+@font-face {
+    font-family: 'Magistral';
+    src: url(../fonts/Magistral-Light.woff2) format('woff2');
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Magistral';
+    src: url(../fonts/Magistral-Book.woff2) format('woff2');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Magistral';
+    src: url(../fonts/Magistral-Bold.woff2) format('woff2');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
 /* Цвета */
 :root {
     --background-alt-red: #C62829;
@@ -69,6 +93,7 @@ footer {
     background-color: var(--background-footer-section);
     color: rgb(179, 178, 178);
     position: relative;
+    overflow: hidden;
 }
 
 ul {
@@ -97,8 +122,8 @@ header {
 .header-logo {
     margin-right: 30px;
     width: 40rem;
-    min-width: 200px;
-    max-width: 400px;
+    min-width: 150px;
+    max-width: 250px;
 }
 
 .header-logo img {
@@ -106,9 +131,11 @@ header {
 }
 
 .header-wrapper {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;  
+    display: grid;
+    grid-template-columns: 1fr 5fr 1fr;
+    column-gap: 5px;
+    /* flex-direction: row;
+    flex-wrap: nowrap;   */
     padding: 5px 0;
     align-items: center;
     justify-content: center;
@@ -128,13 +155,12 @@ header {
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
     gap: 5px;
     text-align: center;
-    align-items: end;
+    align-items: center;
     padding-left: 0;
 }
 
 .nav-menu-list li {
     cursor: pointer;
-    margin-right: 10px;
     text-decoration: none;
     list-style: none;
     padding: 2px;
@@ -259,8 +285,8 @@ header {
     cursor: pointer;
     margin-right: 30px;
     width: 40rem;
-    min-width: 200px;
-    max-width: 400px;
+    min-width: 150px;
+    max-width: 250px;
 }
 
 .footer-logo img {
@@ -268,6 +294,7 @@ header {
 }
 
 .footer-logo-contact {
+    position: relative;
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
@@ -280,8 +307,8 @@ header {
     position: absolute;
     content: "";
     top: 0;
-    left: 0;
-    width: 100%;
+    left: -40px;
+    width: 150%;
     height: 2px;
     background-color: #5d5c5c;
 }
@@ -289,9 +316,9 @@ header {
 .footer-logo-contact--border-bottom {
     position: absolute;
     content: "";
-    top: 225px;
-    left: 0;
-    width: 100%;
+    top: 156px;
+    left: -40px;
+    width: 150%;
     height: 2px;
     background-color: #807f7f;
 }
@@ -336,8 +363,9 @@ header {
 
 .footer-menu-wrapper {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
     column-gap: 30px;
+    margin-bottom: 15px;
 }
 
 .footer-menu-title {
@@ -366,14 +394,14 @@ header {
     flex-wrap: nowrap;
     justify-content: space-between;
     align-items: center;
-    padding: 50px 0 200px 0;
+    padding: 50px 0 50px 0;
     text-transform: lowercase;
 }
 
 .bread-crumbs-wrapper {
     font-weight: 700;
     font-style: Bold;
-    font-size: 16px;
+    font-size: 12px;
     line-height: 100%;
     letter-spacing: 8%;
     color: #737373;
@@ -400,8 +428,8 @@ header {
 
 #production-search {
     position: relative;
-    height: 60px;
-    width: 550px;
+    height: 45px;
+    width: 450px;
     border: 1px solid #737373;
     padding: 19px 0 19px 32px;
     color: #1E1E1E;
@@ -414,8 +442,8 @@ header {
 .search-wrapper::after {
     position: absolute;
     content: "";
-    width: 40px;
-    height: 40px;
+    width: 25px;
+    height: 25px;
     right: 30px;
     top: 10px;
     background-image: url(../icon/search.svg);
@@ -435,4 +463,12 @@ header {
 
 .error-item {
     margin-bottom: 15px;
+}
+
+.header-main-wrapper {
+    margin: 0 35px;
+}
+
+.article-main-wrapper {
+    margin: 0 35px;    
 }

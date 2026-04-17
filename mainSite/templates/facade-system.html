@@ -11,14 +11,14 @@
 
 {% block custom_main%}
     <div class="background-image"></div>
-    <div class="main-wrapper">
+    <div class="main-wrapper article-main-wrapper">
         <section class="bread-crumbs-search">
             <div class="bread-crumbs-wrapper">
                 <a href="{% url 'index' %}">
                     <span>Главная</span>
                 </a>
                 <span>></span>
-                <a href="{% url 'facadeSystem' %}">
+                <a href="{% url 'facadeSystem-base' %}">
                     <span>Фасадные системы</span>
                 </a>
                 {% if bread_crumbs %}
@@ -38,14 +38,14 @@
                         <ul class="facade-menu-list"> 
                             <a class="facade-menu-item-link" href="/facade-system/{{item.facade_base_slug}}/">
                                 {% if active_slug and active_slug == item.facade_base_slug %}
-                                    <li id="type-facade-system" class="facade-menu-item active-nav-facade">{{item.facade_name}}</li>
+                                    <li id="type-facade-system" class="facade-menu-item active-nav-facade"><span class="facade-menu-item-text open-facade-menu-item">{{item.facade_name}}</span></li>
                                 {% else %}
-                                    <li id="type-facade-system" class="facade-menu-item">{{item.facade_name}}</li>
+                                    <li id="type-facade-system" class="facade-menu-item"><span class="facade-menu-item-text close-facade-menu-item">{{item.facade_name}}</span></li>
                                 {% endif %}
                             </a>
                             {% for sub_item in item.getAllFacadeSystem %}
                                 {% if sub_item %}
-                                    <li class="facade-menu-item">
+                                    <li class="facade-menu-item subitem">
                                         <a class="facade-menu-item-link" href="/facade-system/{{item.facade_base_slug}}/{{sub_item.fs_slug}}">
                                             {% if active_slug and active_slug == sub_item.fs_slug %}
                                                 <p class="active-nav-facade">{{sub_item.fs_name}}</p>
@@ -65,23 +65,6 @@
                         <div class="nothing-data">Не найдено фасадных систем</div>
                     {% endif %}
                 {% endfor %}
-                <!-- <ul id="facade-steel-list" id="facade-aluminum-list" class="facade-menu-list">
-                    <a class="facade-menu-item-link" href="">
-                        <li id="type-facade-system" class="facade-menu-item">АЛЮМИНИЕВЫЕ ФАСАДНЫЕ СИСТЕМЫ</li>
-                    </a>   
-                    
-                        <li class="facade-menu-item">
-                            <a class="facade-menu-item-link" href=""><p>АЛЬТ-ФАСАД А/КП</p></a> 
-                            <p>система крепления композитного материала</p>
-                        </li>
-                    
-                    
-                        <li class="facade-menu-item">
-                            <a class="facade-menu-item-link" href=""><p>АЛЬТ-ФАСАД А/КГ</p></a> 
-                            <p>система крепления керамогранита</p>
-                        </li>
-                    
-                </ul> -->
             </section>
             <section class="facade-content-section">
                 {% if page_content.fs_page_content %}

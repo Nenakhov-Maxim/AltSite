@@ -44,7 +44,7 @@ urlpatterns = [
     path('news/<slug:slug_name>/', views.news, name='news'),
     path('sertificates/', views.sertificates, name='sertificates'),
     path('documents/', views.documents, name='documents'),
-    path('facade-system/', views.facadeSystem, name='facadeSystem'),
+    path('facade-system/', views.facadeSystem, name='facadeSystem-base'),
     path('facade-system/<slug:slug_facade_type>/', views.facadeSystem, name='facadeSystem'),
     path('facade-system/<slug:slug_facade_type>/<slug:slug_facade_name>/', views.facadeSystem, name='facadeSystem'),
     

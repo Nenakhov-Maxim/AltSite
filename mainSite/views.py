@@ -47,7 +47,7 @@ def index(request):
             for region in geo_content
         }
     }
-    product_content = ProductionBase.objects.all()
+    product_content = ProductionBase.objects.all().order_by('position')
     portfolio_lib = Portfolio.objects.all()
     news_lib = News.objects.all().order_by('created_at')[0:10]
     fs_system = FacadeSystem.objects.filter(display_in_main=True)
@@ -69,31 +69,21 @@ def products(request, prod_type = 'all'):
         products_library = Product.objects.all()
         bread_crumbs = {
             '/': 'Главная',
-            '/production/': 'Продукция',
-        }
-    elif prod_type == 'klyamer':
-        products_library = Product.objects.filter(product_type_id=1)
-        bread_crumbs = {
-            '/': 'Главная',
-            '/production/': 'Продукция',
-            '/production/klyamer/':'Кляммеры'
-        }
-    elif prod_type == 'facade-brackets':
-        products_library = Product.objects.filter(product_type_id=2)
-        bread_crumbs = {
-            '/': 'Главная',
-            '/production/': 'Продукция',
-            '/production/facade-brackets/':'Фасадные кронштейны'
-        }
-    elif prod_type == 'facade-profile':
-        products_library = Product.objects.filter(product_type_id=3)
-        bread_crumbs = {
-            '/': 'Главная',
-            '/production/': 'Продукция',
-            '/production/facade-profile/':'Фасадные профили'
-        }
+            '/production/': 'Комплектующие для фасадных систем',
+        } 
+    
     else:
-        raise Http404 
+        try:
+            products_library = Product.objects.filter(product_type__product_link=prod_type)
+            product_type = ProductType.objects.get(product_link=prod_type)
+            
+            bread_crumbs = {
+            '/': 'Главная',
+            '/production/': 'Продукция',
+            f'/production/{prod_type}/': f'{product_type.product_type}'
+        }
+        except Exception as err:
+            raise Http404 
     
     data = {
         'products': products_library,
@@ -243,12 +233,48 @@ def contacts(request):
     form = ProjectForm()
     contact = ContactPage.objects.last()
     representatives = Representatives.objects.all()
+    geo_content = list(
+        GeographicalPresence.objects.filter(visible_on_map=True).prefetch_related(
+            Prefetch(
+                'adresses',
+                queryset=RegionAdress.objects.filter(visible_on_site=True).order_by('id'),
+                to_attr='visible_addresses'
+            ),
+            'linked_regions'
+        ).order_by('region_name')
+    )
+    geo_map_config = {
+        'regionLinks': {
+            region.region_code: sorted({
+                linked_region.region_code
+                for linked_region in region.linked_regions.all()
+                if linked_region.region_code
+            })
+            for region in geo_content
+        },
+        'cityMarkers': [
+            {
+                'code': region.region_code,
+                'label': region.city_name.strip(),
+                'offsetX': region.city_offset_x,
+                'offsetY': region.city_offset_y
+            }
+            for region in geo_content
+            if region.show_city_label and region.city_name.strip()
+        ],
+        'titlesByCode': {
+            region.region_code: region.region_name
+            for region in geo_content
+        }
+    }
     data = {
         'contact': contact,
         'form':form,
         'success_send_form': False,
         'error': '',
-        'representatives': representatives
+        'representatives': representatives,
+        'geo_content' : geo_content,
+        'geo_map_config': geo_map_config,
     }
     if request.method == 'GET':
         return render(request, 'contacts.html', data)
@@ -322,11 +348,11 @@ def news(request, slug_name=None):
         
     return render(request, 'news.html', data)
 
-# Страница "Сертификаты"
+# Страница "Партнеры" (заимствована с сертификатов)
 def sertificates(request):
     sertificates_lib = Sertificate.objects.filter(isActive=True)
     data = {
-        'title': 'Сертификаты',
+        'title': 'Наши партнеры',
         'sertificates': sertificates_lib
     }
     

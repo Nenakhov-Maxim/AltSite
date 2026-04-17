@@ -70,7 +70,7 @@
 
 .products-list-wrapper {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
     column-gap: 120px;
     row-gap: 80px;
     padding-bottom: 120px;

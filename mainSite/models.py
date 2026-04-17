@@ -44,6 +44,7 @@ class ProductionBase(models.Model):
     title = models.CharField(max_length=100)
     inner_path = models.BooleanField()
     path = models.CharField(max_length=100)
+    position = models.IntegerField(verbose_name="Позиция на сайте", null=True, blank=True)
     
     def __str__(self):
         return self.title
@@ -132,6 +133,7 @@ class AboutUs(models.Model):
 
 class ProductType(models.Model):
     product_type = models.CharField(max_length=150, blank=False, verbose_name = 'Тип продукта')
+    product_link = models.CharField(max_length=150, blank=True, verbose_name = 'SLUG', null=True)
     
     class Meta:
         verbose_name = 'Тип продукта (Админ)'
@@ -142,8 +144,9 @@ class ProductType(models.Model):
     
 class Product(models.Model):
     product_name = models.CharField(max_length=350, blank=False, verbose_name = 'Наименование продукта')
-    product_type = models.ForeignKey(ProductType, on_delete=models.CASCADE, verbose_name = 'Тип продукта')
+    product_type = models.ForeignKey(ProductType, on_delete=models.CASCADE, verbose_name = 'Тип продукта', null=True, blank=True)
     product_img = models.FileField(upload_to=production_image_upload_path, blank=True, verbose_name = 'Изображение')
+    product_description = models.CharField(max_length=350, blank=True, null=True, verbose_name = 'Описание')
     created_at = models.DateTimeField(auto_now_add=True, blank=True)
     
     class Meta:
@@ -356,14 +359,14 @@ class News(models.Model):
         return self.news_title
 
 class Sertificate(models.Model):
-    sert_title = models.CharField(max_length=100, blank=False, verbose_name='Заголовок сертификата')
-    sert_description = models.TextField(blank=False, verbose_name='Краткое описание', default='Нет описания')
-    sert_img = models.FileField(upload_to='sertificates/', blank=False, verbose_name='Изображение сертификата')
-    isActive = models.BooleanField(verbose_name='Активный сертификат?', default=True)
+    sert_title = models.CharField(max_length=100, blank=False, verbose_name='Наименование партнера')
+    sert_description = models.TextField(blank=False, verbose_name='Дополнительная информация', default='Нет описания')
+    sert_img = models.FileField(upload_to='sertificates/', blank=False, verbose_name='Логотип партнера')
+    isActive = models.BooleanField(verbose_name='Активный парнер?', default=True)
     
     class Meta:
-        verbose_name = 'Серитфикат'
-        verbose_name_plural = 'Сертификаты'
+        verbose_name = 'Партнер'
+        verbose_name_plural = 'Партнеры'
         
     def __str__(self):
         return self.sert_title

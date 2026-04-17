@@ -22,7 +22,7 @@
     }
 
     .top-section-product-btn {
-        width: calc(250px + 400 * ((100vw - 1250px) / 1250));
+        width: calc(350px + 550 * ((100vw - 1250px) / 1250));
         font-size: calc(16px + 18 * ((100vw - 1250px) / 1250));
         height: calc(120px + 140 * ((100vw - 1250px) / 1250));
     }

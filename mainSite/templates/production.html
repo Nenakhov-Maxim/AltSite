@@ -9,7 +9,7 @@
     
 {% block custom_main%}
     <div class="background-image"></div>
-    <div class="main-wrapper">
+    <div class="main-wrapper article-main-wrapper">
         <section class="bread-crumbs-search">
             <div class="bread-crumbs-wrapper">
                 {% for key, value in bread_crumbs.items %}
@@ -25,14 +25,15 @@
         </section>
         <section class="production-main">
             <div class="production-main-left-side-wrapper">
-                <h2 class="left-side-menu-title">Продукция</h2>
+                <h2 class="left-side-menu-title">Комплектующие для фасадных систем</h2>
                 <div class="left-side-menu-inner-wrapper">
                     <ul class="left-side-menu-list">
-                        <a href="{% url 'products' %}klyamer/"><li class="left-side-menu-item">Кляммеры</li></a>
-                        
-                        <a href="{% url 'products' %}facade-brackets/"><li class="left-side-menu-item">Фасадные кронштейны</li></a>
-                        
-                        <a href="{% url 'products' %}facade-profile/"><li class="left-side-menu-item">Фасадные профили</li></a>
+                        <a href="{% url 'products' %}facade-brackets-steel/"><li class="left-side-menu-item">Фасадные кронштейны стальные</li></a>
+                        <a href="{% url 'products' %}facade-brackets-aluminum/"><li class="left-side-menu-item">Фасадные кронштейны алюминиевые</li></a>
+                        <a href="{% url 'products' %}facade-profile-steel/"><li class="left-side-menu-item">Профили фасадные стальные</li></a>
+                        <a href="{% url 'products' %}facade-profile-aluminum/"><li class="left-side-menu-item">Профили фасадные алюминиевые</li></a>
+                        <a href="{% url 'products' %}cladding-mounting/"><li class="left-side-menu-item">Элементы крепления облицовки</li></a>
+                        <a href="{% url 'products' %}other-accessories/"><li class="left-side-menu-item">Прочие комплектующие</li></a>
                     </ul>
                 </div>
             </div>
@@ -46,80 +47,11 @@
                         <div class="card-item-text-block-wrapper">
                             {{product.product_name}}
                         </div>
+                        <div class="card-item-description-block-wrapper">
+                            {{product.product_description}}
+                        </div>
                     </div>
                     {% endfor %}
-                    <!-- <div class="card-item">
-                        <div class="card-item-image-block-wrapper">
-                            <img src="{% static 'content/img/production/klyamer.png' %}" alt="Кляммер рядовой" class="card-item--img">
-                        </div>
-                        <div class="card-item-text-block-wrapper">
-                            <a href="">Кляммер рядовой нержавеющий AISI 430/1.2 мм</a>
-                        </div>
-                    </div>
-                    <div class="card-item">
-                        <div class="card-item-image-block-wrapper">
-                            <img src="{% static 'content/img/production/klyamer.png' %}" alt="Кляммер рядовой" class="card-item--img">
-                        </div>
-                        <div class="card-item-text-block-wrapper">
-                            <a href="">Кляммер рядовой нержавеющий AISI 430/1.2 мм</a>
-                        </div>
-                    </div>
-                    <div class="card-item">
-                        <div class="card-item-image-block-wrapper">
-                            <img src="{% static 'content/img/production/klyamer.png' %}" alt="Кляммер рядовой" class="card-item--img">
-                        </div>
-                        <div class="card-item-text-block-wrapper">
-                            <a href="">Кляммер рядовой нержавеющий AISI 430/1.2 мм</a>
-                        </div>
-                    </div>
-                    <div class="card-item">
-                        <div class="card-item-image-block-wrapper">
-                            <img src="{% static 'content/img/production/klyamer.png' %}" alt="Кляммер рядовой" class="card-item--img">
-                        </div>
-                        <div class="card-item-text-block-wrapper">
-                            <a href="">Кляммер рядовой нержавеющий AISI 430/1.2 мм</a>
-                        </div>
-                    </div>
-                    <div class="card-item">
-                        <div class="card-item-image-block-wrapper">
-                            <img src="{% static 'content/img/production/klyamer.png' %}" alt="Кляммер рядовой" class="card-item--img">
-                        </div>
-                        <div class="card-item-text-block-wrapper">
-                            <a href="">Кляммер рядовой нержавеющий AISI 430/1.2 мм</a>
-                        </div>
-                    </div>
-                    <div class="card-item">
-                        <div class="card-item-image-block-wrapper">
-                            <img src="{% static 'content/img/production/klyamer.png' %}" alt="Кляммер рядовой" class="card-item--img">
-                        </div>
-                        <div class="card-item-text-block-wrapper">
-                            <a href="">Кляммер рядовой нержавеющий AISI 430/1.2 мм</a>
-                        </div>
-                    </div>
-                    <div class="card-item">
-                        <div class="card-item-image-block-wrapper">
-                            <img src="{% static 'content/img/production/klyamer.png' %}" alt="Кляммер рядовой" class="card-item--img">
-                        </div>
-                        <div class="card-item-text-block-wrapper">
-                            <a href="">Кляммер рядовой нержавеющий AISI 430/1.2 мм</a>
-                        </div>
-                    </div>
-                    <div class="card-item">
-                        <div class="card-item-image-block-wrapper">
-                            <img src="{% static 'content/img/production/klyamer.png' %}" alt="Кляммер рядовой" class="card-item--img">
-                        </div>
-                        <div class="card-item-text-block-wrapper">
-                            <a href="">Кляммер рядовой нержавеющий AISI 430/1.2 мм</a>
-                        </div>
-                    </div>
-                    <div class="card-item">
-                        <div class="card-item-image-block-wrapper">
-                            <img src="{% static 'content/img/production/klyamer.png' %}" alt="Кляммер рядовой" class="card-item--img">
-                        </div>
-                        <div class="card-item-text-block-wrapper">
-                            <a href="">Кляммер рядовой нержавеющий AISI 430/1.2 мм</a>
-                        </div>
-                    </div> -->
                 </div>
             </div>
         </section>

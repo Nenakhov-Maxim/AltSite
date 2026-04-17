@@ -17,7 +17,7 @@
 </head>
 <body>
     <header>
-        <div class="main-wrapper">
+        <div class="main-wrapper header-main-wrapper">
             <div class="header-wrapper">
                 <div class="header-logo">
                     <a href="{% url 'index' %}">
@@ -32,17 +32,16 @@
                 <nav class="header-nav-menu">
                     <ul class="nav-menu-list">
                         <li class="nav-menu-item">
-                            <a href="{% url 'products' %}">Продукция</a>
-                        </li>
-                        <li class="nav-menu-item">
                             <a href="{% url 'about' %}">О компании</a>
                         </li>
-                       
                         <li class="nav-menu-item">
                             <a href="{% url 'portfolio' %}">Портфолио</a>
                         </li>
                         <li class="nav-menu-item">
-                            <a href="{% url 'technology' %}">Технологии</a>
+                            <a href="{% url 'facadeSystem-base' %}">Фасадные системы</a>
+                        </li>
+                        <li class="nav-menu-item">
+                            <a href="{% url 'news' %}">Новости</a>
                         </li>
                         <li class="nav-menu-item">
                             <a href="{% url 'job' %}">Вакансии</a>
@@ -78,12 +77,13 @@
             </div>
         </div>
     </header>
+    
     <main>
     {% block custom_main%}
     {% endblock %}    
     </main>
     <footer>
-        <div class="main-wrapper">
+        <div class="main-wrapper header-main-wrapper">
             <section class="footer-logo-contact">
                 <div class="footer-logo-contact--border-top"></div>
                 <div class="footer-logo">
@@ -122,8 +122,8 @@
                         <a href="{% url 'articles' %}">
                             <li class="footer-menu-item">Статьи</li>
                         </a>
-                        <a href="{% url 'news' %}"> 
-                            <li class="footer-menu-item">Новости</li>
+                        <a href="{% url 'technology' %}"> 
+                            <li class="footer-menu-item">Технологии</li>
                         </a>
                         <a href="{% url 'contacts' %}">
                             <li class="footer-menu-item">Контакты</li>
@@ -131,56 +131,69 @@
                     </ul>   
                 </div>
                 <div class="footer-menu-product-inner">
-                    <div class="footer-menu-title">Продукция</div>
+                    <div class="footer-menu-title">КОМПЛЕКТУЮЩИЕ для фасадных систем</div>
                     <ul class="footer-menu-list">
-                        <a href="/production/klyamer/">
-                            <li class="footer-menu-item">Кляммеры</li>
+                        <a href="/production/facade-brackets-steel/">
+                            <li class="footer-menu-item">Фасадные кронштейны стальные</li>
                         </a>
-                        <a href="/production/facade-brackets/">
-                            <li class="footer-menu-item">Фасадные кронштейны</li>
+                        <a href="/production/facade-brackets-aluminum/">
+                            <li class="footer-menu-item">Фасадные кронштейны алюминиевые</li>
                         </a>
-                        <a href="/production/facade-profile/">
-                            <li class="footer-menu-item">Фасадные профили</li>
+                        <a href="/production/facade-profile-steel/">
+                            <li class="footer-menu-item">Профили фасадные стальные</li>
                         </a>
-                        <a href="https://morion-ural.ru/">
-                            <li class="footer-menu-item">Корзины для кондиционеров</li>
+                        <a href="/production/facade-profile-aluminum/">
+                            <li class="footer-menu-item">Профили фасадные алюминиевые</li>
+                        </a>
+                        <a href="/production/cladding-mounting/">
+                            <li class="footer-menu-item">Элементы крепления облицовки</li>
+                        </a>
+                        <a href="/production/other-accessories/">
+                            <li class="footer-menu-item">Прочие комплектующие</li>
                         </a>
                     </ul>  
                 </div>
                 <div class="footer-menu-complete-task-inner">
                     <div class="footer-menu-title">Готовые решения</div>
                     <ul class="footer-menu-list">
-                        <a href="{% url 'facadeSystem' %}">
+                        <a href="{% url 'facadeSystem-base' %}">
                             <li class="footer-menu-item">Фасадные системы</li>
                         </a>
-                        {% comment %} <a href="">
-                            <li class="footer-menu-item">Алюминиевые фасадные решения</li>
-                        </a> {% endcomment %}
-                        {% comment %} <a href="">
-                            <li class="footer-menu-item">Калькулятор</li>
-                        </a> {% endcomment %}
+                        <a href="https://titark.ru/">
+                            <li class="footer-menu-item">Корзины для кондиционеров</li>
+                        </a>
+                        <a href="https://morion-ural.ru/">
+                            <li class="footer-menu-item">Металлические кассеты</li>
+                        </a>
+                        <a href="https://morion-ural.ru/">
+                            <li class="footer-menu-item">Крепеж</li>
+                        </a>
                     </ul>    
                 </div>
-                <div class="footer-menu-wehere-pay-inner">
+                {% comment %} <div class="footer-menu-wehere-pay-inner">
                     <div class="footer-menu-title">Где купить</div>
                     <ul class="footer-menu-list">
                         <a>
                             <li class="footer-menu-item">Где купить оптом</li>
                         </a>
                     </ul>    
-                </div>
+                </div> {% endcomment %}
                 <div class="footer-menu-for-partner-inner">
-                    <div class="footer-menu-title">Для партнеров</div>
+                    <div class="footer-menu-title">Рекламная информация</div>
                     <ul class="footer-menu-list">
-                        <a href="{% url 'sertificates' %}">
-                            <li class="footer-menu-item">Сертификаты соответствия</li>
-                        </a>
-                        <a href="{% url 'documents' %}">
-                            <li class="footer-menu-item">Технические свидетельства</li>
+                        <a href="{% url 'portfolio' %}">
+                            <li class="footer-menu-item">Портфолио</li>
                         </a>
                         <a href="/media/catalog/facade-sys.pdf">
                             <li class="footer-menu-item">Каталог</li>
                         </a>
+                        <a href="{% url 'sertificates' %}">
+                            <li class="footer-menu-item">Наши партнеры</li>
+                        </a>
+                        {% comment %} <a href="{% url 'documents' %}">
+                            <li class="footer-menu-item">Технические свидетельства</li>
+                        </a> {% endcomment %}
+                        
                     </ul>    
                 </div>
             </section>
