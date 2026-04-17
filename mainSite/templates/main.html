@@ -382,7 +382,7 @@
                             {% for system in fs_system %}
                                 <div class="courusel-item">
                                     <div class="courusel-item-left-side">
-                                        <img class="courusel-item-img" src="/media/{{system.main_img}}" alt="{{system.fs_name}}">
+                                        <img class="courusel-item-img" src="{{ system.get_homepage_image_url }}" alt="{{system.fs_name}}">
                                     </div>
                                     <div class="courusel-item-right-side">
                                         <h3 class="courusel-item-title">{{system.fs_name}}</h3>
@@ -403,7 +403,7 @@
                         {% for project in portfolio_lib %}
                         <div class="swiper-slide">
                             <div class="img-wrapper">
-                                <img src="/media/{{ project.main_img }}" alt="{{ project.title }}">
+                                <img src="{{ project.get_homepage_image_url }}" alt="{{ project.title }}">
                                 <div class="swiper-slide-text"><a class="swiper-slide-link" href="/portfolio/{{ project.slug }}/">{{ project.title }}</a></div> 
                             </div>
                             
@@ -423,7 +423,7 @@
                                     {% for news in news_lib %}
                                         <div class="swiper-slide news-card-item">
                                             <div class="news-card-item-backgroud">
-                                                <img src="/media/{{news.title_img}}" alt="{{news.news_title}}">
+                                                <img src="{{ news.get_homepage_image_url }}" alt="{{news.news_title}}">
                                             </div>
                                             <div class="news-card-item-inner-wrapper">
                                                 <div class="news-card-item--title">{{news.news_title}}</div>

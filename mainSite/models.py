@@ -1,9 +1,24 @@
 from django.db import models
+from django.core.files.base import ContentFile
 from django.utils.text import slugify
 from django.utils.html import strip_tags
 import os
 import uuid
+from io import BytesIO
 from unidecode import unidecode
+from .image_utils import generate_image_variant, get_image_variant_url
+
+try:
+    from PIL import Image, ImageOps, UnidentifiedImageError
+except ImportError:
+    Image = None
+    ImageOps = None
+    UnidentifiedImageError = Exception
+
+
+IMAGE_MAX_SIZE = (1920, 1920)
+IMAGE_WEBP_QUALITY = 82
+RASTER_EXTENSIONS = {'.jpg', '.jpeg', '.png', '.webp'}
 
 
 def sanitize_filename(filename):
@@ -38,6 +53,66 @@ def production_image_upload_path(instance, filename):
     """Custom upload path for Production with sanitized filenames."""
     sanitized = sanitize_filename(filename)
     return os.path.join('production', sanitized)
+
+
+def optimize_uploaded_image(file_field):
+    """
+    Compress uploaded raster images before saving them to storage.
+    SVG and non-image files are left untouched.
+    """
+    if (
+        not file_field
+        or not getattr(file_field, 'name', None)
+        or Image is None
+        or getattr(file_field, '_committed', True)
+    ):
+        return file_field
+
+    file_name = os.path.basename(file_field.name)
+    name, ext = os.path.splitext(file_name)
+    ext = ext.lower()
+
+    if ext not in RASTER_EXTENSIONS:
+        return file_field
+
+    try:
+        file_field.seek(0)
+        with Image.open(file_field) as image:
+            image = ImageOps.exif_transpose(image)
+            image.thumbnail(IMAGE_MAX_SIZE, Image.Resampling.LANCZOS)
+
+            if image.mode not in ('RGB', 'RGBA'):
+                image = image.convert('RGBA' if 'A' in image.getbands() else 'RGB')
+
+            if image.mode == 'RGBA':
+                image = image.convert('RGBA')
+            else:
+                image = image.convert('RGB')
+
+            output = BytesIO()
+            image.save(
+                output,
+                format='WEBP',
+                quality=IMAGE_WEBP_QUALITY,
+                optimize=True,
+                method=6
+            )
+            output.seek(0)
+
+            optimized_name = f'{name}.webp'
+            return ContentFile(output.read(), name=optimized_name)
+    except (OSError, ValueError, UnidentifiedImageError):
+        if hasattr(file_field, 'seek'):
+            file_field.seek(0)
+        return file_field
+
+
+def optimize_model_images(instance, field_names):
+    for field_name in field_names:
+        current_file = getattr(instance, field_name, None)
+        optimized_file = optimize_uploaded_image(current_file)
+        if optimized_file is not current_file:
+            setattr(instance, field_name, optimized_file)
 
 
 class ProductionBase(models.Model):
@@ -153,6 +228,10 @@ class Product(models.Model):
         verbose_name = 'Продукт'
         verbose_name_plural = 'Продукты'
     
+    def save(self, *args, **kwargs):
+        optimize_model_images(self, ['product_img'])
+        super().save(*args, **kwargs)
+
     def __str__ (self):
         return self.product_name
 
@@ -172,12 +251,17 @@ class Portfolio(models.Model):
         verbose_name_plural = 'Портфолио' 
     
     def save(self, *args, **kwargs):
+        optimize_model_images(self, ['main_img'])
         if not self.slug:
             self.slug = slugify(self.title)
         super().save(*args, **kwargs)
+        generate_image_variant(self.main_img, 'portfolio_card')
     
     def getAllImages(self):
         return self.images.all()
+
+    def get_homepage_image_url(self):
+        return get_image_variant_url(self.main_img, 'portfolio_card')
         
     def __str__(self):
         return self.title
@@ -195,6 +279,10 @@ class PortfolioImage(models.Model):
         verbose_name = 'Изображение'
         verbose_name_plural = 'Изображения'
     
+    def save(self, *args, **kwargs):
+        optimize_model_images(self, ['image_link'])
+        super().save(*args, **kwargs)
+
     def __str__(self):
         return self.alt
     
@@ -303,6 +391,10 @@ class Rewards(models.Model):
         verbose_name = 'Награда'
         verbose_name_plural = 'Награды'
         
+    def save(self, *args, **kwargs):
+        optimize_model_images(self, ['reward_img'])
+        super().save(*args, **kwargs)
+
     def __str__(self):
         return self.reward_title
 
@@ -347,6 +439,7 @@ class News(models.Model):
         verbose_name_plural = 'Новости' 
     
     def save(self, *args, **kwargs):
+        optimize_model_images(self, ['title_img'])
         if not self.slug:
             self.slug = slugify(self.news_title)
         # Strip HTML tags from news_text and create preview
@@ -354,6 +447,10 @@ class News(models.Model):
         if clean_text:
             self.prev_text = clean_text[:130] + '...' if len(clean_text) > 130 else clean_text
         super().save(*args, **kwargs)
+        generate_image_variant(self.title_img, 'news_card')
+
+    def get_homepage_image_url(self):
+        return get_image_variant_url(self.title_img, 'news_card')
         
     def __str__(self):
         return self.news_title
@@ -368,6 +465,10 @@ class Sertificate(models.Model):
         verbose_name = 'Партнер'
         verbose_name_plural = 'Партнеры'
         
+    def save(self, *args, **kwargs):
+        optimize_model_images(self, ['sert_img'])
+        super().save(*args, **kwargs)
+
     def __str__(self):
         return self.sert_title
 
@@ -381,6 +482,10 @@ class Documents(models.Model):
         verbose_name = 'Техническое свидетельство'
         verbose_name_plural = 'Технические свидетельства'
         
+    def save(self, *args, **kwargs):
+        optimize_model_images(self, ['doc_img'])
+        super().save(*args, **kwargs)
+
     def __str__(self):
         return self.doc_title
 
@@ -429,6 +534,7 @@ class FacadeSystem(models.Model):
         verbose_name_plural = 'Фасадные системы' 
     
     def save(self, *args, **kwargs):
+        optimize_model_images(self, ['main_img'])
         if not self.fs_slug:
             self.fs_slug = slugify(self.fs_name)
         # Strip HTML tags from news_text and create preview
@@ -436,6 +542,10 @@ class FacadeSystem(models.Model):
         if clean_text and not self.prev_text:
             self.prev_text = clean_text[:130] + '...' if len(clean_text) > 130 else clean_text
         super().save(*args, **kwargs)
+        generate_image_variant(self.main_img, 'facade_system_card')
+
+    def get_homepage_image_url(self):
+        return get_image_variant_url(self.main_img, 'facade_system_card')
         
     def __str__(self):
         return self.fs_name
