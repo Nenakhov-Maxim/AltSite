@@ -241,8 +241,14 @@ class Product(models.Model):
 
 
 class Portfolio(models.Model):
-    title = models.CharField(max_length=350, blank=False, verbose_name = 'Наименование портфолио')
+    title = models.CharField(max_length=350, blank=False, verbose_name = 'Наименование объекта')
     main_img = models.FileField(upload_to=portfolio_upload_path, blank=False, verbose_name = 'Главное изображение')
+    object_type = models.CharField(max_length=350, verbose_name = 'Тип объекта', null=True, blank=True)
+    region = models.CharField(max_length=350, verbose_name = 'Регион (страна)', null=True, blank=True)
+    city = models.CharField(max_length=350, verbose_name = 'Город', null=True, blank=True)
+    customer = models.CharField(max_length=350, verbose_name = 'Заказчик', null=True, blank=True)
+    architect = models.CharField(max_length=350, verbose_name = 'Архитектор', null=True, blank=True)
+    installer = models.CharField(max_length=350, verbose_name = 'Монтажник', null=True, blank=True)
     slug = models.SlugField(
         max_length=255,
         unique=True,
@@ -269,6 +275,53 @@ class Portfolio(models.Model):
         
     def __str__(self):
         return self.title
+
+class claddingSystemPortfolio(models.Model):
+    cladding_name = models.CharField(max_length=150, blank=False, verbose_name = 'Наименование облицовки')
+    cladding_description = models.CharField(max_length=250, blank=True, verbose_name = 'Описание (при наличии)', null=True)
+    cladding_image_link = models.CharField(max_length=150, blank=True, verbose_name = 'Изображение (при наличии)', null=True)
+    square = models.CharField(max_length=150, blank=False, verbose_name = 'Площадь фасада')
+    portfolio = models.ForeignKey(
+        Portfolio,
+        related_name='cladding_systems',
+        on_delete=models.CASCADE
+    )
+    
+    class Meta:
+        verbose_name='Облицовка для портфолио'
+        verbose_name_plural = 'Облицовки для портфолио'
+    
+    def save(self, *args, **kwargs):
+        optimize_model_images(self, ['cladding_image_link'])
+        super().save(*args, **kwargs)
+        generate_image_variant(self.cladding_image_link, 'portfolio_cladding_image')
+        generate_image_variant(self.cladding_image_link, 'portfolio_cladding_thumb')
+        
+    def __str__(self):
+        return self.system_name
+    
+class subSystemPortfolio(models.Model):
+    system_name = models.CharField(max_length=150, blank=False, verbose_name = 'Наименование системы')
+    system_description = models.CharField(max_length=250, blank=True, verbose_name = 'Описание системы (при наличии)', null=True)
+    system_image_link = models.FileField(upload_to=portfolio_image_upload_path, blank=False, verbose_name = 'Изображение')
+    portfolio = models.ForeignKey(
+        Portfolio,
+        related_name='sub_systems',
+        on_delete=models.CASCADE
+    )
+    
+    class Meta:
+        verbose_name='Подсистема для портфолио'
+        verbose_name_plural = 'Подсистемы для портфолио'
+    
+    def save(self, *args, **kwargs):
+        optimize_model_images(self, ['system_image_link'])
+        super().save(*args, **kwargs)
+        generate_image_variant(self.system_image_link, 'portfolio_subsystem_image')
+        generate_image_variant(self.system_image_link, 'portfolio_subsystem_thumb')
+        
+    def __str__(self):
+        return self.system_name
 
 class PortfolioImage(models.Model):
     alt = models.CharField(max_length=150, blank=False, verbose_name = 'Описание к изображению')

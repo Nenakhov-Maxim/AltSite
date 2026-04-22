@@ -39,10 +39,21 @@ class RegionAdressInLine(admin.StackedInline):
     extra = 0
     verbose_name_plural = "Адреса представительств"
 
+class PortfolioSubSystemInLine(admin.StackedInline):
+    model = subSystemPortfolio
+    can_delete = False
+    verbose_name_plural = "Подсистемы"
+
+class CladdingSystemInLine(admin.StackedInline):
+    model = claddingSystemPortfolio
+    can_delete = False
+    verbose_name_plural = "Облицовки"
+
 class PortfolioInlineImage(admin.ModelAdmin):
-    inlines = [PortfolioInLine]
+    inlines = [PortfolioInLine, PortfolioSubSystemInLine, CladdingSystemInLine]
     prepopulated_fields = {'slug': ('title',)}  # указываем, что slug генерируется из title
     search_fields = ['title',]
+
 
 class RegionInLine(admin.ModelAdmin):
     inlines = [RegionAdressInLine]
