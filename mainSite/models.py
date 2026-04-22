@@ -249,6 +249,7 @@ class Portfolio(models.Model):
     customer = models.CharField(max_length=350, verbose_name = 'Заказчик', null=True, blank=True)
     architect = models.CharField(max_length=350, verbose_name = 'Архитектор', null=True, blank=True)
     installer = models.CharField(max_length=350, verbose_name = 'Монтажник', null=True, blank=True)
+    year_comlited = models.CharField(max_length=50, verbose_name = 'Год реализации', null=True, blank=True)
     slug = models.SlugField(
         max_length=255,
         unique=True,
@@ -280,7 +281,7 @@ class claddingSystemPortfolio(models.Model):
     cladding_name = models.CharField(max_length=150, blank=False, verbose_name = 'Наименование облицовки')
     cladding_description = models.CharField(max_length=250, blank=True, verbose_name = 'Описание (при наличии)', null=True)
     cladding_image_link = models.CharField(max_length=150, blank=True, verbose_name = 'Изображение (при наличии)', null=True)
-    square = models.CharField(max_length=150, blank=False, verbose_name = 'Площадь фасада')
+    square = models.FloatField(max_length=150, blank=False, verbose_name = 'Площадь фасада', default=0)
     portfolio = models.ForeignKey(
         Portfolio,
         related_name='cladding_systems',
@@ -303,7 +304,7 @@ class claddingSystemPortfolio(models.Model):
 class subSystemPortfolio(models.Model):
     system_name = models.CharField(max_length=150, blank=False, verbose_name = 'Наименование системы')
     system_description = models.CharField(max_length=250, blank=True, verbose_name = 'Описание системы (при наличии)', null=True)
-    system_image_link = models.FileField(upload_to=portfolio_image_upload_path, blank=False, verbose_name = 'Изображение')
+    system_image_link = models.FileField(upload_to=portfolio_image_upload_path, blank=False, verbose_name = 'Изображение (3D)')
     portfolio = models.ForeignKey(
         Portfolio,
         related_name='sub_systems',
