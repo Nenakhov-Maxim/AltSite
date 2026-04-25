@@ -34,6 +34,22 @@ HOMEPAGE_IMAGE_VARIANTS = {
         'size': (420, 315),
         'quality': 78,
     },
+    'portfolio_subsystem_image': {
+        'size': (1280, 960),
+        'quality': 82,
+    },
+    'portfolio_subsystem_thumb': {
+        'size': (640, 480),
+        'quality': 80,
+    },
+    'portfolio_cladding_image': {
+        'size': (1280, 960),
+        'quality': 82,
+    },
+    'portfolio_cladding_thumb': {
+        'size': (480, 360),
+        'quality': 78,
+    },
     'product_card': {
         'size': (720, 720),
         'quality': 80,

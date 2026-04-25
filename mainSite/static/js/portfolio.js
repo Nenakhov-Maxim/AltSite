@@ -1,51 +1,79 @@
-// Галлерея
+document.addEventListener('DOMContentLoaded', () => {
+    const galleryItems = Array.from(document.querySelectorAll('.portfolio-gallery-item'));
+    const filters = Array.from(document.querySelectorAll('select.select-filter'));
 
-const open_gallery_btns = document.querySelectorAll('.portfolio-gallery-item-open-gal');
-for (const btn of open_gallery_btns) {
-    btn.addEventListener('click', (event)=> {
-        event.preventDefault();
-        portfolio_id = event.target.dataset.portfolioid //Забираем идетификатор портфолио
-        link = event.target.href + '/';
-        csrf_token = event.target.parentElement.querySelector('input[name="csrfmiddlewaretoken"]').value
-        fetch(link, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRFToken': csrf_token
-            },
-            body: JSON.stringify({ 'portfolio_id': portfolio_id })
-            })
-            .then(response => {
-            if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
-            }
-            return response.json();
-            })
-            .then(data => {
-            
-                if (data.success) {
-                    galleryData = {
-                        title: 'Портфолио № ' + portfolio_id,
-                        images: []
-                    }
-                    for (const img of data.data) {
-                        img_data = {
-                            src: img.src,
-                            thumb: img.thumb || img.src,
-                            width: 600,
-                            height: 400,
-                            caption: img.caption
-                        }
-                        galleryData.images.push(img_data);
-                    }
-                    let myGallery = new Bizon(galleryData);
-                    myGallery.show()
-                } else {
-                    console.log('Ошибка на сервере:', data.error);
-                }
-            })
-            .catch(error => {
-            console.error('Произошла ошибка:', error);
-        });  
-    })
-}
+    if (!galleryItems.length || !filters.length) {
+        return;
+    }
+
+    const normalizeValue = (value) => (value || '')
+        .toString()
+        .trim()
+        .toLowerCase();
+
+    const splitValues = (value) => normalizeValue(value)
+        .split(',')
+        .map((item) => item.trim())
+        .filter(Boolean);
+
+    const matchesCladding = (item, selectedValue) => {
+        if (selectedValue === 'all') {
+            return true;
+        }
+
+        const claddingSystems = splitValues(item.getAttribute('data-cladding-system'));
+        return claddingSystems.includes(normalizeValue(selectedValue));
+    };
+
+    const matchesObjectType = (item, selectedValue) => {
+        if (selectedValue === 'all') {
+            return true;
+        }
+
+        return normalizeValue(item.getAttribute('data-object-type')) === normalizeValue(selectedValue);
+    };
+
+    const matchesLocation = (item, selectedValue) => {
+        if (selectedValue === 'all') {
+            return true;
+        }
+
+        const normalizedSelectedValue = normalizeValue(selectedValue);
+        const region = normalizeValue(item.getAttribute('data-region'));
+        const city = normalizeValue(item.getAttribute('data-city'));
+
+        return region === normalizedSelectedValue || city === normalizedSelectedValue;
+    };
+
+    const matchesYear = (item, selectedValue) => {
+        if (selectedValue === 'all') {
+            return true;
+        }
+
+        return normalizeValue(item.getAttribute('data-year-comlited')) === normalizeValue(selectedValue);
+    };
+
+    const applyFilters = () => {
+        const claddingValue = document.getElementById('cladding-system-select')?.value || 'all';
+        const objectTypeValue = document.getElementById('object-type-select')?.value || 'all';
+        const locationValue = document.getElementById('city-region-select')?.value || 'all';
+        const yearValue = document.getElementById('year-comlited-select')?.value || 'all';
+
+        galleryItems.forEach((item) => {
+            const isVisible = (
+                matchesCladding(item, claddingValue)
+                && matchesObjectType(item, objectTypeValue)
+                && matchesLocation(item, locationValue)
+                && matchesYear(item, yearValue)
+            );
+
+            item.classList.toggle('portfolio-gallery-item-hidden', !isVisible);
+        });
+    };
+
+    filters.forEach((filter) => {
+        filter.addEventListener('change', applyFilters);
+    });
+
+    applyFilters();
+});

@@ -243,7 +243,7 @@ class Product(models.Model):
 class Portfolio(models.Model):
     title = models.CharField(max_length=350, blank=False, verbose_name = 'Наименование объекта')
     main_img = models.FileField(upload_to=portfolio_upload_path, blank=False, verbose_name = 'Главное изображение')
-    object_type = models.CharField(max_length=350, verbose_name = 'Тип объекта', null=True, blank=True)
+    object_type = models.CharField(max_length=350, verbose_name = 'Тип объекта (Назначение)', null=True, blank=True)
     region = models.CharField(max_length=350, verbose_name = 'Регион (страна)', null=True, blank=True)
     city = models.CharField(max_length=350, verbose_name = 'Город', null=True, blank=True)
     customer = models.CharField(max_length=350, verbose_name = 'Заказчик', null=True, blank=True)
@@ -255,6 +255,12 @@ class Portfolio(models.Model):
         unique=True,
         blank=True,
         verbose_name='URL-ссылка'
+    )
+    facade_systems = models.ManyToManyField(
+        'FacadeSystem',
+        related_name='portfolios',
+        blank=True,
+        verbose_name='Фасадные системы'
     )
     
     class Meta:
@@ -270,6 +276,19 @@ class Portfolio(models.Model):
     
     def getAllImages(self):
         return self.images.all()
+    
+    def getAllCladdingSystem(self):
+        return self.cladding_systems.all()
+    
+    def getAllCladdingSystemStr(self):
+        cladding_lib = self.cladding_systems.all()
+        cladding_str = ''
+        for cladding in cladding_lib:
+            cladding_str += cladding.cladding_name + ', '
+        return cladding_str
+    
+    def getAllSubSystem(self):
+        return self.facade_systems.all()
 
     def get_homepage_image_url(self):
         return get_image_variant_url(self.main_img, 'portfolio_card')
@@ -280,7 +299,7 @@ class Portfolio(models.Model):
 class claddingSystemPortfolio(models.Model):
     cladding_name = models.CharField(max_length=150, blank=False, verbose_name = 'Наименование облицовки')
     cladding_description = models.CharField(max_length=250, blank=True, verbose_name = 'Описание (при наличии)', null=True)
-    cladding_image_link = models.CharField(max_length=150, blank=True, verbose_name = 'Изображение (при наличии)', null=True)
+    cladding_image_link = models.FileField(upload_to=portfolio_image_upload_path, blank=True, null=True, verbose_name = 'Изображение (при наличии)')
     square = models.FloatField(max_length=150, blank=False, verbose_name = 'Площадь фасада', default=0)
     portfolio = models.ForeignKey(
         Portfolio,
@@ -299,30 +318,7 @@ class claddingSystemPortfolio(models.Model):
         generate_image_variant(self.cladding_image_link, 'portfolio_cladding_thumb')
         
     def __str__(self):
-        return self.system_name
-    
-class subSystemPortfolio(models.Model):
-    system_name = models.CharField(max_length=150, blank=False, verbose_name = 'Наименование системы')
-    system_description = models.CharField(max_length=250, blank=True, verbose_name = 'Описание системы (при наличии)', null=True)
-    system_image_link = models.FileField(upload_to=portfolio_image_upload_path, blank=False, verbose_name = 'Изображение (3D)')
-    portfolio = models.ForeignKey(
-        Portfolio,
-        related_name='sub_systems',
-        on_delete=models.CASCADE
-    )
-    
-    class Meta:
-        verbose_name='Подсистема для портфолио'
-        verbose_name_plural = 'Подсистемы для портфолио'
-    
-    def save(self, *args, **kwargs):
-        optimize_model_images(self, ['system_image_link'])
-        super().save(*args, **kwargs)
-        generate_image_variant(self.system_image_link, 'portfolio_subsystem_image')
-        generate_image_variant(self.system_image_link, 'portfolio_subsystem_thumb')
-        
-    def __str__(self):
-        return self.system_name
+        return self.cladding_name
 
 class PortfolioImage(models.Model):
     alt = models.CharField(max_length=150, blank=False, verbose_name = 'Описание к изображению')
@@ -612,6 +608,9 @@ class FacadeSystem(models.Model):
 
     def get_homepage_image_url(self):
         return get_image_variant_url(self.main_img, 'facade_system_card')
+
+    def get_portfolio_image_url(self):
+        return get_image_variant_url(self.main_img, 'portfolio_subsystem_image')
         
     def __str__(self):
         return self.fs_name

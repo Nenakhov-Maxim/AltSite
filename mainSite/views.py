@@ -107,40 +107,97 @@ def about_us(request):
 # Страница "Портфолио"
 def portfolio(request, slug_name=None):
     if request.method == 'GET':
-        portfolio_lib = Portfolio.objects.all()
-        data = {
-            'portfolio_lib': portfolio_lib
-        }
-        return render(request, 'portfolio.html', data)
-    elif request.method == 'POST':
-        try:
-        # Получаем JSON-данные из тела запроса
-            received_data = json.loads(request.body)
-            portfolio_id = received_data['portfolio_id']
-            # Обрабатываем данные
-            images_list = Portfolio.objects.get(id=portfolio_id).getAllImages()
-            images = []
-            for image in images_list:
-                images.append({
-                    'id': image.id,
-                    'src': image.get_gallery_image_url(),
-                    'thumb': image.get_gallery_thumb_url(),
-                    'caption': image.alt
-                })
-            
-            
-            processed_data = {
-                'success': True,
-                'data': images
+        if not slug_name:
+            portfolio_lib = Portfolio.objects.prefetch_related(
+                'cladding_systems',
+                'facade_systems',
+            ).all()
+            cladding_array = {}
+            type_objects_array = []
+            region_array = []
+            city_array = []
+            for portfolio in portfolio_lib:
+                if portfolio.object_type:
+                    type_objects_array.append(portfolio.object_type)
+                
+                if portfolio.region:
+                    region_array.append(portfolio.region)
+                
+                if portfolio.city:
+                    city_array.append(portfolio.city)
+                
+                cladding_list = portfolio.getAllCladdingSystem()
+                if (cladding_list):
+                    for cladding in cladding_list:
+                        cladding_array[cladding.id] = cladding.cladding_name
+                
+
+            data = {
+                'portfolio_lib': portfolio_lib,
+                'cladding_array': cladding_array,
+                'type_objects_array': type_objects_array,
+                'region_array': region_array,
+                'city_array': city_array
             }
+            return render(request, 'portfolio.html', data)
+        else:
+            project = Portfolio.objects.prefetch_related(
+                'images',
+                'cladding_systems',
+                'facade_systems',
+            ).filter(slug=slug_name).first()
+            if project:
+                portfolio_images = project.getAllImages()
+                cladding_objects = project.getAllCladdingSystem()
+                cladding_array = []
+                total_square = 0
+                for cladding in cladding_objects:
+                    cladding_array.append(cladding.cladding_name)
+                    total_square += cladding.square
+                
+                facade_systems = project.getAllSubSystem()
+                data = {
+                    'bread_crumbs': {
+                        project.title: f'/portfolio/{project.slug}/'
+                    },
+                    'portfolio_title': project.title,
+                    'project': project,
+                    'gallery_array': portfolio_images,
+                    'cladding_array': cladding_array,
+                    'total_square': round(total_square, 2),
+                    'facade_systems': facade_systems
+                }
+                return render(request, 'portfolio-project.html', data)
+            raise Http404
+    # elif request.method == 'POST':
+    #     try:
+    #     # Получаем JSON-данные из тела запроса
+    #         received_data = json.loads(request.body)
+    #         portfolio_id = received_data['portfolio_id']
+    #         # Обрабатываем данные
+    #         images_list = Portfolio.objects.get(id=portfolio_id).getAllImages()
+    #         images = []
+    #         for image in images_list:
+    #             images.append({
+    #                 'id': image.id,
+    #                 'src': image.get_gallery_image_url(),
+    #                 'thumb': image.get_gallery_thumb_url(),
+    #                 'caption': image.alt
+    #             })
             
-            return JsonResponse(processed_data, status=200)
+            
+    #         processed_data = {
+    #             'success': True,
+    #             'data': images
+    #         }
+            
+    #         return JsonResponse(processed_data, status=200)
     
-        except json.JSONDecodeError:
-            return JsonResponse({'error': 'Неверный формат JSON'}, status=400)
-        except Exception as e:
-            print(e)
-            return JsonResponse({'error': str(e)}, status=500)
+    #     except json.JSONDecodeError:
+    #         return JsonResponse({'error': 'Неверный формат JSON'}, status=400)
+    #     except Exception as e:
+    #         print(e)
+    #         return JsonResponse({'error': str(e)}, status=500)
             
     else:
         raise Http404 

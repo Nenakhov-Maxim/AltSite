@@ -5,7 +5,15 @@ from mainSite.image_utils import (
     generate_image_variant,
     generate_image_variant_from_name,
 )
-from mainSite.models import Articles, FacadeSystem, News, Portfolio, PortfolioImage, Product
+from mainSite.models import (
+    Articles,
+    FacadeSystem,
+    News,
+    Portfolio,
+    PortfolioImage,
+    Product,
+    claddingSystemPortfolio,
+)
 
 
 class Command(BaseCommand):
@@ -27,6 +35,8 @@ class Command(BaseCommand):
             ('Portfolio', Portfolio.objects.all(), 'main_img', 'portfolio_card'),
             ('PortfolioImage gallery', PortfolioImage.objects.all(), 'image_link', 'portfolio_gallery_image'),
             ('PortfolioImage thumb', PortfolioImage.objects.all(), 'image_link', 'portfolio_gallery_thumb'),
+            ('Portfolio cladding image', claddingSystemPortfolio.objects.all(), 'cladding_image_link', 'portfolio_cladding_image'),
+            ('Portfolio cladding thumb', claddingSystemPortfolio.objects.all(), 'cladding_image_link', 'portfolio_cladding_thumb'),
             ('Product', Product.objects.all(), 'product_img', 'product_card'),
             ('News', News.objects.all(), 'title_img', 'news_card'),
         )

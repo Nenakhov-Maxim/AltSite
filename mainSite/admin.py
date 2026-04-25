@@ -29,20 +29,16 @@ class FacadeSystemAdmin(SummernoteModelAdmin):
 class FacadeSystemContentPageAdmin(SummernoteModelAdmin):
     summernote_fields = ('fs_page_content',) 
 
-class PortfolioInLine(admin.StackedInline):
-    model = PortfolioImage
-    can_delete = False
-    verbose_name_plural = "Изображения"
-
 class RegionAdressInLine(admin.StackedInline):
     model = RegionAdress
     extra = 0
     verbose_name_plural = "Адреса представительств"
 
-class PortfolioSubSystemInLine(admin.StackedInline):
-    model = subSystemPortfolio
+class PortfolioInLine(admin.StackedInline):
+    model = PortfolioImage
     can_delete = False
-    verbose_name_plural = "Подсистемы"
+    verbose_name_plural = "Изображения"
+
 
 class CladdingSystemInLine(admin.StackedInline):
     model = claddingSystemPortfolio
@@ -50,9 +46,11 @@ class CladdingSystemInLine(admin.StackedInline):
     verbose_name_plural = "Облицовки"
 
 class PortfolioInlineImage(admin.ModelAdmin):
-    inlines = [PortfolioInLine, PortfolioSubSystemInLine, CladdingSystemInLine]
+    inlines = [PortfolioInLine, CladdingSystemInLine]
     prepopulated_fields = {'slug': ('title',)}  # указываем, что slug генерируется из title
     search_fields = ['title',]
+    filter_horizontal = ('facade_systems',)
+
 
 
 class RegionInLine(admin.ModelAdmin):

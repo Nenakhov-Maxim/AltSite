@@ -35,10 +35,13 @@ main::before {
 .portfolio-gallery-item {
     position: relative;
     width: 100%;
-    height: 300px;
 }
 
-.portfolio-gallery-item::before {
+.portfolio-gallery-item-hidden {
+    display: none;
+}
+
+/* .portfolio-gallery-item::before {
     position: absolute;
     content: '';
     width: 100%;
@@ -46,31 +49,73 @@ main::before {
     top: 0;
     left: 0;
     background-color: rgba(0, 0, 0, 0.7);
+} */
+
+.portfolio-gallery-item > .portfolio-gallery-item-open-gal {
+    display: block;
+    width: 100%;
+    height: 300px;
+    overflow: hidden;
 }
 
 .portfolio-gallery-item-img {
     width: 100%;
-    object-fit: cover;
     height: 100%;
+    object-fit: cover;
+    transform: scale(1);
+    transform-origin: center;
+    transition: transform 1.05s ease;
+    will-change: transform;
+}
+
+.portfolio-gallery-item:hover .portfolio-gallery-item-img {
+    transform: scale(1.12);
 }
 
 
 .portfolio-gallery-item-text {
-    position: absolute;
-    content: '';
-    /* width: 100%;
-    height: 100%; */
-    top: 138px;
-    left: 0;
-    right: 0;
     color: white;
     text-align: center;
     font-size: 24px;
+    margin-top: 25px;
 }
 
 .portfolio-gallery-item-text:hover {
     color: var(--background-alt-red);
     cursor: pointer;
+    transition: color 0.75s ease;
+    will-change: transform;
+}
+
+.portfolio-project-filters {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    column-gap: 10px;
+    align-items: end;
+    text-align: left;
+    margin-bottom: 50px;
+
+}
+
+.select-filter {
+    width: 90%;
+    background: transparent;
+    padding: 5px;
+    box-sizing: border-box;
+    border: none;
+}
+
+.filter-title {
+    padding-left: 9px;
+    border-bottom: 1px solid rgba(136, 135, 135, 0.7);
+}
+
+.courusel-item-text {
+    margin-bottom: 15px;
+}
+
+.courusel-item-link {
+    color: #C62829;
 }
 
 
@@ -94,4 +139,65 @@ main::before {
     margin: 0 auto;
     margin-top: 100px;
     
+}
+
+
+.bread-crumbs-search {
+    padding: 20px 0 50px 0;
+}
+
+/* Стили для страницы portfolio project */
+
+.portfolio-project-main {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 10px;
+}
+
+.gallery-project-main-img {
+    margin-bottom: 15px;
+}
+
+.gallery-project-main-img img {
+    width: 100%;
+    object-fit: cover;
+    max-height: 500px;
+}
+
+.gallery-project-fancybox img{
+    object-fit: cover;
+}
+
+.about-project--title {
+    font-size: 28px;
+    margin-top: 0;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.about-prject div {
+    padding: 0 10px 0 15px;
+    margin-bottom: 35px;
+    font-size: 18px;
+    letter-spacing: 5%;
+}
+
+.subsystem-card-item {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 10px;
+}
+
+.portfolio-project-subsystem--title {
+    font-size: 28px;
+    margin-bottom: 25px;
+}
+
+.subsystem-card-item--image {
+    height: 350px;
+}
+
+.carousel-wrapper {
+    width: 100%;
 }

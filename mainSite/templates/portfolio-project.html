@@ -1,0 +1,120 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block custom_css%}
+    <link rel="stylesheet" href="{% static 'css/portfolio.css' %}">
+{%endblock%}
+
+{% block custom_css_media%}
+    <link rel="stylesheet" href="{% static 'css/fancybox/fancybox.css'%}"/>
+    <link rel="stylesheet" href="{% static 'css/owlcarousel/owl.carousel.min.css'%}">
+    <link rel="stylesheet" href="{% static 'css/owlcarousel/owl.theme.default.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/mediaCSS/media-portfolio.css' %}">
+{% endblock %}
+
+{% block custom_main%}
+<section class="bread-crumbs-search">
+            <div class="bread-crumbs-wrapper">
+                <a href="{% url 'index' %}">
+                    <span>Главная</span>
+                </a>
+                <span>></span>
+                <a href="{% url 'portfolio' %}">
+                    <span>портфолио</span>
+                </a>
+                {% if bread_crumbs %}
+                    {% for key, value in bread_crumbs.items %}
+                        <span>></span>
+                        <a href="{{value}}">
+                            <span>{{key}}</span>
+                        </a>  
+                    {% endfor %}
+                {% endif %}
+            </div>
+</section>
+{% comment %} <section class="content">
+            
+</section> {% endcomment %}
+<h1 class="title-text">{{portfolio_title}}</h1>
+<section class="portfolio-project">
+    <section class="portfolio-project-main">
+        <div class="gallery-project">
+            <div class="gallery-project-main-img">
+                <a href="{{ project.get_homepage_image_url }}" data-fancybox="gallery">
+                    <img 
+                        src="{{ project.get_homepage_image_url }}"
+                        loading="eager"
+                        decoding="async"
+                        alt="{{project.title}}"
+                    >
+                </a>
+                
+            </div>
+            <div class="gallery-project-fancybox">
+                {% for gallery_item in gallery_array %}
+                <a href="{{ gallery_item.get_gallery_image_url }}" data-fancybox="gallery">
+                    <img
+                        src="{{ gallery_item.get_gallery_thumb_url }}"
+                        loading="lazy"
+                        decoding="async"
+                        width="30%"
+                        height="150px"
+                        alt="{{ gallery_item.alt }}"
+                    />
+                    </a>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="about-prject">
+            <h3 class="about-project--title">О проекте</h3>
+            <div class="about-project--city">Город: {% if project.city %} {{project.city}} {% else %} Нет данных {% endif %}</div>
+            <div class="about-project--square">Площадь фасада (общая): {{ total_square }}</div>
+            <div class="about-project--cladding">Облицовка(и): {% if not cladding_array %}<span>Нет данных</span>{% endif %}
+                {% for cladding_system in cladding_array %}
+                    {{ cladding_system }},   
+                {% endfor %}
+            </div>
+            <div class="about-project--customer">Инвестор: {% if project.customer %} {{project.customer}} {% else %} Нет данных {% endif %}</div>
+            <div class="about-project--architect">Архитектор: {% if project.architect %} {{project.architect}} {% else %} Нет данных {% endif %}</div>
+            <div class="about-project--installer">Монтажник: {% if project.installer %} {{project.installer}} {% else %} Нет данных {% endif %}</div>
+            <div class="about-project--year_comlited">Год реализации: {% if project.year_comlited %} {{project.year_comlited}} {% else %} Нет данных {% endif %}</div>
+        </div>
+    </section>
+    <section class="portfolio-project-subsystem">
+        <h2 class="portfolio-project-subsystem--title">Фасадные системы, используемые в проекте</h2>
+        <div class="carousel-wrapper">
+            <div class="owl-carousel owl-theme">
+                {% if not facade_systems %}
+                    <p>Нет загруженных фасадных систем...</p>
+                {% endif %}
+                {% for system in facade_systems %}
+                    <div class="courusel-item subsystem-card-item">
+                        <div class="subsystem-card-item--image">
+                            <img 
+                            src="{{ fs_sys.get_portfolio_image_url }}"
+                            loading="lazy"
+                            decoding="async"
+                            alt="{{fs_sys.fs_name}}">
+                        </div>
+                        <div class="courusel-item-right-side">
+                            <h3 class="courusel-item-title">{{system.fs_name}}</h3>
+                            <div class="courusel-item-line-title"></div>
+                            <div class="courusel-item-text">{{system.prev_text}}</div>
+                            <a href="/facade-system/{{system.fs_type.facade_base_slug}}/{{system.fs_slug}}" class="courusel-item-link">подробнее...</a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        
+    </section>
+
+</section>
+{%endblock%}  
+
+{%block custom_js%}
+    <script src="{% static 'js/owlcarousel/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'js/fancybox/fancybox.umd.js' %}"></script>
+    <script src="{% static 'js/portfolio-project.js' %}"></script> 
+    
+{%endblock%}
