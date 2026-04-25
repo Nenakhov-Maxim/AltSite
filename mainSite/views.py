@@ -3,6 +3,7 @@ from django.db.models import Prefetch
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from .models import *
+from .image_utils import get_existing_image_variant_url
 from .sendMail import SendEmail
 import json
 from .forms import ProjectForm
@@ -142,30 +143,78 @@ def portfolio(request, slug_name=None):
             return render(request, 'portfolio.html', data)
         else:
             project = Portfolio.objects.prefetch_related(
-                'images',
-                'cladding_systems',
-                'facade_systems',
+                Prefetch(
+                    'images',
+                    queryset=PortfolioImage.objects.only('id', 'alt', 'image_link', 'portfolio_id')
+                ),
+                Prefetch(
+                    'cladding_systems',
+                    queryset=claddingSystemPortfolio.objects.only(
+                        'id',
+                        'cladding_name',
+                        'square',
+                        'portfolio_id'
+                    )
+                ),
+                Prefetch(
+                    'facade_systems',
+                    queryset=FacadeSystem.objects.select_related('fs_type').only(
+                        'id',
+                        'fs_name',
+                        'prev_text',
+                        'fs_slug',
+                        'main_img',
+                        'fs_type_id',
+                        'fs_type__facade_base_slug'
+                    )
+                ),
+            ).only(
+                'id',
+                'title',
+                'slug',
+                'main_img',
+                'city',
+                'customer',
+                'architect',
+                'installer',
+                'year_comlited',
             ).filter(slug=slug_name).first()
             if project:
-                portfolio_images = project.getAllImages()
-                cladding_objects = project.getAllCladdingSystem()
-                cladding_array = []
-                total_square = 0
-                for cladding in cladding_objects:
-                    cladding_array.append(cladding.cladding_name)
-                    total_square += cladding.square
-                
-                facade_systems = project.getAllSubSystem()
+                portfolio_images = list(project.images.all())
+                cladding_objects = list(project.cladding_systems.all())
+                facade_systems = list(project.facade_systems.all())
+
+                gallery_array = [
+                    {
+                        'image_url': get_existing_image_variant_url(image.image_link, 'portfolio_gallery_image'),
+                        'thumb_url': get_existing_image_variant_url(image.image_link, 'portfolio_gallery_thumb'),
+                        'alt': image.alt,
+                    }
+                    for image in portfolio_images
+                ]
+                cladding_array = [cladding.cladding_name for cladding in cladding_objects]
+                total_square = round(sum(cladding.square or 0 for cladding in cladding_objects), 2)
+                facade_system_cards = [
+                    {
+                        'name': system.fs_name,
+                        'preview_text': system.prev_text,
+                        'image_url': get_existing_image_variant_url(system.main_img, 'portfolio_subsystem_image'),
+                        'link': f'/facade-system/{system.fs_type.facade_base_slug}/{system.fs_slug}',
+                    }
+                    for system in facade_systems
+                ]
+
                 data = {
                     'bread_crumbs': {
                         project.title: f'/portfolio/{project.slug}/'
                     },
                     'portfolio_title': project.title,
                     'project': project,
-                    'gallery_array': portfolio_images,
+                    'project_image_url': get_existing_image_variant_url(project.main_img, 'portfolio_card'),
+                    'gallery_array': gallery_array,
                     'cladding_array': cladding_array,
-                    'total_square': round(total_square, 2),
-                    'facade_systems': facade_systems
+                    'total_square': total_square,
+                    'facade_system_cards': facade_system_cards,
                 }
                 return render(request, 'portfolio-project.html', data)
             raise Http404

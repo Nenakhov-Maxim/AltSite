@@ -207,6 +207,22 @@ def get_image_variant_url(file_field, variant_name):
     return EMPTY_IMAGE_PLACEHOLDER
 
 
+def get_existing_image_variant_url(file_field, variant_name):
+    if not file_field or not getattr(file_field, 'name', None):
+        return EMPTY_IMAGE_PLACEHOLDER
+
+    file_name = file_field.name
+    variant_relative_name = get_variant_relative_name(file_name, variant_name)
+
+    if media_file_exists(variant_relative_name):
+        return f'{get_media_url()}{variant_relative_name}'
+
+    if media_file_exists(file_name):
+        return getattr(file_field, 'url', f'{get_media_url()}{Path(file_name).as_posix()}')
+
+    return EMPTY_IMAGE_PLACEHOLDER
+
+
 def get_image_variant_url_from_name(file_name, variant_name):
     if not file_name:
         return EMPTY_IMAGE_PLACEHOLDER

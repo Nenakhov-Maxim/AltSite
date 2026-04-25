@@ -40,9 +40,9 @@
     <section class="portfolio-project-main">
         <div class="gallery-project">
             <div class="gallery-project-main-img">
-                <a href="{{ project.get_homepage_image_url }}" data-fancybox="gallery">
+                <a href="{{ project_image_url }}" data-fancybox="gallery">
                     <img 
-                        src="{{ project.get_homepage_image_url }}"
+                        src="{{ project_image_url }}"
                         loading="eager"
                         decoding="async"
                         alt="{{project.title}}"
@@ -52,9 +52,9 @@
             </div>
             <div class="gallery-project-fancybox">
                 {% for gallery_item in gallery_array %}
-                <a href="{{ gallery_item.get_gallery_image_url }}" data-fancybox="gallery">
+                <a href="{{ gallery_item.image_url }}" data-fancybox="gallery">
                     <img
-                        src="{{ gallery_item.get_gallery_thumb_url }}"
+                        src="{{ gallery_item.thumb_url }}"
                         loading="lazy"
                         decoding="async"
                         width="30%"
@@ -84,23 +84,23 @@
         <h2 class="portfolio-project-subsystem--title">Фасадные системы, используемые в проекте</h2>
         <div class="carousel-wrapper">
             <div class="owl-carousel owl-theme">
-                {% if not facade_systems %}
+                {% if not facade_system_cards %}
                     <p>Нет загруженных фасадных систем...</p>
                 {% endif %}
-                {% for system in facade_systems %}
+                {% for system in facade_system_cards %}
                     <div class="courusel-item subsystem-card-item">
                         <div class="subsystem-card-item--image">
                             <img 
-                            src="{{ fs_sys.get_portfolio_image_url }}"
+                            src="{{ system.image_url }}"
                             loading="lazy"
                             decoding="async"
-                            alt="{{fs_sys.fs_name}}">
+                            alt="{{ system.name }}">
                         </div>
                         <div class="courusel-item-right-side">
-                            <h3 class="courusel-item-title">{{system.fs_name}}</h3>
+                            <h3 class="courusel-item-title">{{ system.name }}</h3>
                             <div class="courusel-item-line-title"></div>
-                            <div class="courusel-item-text">{{system.prev_text}}</div>
-                            <a href="/facade-system/{{system.fs_type.facade_base_slug}}/{{system.fs_slug}}" class="courusel-item-link">подробнее...</a>
+                            <div class="courusel-item-text">{{ system.preview_text }}</div>
+                            <a href="{{ system.link }}" class="courusel-item-link">подробнее...</a>
                         </div>
                     </div>
                 {% endfor %}
