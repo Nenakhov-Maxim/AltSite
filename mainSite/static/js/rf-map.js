@@ -21,14 +21,7 @@ const RF_MAP_CONFIG = {
     cityMarkers: [],
     titlesByCode: {}
 };
-const RF_MAP_VECTOR_VIEWBOX = {
-    width: 1000,
-    height: 600
-};
-const RF_MAP_LEGACY_VIEWBOX = {
-    width: 860,
-    height: 543
-};
+const RF_MAP_CITY_OFFSET_BASE_WIDTH = 1560;
 
 function getRfMapRoot() {
     return document.querySelector('.rf-map');
@@ -360,34 +353,14 @@ function getRegionNode(root, mapInstance, code) {
     return root.querySelector(`.rf-map__overlay [data-code="${code}"], svg [data-code="${code}"]`);
 }
 
-function getMapViewBoxSize(root, mapInstance) {
-    if (mapInstance) {
-        return RF_MAP_VECTOR_VIEWBOX;
-    }
-
-    const svg = root.querySelector('svg');
-    const viewBox = svg?.viewBox?.baseVal;
-
-    if (viewBox?.width && viewBox?.height) {
-        return {
-            width: viewBox.width,
-            height: viewBox.height
-        };
-    }
-
-    return RF_MAP_LEGACY_VIEWBOX;
-}
-
 function getMapScale(root, mapInstance) {
     const canvas = root.querySelector('.rf-map__canvas') || root.querySelector('svg') || root;
     const canvasRect = canvas.getBoundingClientRect();
-    const viewBox = getMapViewBoxSize(root, mapInstance);
-    const scaleX = canvasRect.width / viewBox.width;
-    const scaleY = canvasRect.height / viewBox.height;
+    const scale = canvasRect.width / RF_MAP_CITY_OFFSET_BASE_WIDTH;
 
     return {
-        x: Number.isFinite(scaleX) && scaleX > 0 ? scaleX : 1,
-        y: Number.isFinite(scaleY) && scaleY > 0 ? scaleY : 1
+        x: Number.isFinite(scale) && scale > 0 ? scale : 1,
+        y: Number.isFinite(scale) && scale > 0 ? scale : 1
     };
 }
 
