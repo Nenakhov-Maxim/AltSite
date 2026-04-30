@@ -21,6 +21,14 @@ const RF_MAP_CONFIG = {
     cityMarkers: [],
     titlesByCode: {}
 };
+const RF_MAP_VECTOR_VIEWBOX = {
+    width: 1000,
+    height: 600
+};
+const RF_MAP_LEGACY_VIEWBOX = {
+    width: 860,
+    height: 543
+};
 
 function getRfMapRoot() {
     return document.querySelector('.rf-map');
@@ -352,6 +360,37 @@ function getRegionNode(root, mapInstance, code) {
     return root.querySelector(`.rf-map__overlay [data-code="${code}"], svg [data-code="${code}"]`);
 }
 
+function getMapViewBoxSize(root, mapInstance) {
+    if (mapInstance) {
+        return RF_MAP_VECTOR_VIEWBOX;
+    }
+
+    const svg = root.querySelector('svg');
+    const viewBox = svg?.viewBox?.baseVal;
+
+    if (viewBox?.width && viewBox?.height) {
+        return {
+            width: viewBox.width,
+            height: viewBox.height
+        };
+    }
+
+    return RF_MAP_LEGACY_VIEWBOX;
+}
+
+function getMapScale(root, mapInstance) {
+    const canvas = root.querySelector('.rf-map__canvas') || root.querySelector('svg') || root;
+    const canvasRect = canvas.getBoundingClientRect();
+    const viewBox = getMapViewBoxSize(root, mapInstance);
+    const scaleX = canvasRect.width / viewBox.width;
+    const scaleY = canvasRect.height / viewBox.height;
+
+    return {
+        x: Number.isFinite(scaleX) && scaleX > 0 ? scaleX : 1,
+        y: Number.isFinite(scaleY) && scaleY > 0 ? scaleY : 1
+    };
+}
+
 function createCityLayer(root) {
     const canvas = root.querySelector('.rf-map__canvas') || root;
     let cityLayer = canvas.querySelector('.rf-map__cities');
@@ -371,6 +410,7 @@ function renderCityMarkers(root, mapInstance) {
     const cityLayer = createCityLayer(root);
     const canvas = root.querySelector('.rf-map__canvas') || root;
     const canvasRect = canvas.getBoundingClientRect();
+    const mapScale = getMapScale(root, mapInstance);
 
     cityLayer.innerHTML = '';
 
@@ -387,8 +427,8 @@ function renderCityMarkers(root, mapInstance) {
 
         const cityItem = document.createElement('div');
         cityItem.className = 'rf-map__city';
-        cityItem.style.left = `${regionRect.left - canvasRect.left + (regionRect.width / 2) + (cityMarker.offsetX || 0)}px`;
-        cityItem.style.top = `${regionRect.top - canvasRect.top + (regionRect.height / 2) + (cityMarker.offsetY || 0)}px`;
+        cityItem.style.left = `${regionRect.left - canvasRect.left + (regionRect.width / 2) + ((cityMarker.offsetX || 0) * mapScale.x)}px`;
+        cityItem.style.top = `${regionRect.top - canvasRect.top + (regionRect.height / 2) + ((cityMarker.offsetY || 0) * mapScale.y)}px`;
         cityItem.innerHTML = `
             <span class="rf-map__city-dot"></span>
             <span class="rf-map__city-label"></span>
@@ -401,6 +441,7 @@ function renderCityMarkers(root, mapInstance) {
 
 function bindCityMarkers(root, mapInstance) {
     const renderMarkers = () => renderCityMarkers(root, mapInstance);
+    const canvas = root.querySelector('.rf-map__canvas') || root;
 
     window.requestAnimationFrame(renderMarkers);
 
@@ -408,11 +449,22 @@ function bindCityMarkers(root, mapInstance) {
         window.removeEventListener('resize', root._rfMapResizeHandler);
     }
 
+    if (root._rfMapResizeObserver) {
+        root._rfMapResizeObserver.disconnect();
+    }
+
     root._rfMapResizeHandler = () => {
         window.requestAnimationFrame(renderMarkers);
     };
 
     window.addEventListener('resize', root._rfMapResizeHandler);
+
+    if (typeof ResizeObserver !== 'undefined') {
+        root._rfMapResizeObserver = new ResizeObserver(() => {
+            window.requestAnimationFrame(renderMarkers);
+        });
+        root._rfMapResizeObserver.observe(canvas);
+    }
 }
 
 function initVectorMap(root, activeCodes) {

@@ -152,7 +152,7 @@ header {
 
 .nav-menu-list {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
     gap: 5px;
     text-align: center;
     align-items: center;
