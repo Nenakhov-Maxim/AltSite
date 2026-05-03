@@ -21,7 +21,6 @@ const RF_MAP_CONFIG = {
     cityMarkers: [],
     titlesByCode: {}
 };
-const RF_MAP_CITY_OFFSET_BASE_WIDTH = 1560;
 
 function getRfMapRoot() {
     return document.querySelector('.rf-map');
@@ -353,68 +352,116 @@ function getRegionNode(root, mapInstance, code) {
     return root.querySelector(`.rf-map__overlay [data-code="${code}"], svg [data-code="${code}"]`);
 }
 
-function getMapScale(root, mapInstance) {
-    const canvas = root.querySelector('.rf-map__canvas') || root.querySelector('svg') || root;
-    const canvasRect = canvas.getBoundingClientRect();
-    const scale = canvasRect.width / RF_MAP_CITY_OFFSET_BASE_WIDTH;
-
-    return {
-        x: Number.isFinite(scale) && scale > 0 ? scale : 1,
-        y: Number.isFinite(scale) && scale > 0 ? scale : 1
-    };
-}
-
-function createCityLayer(root) {
-    const canvas = root.querySelector('.rf-map__canvas') || root;
-    let cityLayer = canvas.querySelector('.rf-map__cities');
-
-    if (cityLayer) {
-        return cityLayer;
+function getMapSvg(root, mapInstance) {
+    if (mapInstance) {
+        return root.querySelector('.rf-map__canvas svg');
     }
 
-    cityLayer = document.createElement('div');
-    cityLayer.className = 'rf-map__cities';
-    canvas.appendChild(cityLayer);
+    return root.querySelector('svg');
+}
+
+function getSvgPoint(svg, clientX, clientY) {
+    const point = svg.createSVGPoint();
+    point.x = clientX;
+    point.y = clientY;
+
+    return point.matrixTransform(svg.getScreenCTM().inverse());
+}
+
+function createCityLayer(root, mapInstance) {
+    const svg = getMapSvg(root, mapInstance);
+    if (!svg) {
+        return null;
+    }
+
+    let cityLayer = svg.querySelector('.rf-map__cities');
+
+    if (!cityLayer) {
+        cityLayer = createOverlayElement('g');
+        cityLayer.classList.add('rf-map__cities');
+        svg.appendChild(cityLayer);
+    }
+
+    root.querySelectorAll('.rf-map__canvas > .rf-map__cities, .rf-map > .rf-map__cities').forEach((legacyLayer) => {
+        legacyLayer.remove();
+    });
 
     return cityLayer;
 }
 
-function renderCityMarkers(root, mapInstance) {
-    const cityLayer = createCityLayer(root);
-    const canvas = root.querySelector('.rf-map__canvas') || root;
-    const canvasRect = canvas.getBoundingClientRect();
-    const mapScale = getMapScale(root, mapInstance);
+function getCityMarkerPoints(root, mapInstance) {
+    if (root._rfMapCityMarkerPoints) {
+        return root._rfMapCityMarkerPoints;
+    }
 
-    cityLayer.innerHTML = '';
+    const svg = getMapSvg(root, mapInstance);
+    if (!svg) {
+        return [];
+    }
 
-    RF_MAP_CONFIG.cityMarkers.forEach((cityMarker) => {
+    root._rfMapCityMarkerPoints = RF_MAP_CONFIG.cityMarkers.reduce((points, cityMarker) => {
         const regionNode = getRegionNode(root, mapInstance, cityMarker.code);
         if (!regionNode) {
-            return;
+            return points;
         }
 
         const regionRect = regionNode.getBoundingClientRect();
         if (!regionRect.width && !regionRect.height) {
-            return;
+            return points;
         }
 
-        const cityItem = document.createElement('div');
-        cityItem.className = 'rf-map__city';
-        cityItem.style.left = `${regionRect.left - canvasRect.left + (regionRect.width / 2) + ((cityMarker.offsetX || 0) * mapScale.x)}px`;
-        cityItem.style.top = `${regionRect.top - canvasRect.top + (regionRect.height / 2) + ((cityMarker.offsetY || 0) * mapScale.y)}px`;
-        cityItem.innerHTML = `
-            <span class="rf-map__city-dot"></span>
-            <span class="rf-map__city-label"></span>
-        `;
+        const svgPoint = getSvgPoint(
+            svg,
+            regionRect.left + (regionRect.width / 2) + (cityMarker.offsetX || 0),
+            regionRect.top + (regionRect.height / 2) + (cityMarker.offsetY || 0)
+        );
 
-        cityItem.querySelector('.rf-map__city-label').textContent = cityMarker.label;
+        points.push({
+            x: svgPoint.x,
+            y: svgPoint.y,
+            label: cityMarker.label
+        });
+
+        return points;
+    }, []);
+
+    return root._rfMapCityMarkerPoints;
+}
+
+function renderCityMarkers(root, mapInstance) {
+    const cityLayer = createCityLayer(root, mapInstance);
+    if (!cityLayer) {
+        return;
+    }
+
+    cityLayer.innerHTML = '';
+
+    getCityMarkerPoints(root, mapInstance).forEach((cityMarker) => {
+        const cityItem = createOverlayElement('g');
+        const cityDot = createOverlayElement('circle');
+        const cityLabel = createOverlayElement('text');
+
+        cityItem.classList.add('rf-map__city-marker');
+        cityItem.setAttribute('transform', `translate(${cityMarker.x} ${cityMarker.y})`);
+
+        cityDot.classList.add('rf-map__city-marker-dot');
+        cityDot.setAttribute('r', '2.5');
+        cityDot.setAttribute('cx', '0');
+        cityDot.setAttribute('cy', '0');
+
+        cityLabel.classList.add('rf-map__city-marker-label');
+        cityLabel.setAttribute('x', '6');
+        cityLabel.setAttribute('y', '-4');
+        cityLabel.textContent = cityMarker.label;
+
+        cityItem.appendChild(cityDot);
+        cityItem.appendChild(cityLabel);
         cityLayer.appendChild(cityItem);
     });
 }
 
 function bindCityMarkers(root, mapInstance) {
     const renderMarkers = () => renderCityMarkers(root, mapInstance);
-    const canvas = root.querySelector('.rf-map__canvas') || root;
 
     window.requestAnimationFrame(renderMarkers);
 
@@ -431,13 +478,6 @@ function bindCityMarkers(root, mapInstance) {
     };
 
     window.addEventListener('resize', root._rfMapResizeHandler);
-
-    if (typeof ResizeObserver !== 'undefined') {
-        root._rfMapResizeObserver = new ResizeObserver(() => {
-            window.requestAnimationFrame(renderMarkers);
-        });
-        root._rfMapResizeObserver.observe(canvas);
-    }
 }
 
 function initVectorMap(root, activeCodes) {
