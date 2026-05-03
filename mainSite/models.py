@@ -171,6 +171,18 @@ class GeographicalPresence(models.Model):
         default=0,
         verbose_name='Смещение города по Y'
     )
+    city_x = models.FloatField(
+        null=True,
+        blank=True,
+        verbose_name='X города на карте',
+        help_text='Абсолютная X-координата подписи в системе SVG-карты. Если заполнена вместе с Y, смещения не используются.'
+    )
+    city_y = models.FloatField(
+        null=True,
+        blank=True,
+        verbose_name='Y города на карте',
+        help_text='Абсолютная Y-координата подписи в системе SVG-карты. Если заполнена вместе с X, смещения не используются.'
+    )
     show_city_label = models.BooleanField(
         default=False,
         verbose_name='Показывать город на карте'

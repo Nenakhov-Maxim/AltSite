@@ -281,6 +281,7 @@ function initLegacyMap(root, activeCodes) {
     buildDistrictLinks(root, titleByCode, activeCodes);
     bindDistrictInteractions(root, titleByCode, activeCodes, null);
     bindCityMarkers(root, null);
+    bindCoordinatePicker(root, null);
 }
 
 function createVectorContainer(root) {
@@ -360,26 +361,71 @@ function getMapSvg(root, mapInstance) {
     return root.querySelector('svg');
 }
 
-function getSvgPoint(svg, clientX, clientY) {
-    const point = svg.createSVGPoint();
-    point.x = clientX;
-    point.y = clientY;
+function getCityLayerParent(root, mapInstance) {
+    if (mapInstance) {
+        const firstRegion = Object.values(mapInstance.regions || {})[0];
+        const regionNode = firstRegion?.element?.shape?.node;
 
-    return point.matrixTransform(svg.getScreenCTM().inverse());
+        if (regionNode?.parentNode) {
+            return regionNode.parentNode;
+        }
+    }
+
+    return getMapSvg(root, mapInstance);
 }
 
-function createCityLayer(root, mapInstance) {
-    const svg = getMapSvg(root, mapInstance);
-    if (!svg) {
+function createSvgPoint(svg, x, y) {
+    const point = svg.createSVGPoint();
+    point.x = x;
+    point.y = y;
+
+    return point;
+}
+
+function getSvgPoint(svg, node, targetNode, x, y) {
+    const nodeMatrix = node.getCTM();
+    const targetMatrix = targetNode.getCTM();
+    if (!nodeMatrix || !targetMatrix) {
         return null;
     }
 
-    let cityLayer = svg.querySelector('.rf-map__cities');
+    return createSvgPoint(svg, x, y)
+        .matrixTransform(nodeMatrix)
+        .matrixTransform(targetMatrix.inverse());
+}
+
+function getRegionCenterPoint(svg, regionNode, cityLayerParent) {
+    if (!regionNode.getBBox) {
+        return null;
+    }
+
+    const regionBox = regionNode.getBBox();
+    if (!regionBox.width && !regionBox.height) {
+        return null;
+    }
+
+    return getSvgPoint(
+        svg,
+        regionNode,
+        cityLayerParent,
+        regionBox.x + (regionBox.width / 2),
+        regionBox.y + (regionBox.height / 2)
+    );
+}
+
+function createCityLayer(root, mapInstance) {
+    const cityLayerParent = getCityLayerParent(root, mapInstance);
+    if (!cityLayerParent) {
+        return null;
+    }
+
+    let cityLayer = Array.from(cityLayerParent.children)
+        .find((child) => child.classList.contains('rf-map__cities'));
 
     if (!cityLayer) {
         cityLayer = createOverlayElement('g');
         cityLayer.classList.add('rf-map__cities');
-        svg.appendChild(cityLayer);
+        cityLayerParent.appendChild(cityLayer);
     }
 
     root.querySelectorAll('.rf-map__canvas > .rf-map__cities, .rf-map > .rf-map__cities').forEach((legacyLayer) => {
@@ -395,30 +441,38 @@ function getCityMarkerPoints(root, mapInstance) {
     }
 
     const svg = getMapSvg(root, mapInstance);
-    if (!svg) {
+    const cityLayerParent = getCityLayerParent(root, mapInstance);
+    if (!svg || !cityLayerParent) {
         return [];
     }
 
     root._rfMapCityMarkerPoints = RF_MAP_CONFIG.cityMarkers.reduce((points, cityMarker) => {
+        const cityX = Number(cityMarker.x);
+        const cityY = Number(cityMarker.y);
+
+        if (Number.isFinite(cityX) && Number.isFinite(cityY)) {
+            points.push({
+                x: cityX,
+                y: cityY,
+                label: cityMarker.label
+            });
+
+            return points;
+        }
+
         const regionNode = getRegionNode(root, mapInstance, cityMarker.code);
         if (!regionNode) {
             return points;
         }
 
-        const regionRect = regionNode.getBoundingClientRect();
-        if (!regionRect.width && !regionRect.height) {
+        const regionCenter = getRegionCenterPoint(svg, regionNode, cityLayerParent);
+        if (!regionCenter) {
             return points;
         }
 
-        const svgPoint = getSvgPoint(
-            svg,
-            regionRect.left + (regionRect.width / 2) + (cityMarker.offsetX || 0),
-            regionRect.top + (regionRect.height / 2) + (cityMarker.offsetY || 0)
-        );
-
         points.push({
-            x: svgPoint.x,
-            y: svgPoint.y,
+            x: regionCenter.x + (cityMarker.offsetX || 0),
+            y: regionCenter.y + (cityMarker.offsetY || 0),
             label: cityMarker.label
         });
 
@@ -480,6 +534,33 @@ function bindCityMarkers(root, mapInstance) {
     window.addEventListener('resize', root._rfMapResizeHandler);
 }
 
+function bindCoordinatePicker(root, mapInstance) {
+    const params = new URLSearchParams(window.location.search);
+    if (!params.has('rfMapCoords')) {
+        return;
+    }
+
+    const svg = getMapSvg(root, mapInstance);
+    const cityLayerParent = getCityLayerParent(root, mapInstance);
+    if (!svg || !cityLayerParent) {
+        return;
+    }
+
+    svg.addEventListener('click', (event) => {
+        const matrix = cityLayerParent.getScreenCTM();
+        if (!matrix) {
+            return;
+        }
+
+        const svgPoint = createSvgPoint(svg, event.clientX, event.clientY)
+            .matrixTransform(matrix.inverse());
+        const x = Number(svgPoint.x.toFixed(2));
+        const y = Number(svgPoint.y.toFixed(2));
+
+        console.info(`rfMap city coordinates: x=${x}, y=${y}`, { x, y });
+    });
+}
+
 function initVectorMap(root, activeCodes) {
     if (typeof jsVectorMap === 'undefined' || !window.rfRussiaMapDefinitionLoaded) {
         return false;
@@ -539,6 +620,7 @@ function initVectorMap(root, activeCodes) {
     buildDistrictLinks(root, titleByCode, activeCodes);
     bindDistrictInteractions(root, titleByCode, activeCodes, mapInstance);
     bindCityMarkers(root, mapInstance);
+    bindCoordinatePicker(root, mapInstance);
 
     return true;
 }

@@ -55,7 +55,7 @@ class PortfolioInlineImage(admin.ModelAdmin):
 
 class RegionInLine(admin.ModelAdmin):
     inlines = [RegionAdressInLine]
-    list_display = ('region_name', 'region_code', 'visible_on_map', 'show_city_label', 'city_name', 'city_offset_x', 'city_offset_y')
+    list_display = ('region_name', 'region_code', 'visible_on_map', 'show_city_label', 'city_name', 'city_x', 'city_y', 'city_offset_x', 'city_offset_y')
     list_filter = ('visible_on_map', 'show_city_label')
     search_fields = ['region_name', 'region_code', 'city_name']
     filter_horizontal = ('linked_regions',)
@@ -70,7 +70,7 @@ class RegionInLine(admin.ModelAdmin):
             'fields': ('popup_description',)
         }),
         ('Город на карте', {
-            'fields': ('show_city_label', 'city_name', 'city_offset_x', 'city_offset_y')
+            'fields': ('show_city_label', 'city_name', 'city_x', 'city_y', 'city_offset_x', 'city_offset_y')
         }),
     )
     

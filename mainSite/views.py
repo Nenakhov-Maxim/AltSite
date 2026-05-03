@@ -37,6 +37,8 @@ def index(request):
             {
                 'code': region.region_code,
                 'label': region.city_name.strip(),
+                'x': region.city_x,
+                'y': region.city_y,
                 'offsetX': region.city_offset_x,
                 'offsetY': region.city_offset_y
             }
@@ -363,6 +365,8 @@ def contacts(request):
             {
                 'code': region.region_code,
                 'label': region.city_name.strip(),
+                'x': region.city_x,
+                'y': region.city_y,
                 'offsetX': region.city_offset_x,
                 'offsetY': region.city_offset_y
             }
