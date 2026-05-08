@@ -103,6 +103,7 @@ main::before {
     background-color: #FFFFFF66;
     padding: 35px;
     border-radius: 3px;
+    box-sizing: border-box;
 }
 
 .card-item-image-block-wrapper {
