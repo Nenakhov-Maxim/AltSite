@@ -266,7 +266,7 @@ h2{
     min-height: 320px;
 }
 
-.rf-map__overlay {
+svg.rf-map__overlay {
     position: absolute;
     inset: 0;
     z-index: 2;
@@ -280,6 +280,10 @@ h2{
     pointer-events: auto;
     cursor: pointer;
     vector-effect: non-scaling-stroke;
+}
+
+.rf-map svg .rf-map__overlay {
+    pointer-events: none;
 }
 
 .rf-map__cities {
