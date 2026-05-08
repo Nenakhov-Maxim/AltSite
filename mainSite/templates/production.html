@@ -26,8 +26,11 @@
         <section class="production-main">
             <div class="production-main-left-side-wrapper">
                 <h2 class="left-side-menu-title">Комплектующие для фасадных систем</h2>
+                <button class="left-side-menu-toggle" type="button" aria-expanded="false" aria-controls="productionSideMenu">
+                    Меню
+                </button>
                 <div class="left-side-menu-inner-wrapper">
-                    <ul class="left-side-menu-list">
+                    <ul class="left-side-menu-list" id="productionSideMenu">
                         <a href="{% url 'products-base' %}facade-brackets-steel/"><li class="left-side-menu-item">Фасадные кронштейны стальные</li></a>
                         <a href="{% url 'products-base' %}facade-brackets-aluminum/"><li class="left-side-menu-item">Фасадные кронштейны алюминиевые</li></a>
                         <a href="{% url 'products-base' %}facade-profile-steel/"><li class="left-side-menu-item">Профили фасадные стальные</li></a>

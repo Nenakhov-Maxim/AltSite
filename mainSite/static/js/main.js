@@ -42,22 +42,19 @@ const swiper = new Swiper('.swiper', {
 });
 
 //Слайдер для новостей
-let slides_card_number = 3
-let spaces = 30
-if (window.innerWidth < 800) {
-    slides_card_number = 2
-    spaces = 20
-}
-if (window.innerWidth < 640) {
-    slides_card_number = 1
-    spaces = 10
-}
-
-
 const news_slider = new Swiper('.news-swiper', {
-  
-  slidesPerView: slides_card_number,
-  spaceBetween: spaces,
+  slidesPerView: 1,
+  spaceBetween: 10,
+  breakpoints: {
+    801: {
+      slidesPerView: 2,
+      spaceBetween: 20,
+    },
+    1100: {
+      slidesPerView: 3,
+      spaceBetween: 30,
+    },
+  },
   pagination: {
     el: ".swiper-pagination",
     clickable: true,

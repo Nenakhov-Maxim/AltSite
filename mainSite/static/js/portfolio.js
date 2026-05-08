@@ -1,6 +1,15 @@
 document.addEventListener('DOMContentLoaded', () => {
     const galleryItems = Array.from(document.querySelectorAll('.portfolio-gallery-item'));
     const filters = Array.from(document.querySelectorAll('select.select-filter'));
+    const filtersToggle = document.querySelector('.portfolio-filters-toggle');
+    const filtersPanel = document.querySelector('.portfolio-project-filters');
+
+    if (filtersToggle && filtersPanel) {
+        filtersToggle.addEventListener('click', () => {
+            const isOpen = filtersPanel.classList.toggle('portfolio-project-filters-open');
+            filtersToggle.setAttribute('aria-expanded', String(isOpen));
+        });
+    }
 
     if (!galleryItems.length || !filters.length) {
         return;

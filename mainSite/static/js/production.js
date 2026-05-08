@@ -1,19 +1,31 @@
 // Убираем последний значок > в хлебных крошках
 
-spans = document.querySelector('.bread-crumbs-wrapper').querySelectorAll('span')
-spans[spans.length - 1].style.display = 'none';
+const breadCrumbsWrapper = document.querySelector('.bread-crumbs-wrapper');
+const spans = breadCrumbsWrapper ? breadCrumbsWrapper.querySelectorAll('span') : [];
+if (spans.length) {
+    spans[spans.length - 1].style.display = 'none';
+}
 
 
 // Работа меню слева 
 
-menu_list = document.querySelector('.left-side-menu-list').querySelectorAll('a')
+const leftSideMenuList = document.querySelector('.left-side-menu-list');
+const menuList = leftSideMenuList ? leftSideMenuList.querySelectorAll('a') : [];
 
-for (const menu of menu_list) {
+for (const menu of menuList) {
     if (menu.href == window.location.href) {
-        active_menu_left = document.querySelector('.left-side-menu-list').querySelector('.menu-active');
-        if (active_menu_left) {
-            active_menu_left.classList.remove('menu-active');
+        const activeMenuLeft = leftSideMenuList.querySelector('.menu-active');
+        if (activeMenuLeft) {
+            activeMenuLeft.classList.remove('menu-active');
         }
         menu.classList.add('menu-active');
     }
+}
+
+const leftSideMenuToggle = document.querySelector('.left-side-menu-toggle');
+if (leftSideMenuToggle && leftSideMenuList) {
+    leftSideMenuToggle.addEventListener('click', () => {
+        const isOpen = leftSideMenuList.classList.toggle('left-side-menu-list-open');
+        leftSideMenuToggle.setAttribute('aria-expanded', String(isOpen));
+    });
 }

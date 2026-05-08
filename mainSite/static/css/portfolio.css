@@ -97,6 +97,10 @@ main::before {
 
 }
 
+.portfolio-filters-toggle {
+    display: none;
+}
+
 .select-filter {
     width: 90%;
     background: transparent;
@@ -174,6 +178,13 @@ main::before {
     font-weight: 700;
     text-align: center;
     margin-bottom: 25px;
+    grid-column: 1 / -1;
+}
+
+.about-prject {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 20px;
 }
 
 .about-prject div {

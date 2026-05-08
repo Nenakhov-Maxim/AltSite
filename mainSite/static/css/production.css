@@ -49,6 +49,10 @@ main::before {
     letter-spacing: 8%;
 }
 
+.left-side-menu-toggle {
+    display: none;
+}
+
 .left-side-menu-list {
     display: flex;
     flex-direction: column;
