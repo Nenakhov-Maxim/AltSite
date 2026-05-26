@@ -96,7 +96,19 @@ footer {
     overflow: hidden;
 }
 
-ul {
+.nav-menu-list,
+.social-list,
+.footer-menu-list,
+.left-side-menu-list,
+.facade-menu-list,
+.our-advantages-card-list,
+.current-vacancies-card-list,
+.popup-vacancies-requirements-list,
+.popup-vacancies-duties-list,
+.contacts-about-us-info-list,
+.rus-representatives-list,
+.sng-representatives-list,
+.form-errors {
     text-decoration: none;
     list-style: none;
     padding: 0;
