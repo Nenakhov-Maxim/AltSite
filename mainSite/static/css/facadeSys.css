@@ -39,7 +39,7 @@ main::before {
     left: 0;
 }
 
-p {
+.facade-menu-item p {
     margin: 0;
 }
 

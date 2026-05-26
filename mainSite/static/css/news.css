@@ -117,11 +117,18 @@ main::before {
 }
 
 .news-article span{
-    display: block;
-    margin-bottom: 10px;
+    /* display: block;
+    margin-bottom: 10px; */
 }
 
 /* модификаторы */
 .menu-active {
     color: var(--background-alt-red);
+}
+
+.facade-content-section ul {
+    text-decoration: initial;
+    list-style: initial;
+    padding: initial;
+    margin: initial;
 }
