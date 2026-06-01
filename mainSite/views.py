@@ -447,7 +447,7 @@ def articles(request, slug_name=None):
 
 # Страница "Новости"
 def news(request, slug_name=None):
-    news = News.objects.all()[0:10]
+    news = News.objects.all().order_by("-id")[0:15]
     data = {
         'title': 'Новости',
         'news': news
