@@ -220,35 +220,6 @@ def portfolio(request, slug_name=None):
                 }
                 return render(request, 'portfolio-project.html', data)
             raise Http404
-    # elif request.method == 'POST':
-    #     try:
-    #     # Получаем JSON-данные из тела запроса
-    #         received_data = json.loads(request.body)
-    #         portfolio_id = received_data['portfolio_id']
-    #         # Обрабатываем данные
-    #         images_list = Portfolio.objects.get(id=portfolio_id).getAllImages()
-    #         images = []
-    #         for image in images_list:
-    #             images.append({
-    #                 'id': image.id,
-    #                 'src': image.get_gallery_image_url(),
-    #                 'thumb': image.get_gallery_thumb_url(),
-    #                 'caption': image.alt
-    #             })
-            
-            
-    #         processed_data = {
-    #             'success': True,
-    #             'data': images
-    #         }
-            
-    #         return JsonResponse(processed_data, status=200)
-    
-    #     except json.JSONDecodeError:
-    #         return JsonResponse({'error': 'Неверный формат JSON'}, status=400)
-    #     except Exception as e:
-    #         print(e)
-    #         return JsonResponse({'error': str(e)}, status=500)
             
     else:
         raise Http404 
@@ -479,7 +450,7 @@ def documents(request):
     
     return render(request, 'documents.html', data)
 
-def facadeSystem(request, slug_facade_type=None, slug_facade_name=None):
+def facadeSystem(request, slug_facade_type='fasadnye-sistemy-alt-fasad', slug_facade_name=None):
     menu_items = FacadeSystemBase.objects.all()
     data = {
         'menu_items': menu_items
