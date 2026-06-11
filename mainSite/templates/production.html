@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static %}
+{% load static image_variants %}
 {% block custom_css%}
     <link rel="stylesheet" href="{% static 'css/production.css' %}">
 {%endblock%}
@@ -57,7 +57,7 @@
                             {{product.product_name}}
                         </div>
                         <div class="card-item-description-block-wrapper">
-                            {{product.product_description}}
+                            {{ product.product_description|richtext_image_variants|safe }}
                         </div>
                     </div>
                     {% endfor %}

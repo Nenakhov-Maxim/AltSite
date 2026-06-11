@@ -75,7 +75,8 @@ class RegionInLine(admin.ModelAdmin):
     )
     
     
-class ProductModelAdmin(admin.ModelAdmin):
+class ProductModelAdmin(SummernoteModelAdmin):
+    summernote_fields = ('product_description',)
     list_display = ('product_name', 'product_type') 
     list_filter = ('product_type',)
     

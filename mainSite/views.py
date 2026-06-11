@@ -52,7 +52,7 @@ def index(request):
     }
     product_content = ProductionBase.objects.all().order_by('position')
     portfolio_lib = Portfolio.objects.all()
-    news_lib = News.objects.all().order_by('created_at')[0:10]
+    news_lib = News.objects.all().order_by('-created_at')[0:10]
     fs_system = FacadeSystem.objects.filter(display_in_main=True)
     data = {
         'title_content' : title_content,

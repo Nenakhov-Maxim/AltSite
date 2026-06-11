@@ -233,7 +233,7 @@ class Product(models.Model):
     product_name = models.CharField(max_length=350, blank=False, verbose_name = 'Наименование продукта')
     product_type = models.ForeignKey(ProductType, on_delete=models.CASCADE, verbose_name = 'Тип продукта', null=True, blank=True)
     product_img = models.FileField(upload_to=production_image_upload_path, blank=True, verbose_name = 'Изображение')
-    product_description = models.CharField(max_length=350, blank=True, null=True, verbose_name = 'Описание')
+    product_description = models.TextField(blank=True, null=True, verbose_name = 'Описание')
     created_at = models.DateTimeField(auto_now_add=True, blank=True)
     
     class Meta:
