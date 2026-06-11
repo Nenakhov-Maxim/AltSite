@@ -389,9 +389,14 @@ class Vacancies(models.Model):
     title = models.CharField(max_length=75, blank=False, verbose_name='Наименование вакансии')
     region = models.CharField(max_length=75, blank=True, verbose_name='Город для работы', default='Трехгорный', help_text='Если не указать, атвтоматически будет установлено "Трехгорный"')
     work_schedule = models.CharField(max_length=15, blank=False, verbose_name='График работы', default='5/2')
-    salary = models.IntegerField(verbose_name='Размер оплаты труда', blank=True)
+    salary = models.CharField(max_length=100, verbose_name='Размер оплаты труда', blank=True)
     requirements = models.TextField(verbose_name='Требования', help_text='Требования необходимо указывать через запятую', blank=True)
-    responsibilities = models.TextField(verbose_name='Обязанности', help_text='Обязанности необходимо указывать через запятую', blank=True)
+    responsibilities = models.TextField(
+        verbose_name='Обязанности',
+        help_text='Обязанности необходимо разделять точкой с запятой',
+        blank=True,
+        default='все подробности по телефону...',
+    )
     isActive = models.BooleanField(verbose_name='Активная вакансия?')
     created_at = models.DateTimeField(verbose_name='Заявка создана', auto_now_add=True, blank=True)
     last_update = models.DateTimeField(verbose_name='Последнее обновление')

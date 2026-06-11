@@ -250,7 +250,6 @@ def job(request, job_id=None):
             'id': job.id,
             'title': job.title,
             'region': job.region,
-            'requirements': job.requirements,
             'responsibilities': job.responsibilities
         }
         if job:

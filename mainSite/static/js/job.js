@@ -37,7 +37,6 @@ for (const btn of more_detail_btns) {
         })
         .then(response => {return response.json()})
         .then(answer => {
-            genRequirements(answer.data.requirements.split(';'));
             genResponsibilities(answer.data.responsibilities.split(';'));
             // Меняем заголовок, регион и открываем POPUP
             popup_vacancies_more_detail.querySelector('.popup-vacancies-title').innerHTML = answer.data.title;
@@ -48,19 +47,6 @@ for (const btn of more_detail_btns) {
             approve_btn.dataset.vacanciesid = vacancies_id;
         });
     });
-}
-
-        
-function genRequirements(data){
-    // Генерируем требования и добавляем в список
-    requiments_list = popup_vacancies_more_detail.querySelector('.popup-vacancies-requirements-list');
-    requiments_list.innerHTML = '';
-    for (const req of data) {
-        let new_li = document.createElement('li');
-        new_li.classList.add('popup-vacancies-requirements-item');
-        new_li.innerHTML = req.trim(); 
-        requiments_list.append(new_li);
-    } 
 }
 
 function genResponsibilities(data) {

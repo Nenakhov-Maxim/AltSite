@@ -283,16 +283,6 @@ main {
     font-weight: 500;
 }
 
-.popup-vacancies-requirements-list {
-    list-style:circle ;
-    margin-bottom: 15px;
-}
-
-.popup-vacancies-requirements-item {
-    margin-left: 30px;
-    margin-bottom: 15px;
-}
-
 .popup-vacancies-duties-list {
     list-style:circle ;
     margin-bottom: 35px;

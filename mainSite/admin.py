@@ -79,6 +79,12 @@ class ProductModelAdmin(SummernoteModelAdmin):
     summernote_fields = ('product_description',)
     list_display = ('product_name', 'product_type') 
     list_filter = ('product_type',)
+
+
+class VacanciesAdmin(admin.ModelAdmin):
+    exclude = ('requirements',)
+    list_display = ('title', 'region', 'salary', 'isActive', 'last_update')
+    list_filter = ('isActive', 'region')
     
 class RepresentativesAdmin(admin.ModelAdmin):
     list_display = ('city', 'country', 'company_name') 
@@ -97,7 +103,7 @@ admin.site.register(Product, ProductModelAdmin)
 admin.site.register(Portfolio, PortfolioInlineImage)
 admin.site.register(TechnologyPageContent, TechnologyContentAdmin)
 admin.site.register(VacanciesPageContent)
-admin.site.register(Vacancies)
+admin.site.register(Vacancies, VacanciesAdmin)
 admin.site.register(VacanciesApplication)
 admin.site.register(ContactPage)
 admin.site.register(Project)
