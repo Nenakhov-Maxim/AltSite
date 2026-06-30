@@ -386,8 +386,8 @@ class VacanciesPageContent(models.Model):
         return self.priority_title
     
 class Vacancies(models.Model):
-    title = models.CharField(max_length=75, blank=False, verbose_name='Наименование вакансии')
-    region = models.CharField(max_length=75, blank=True, verbose_name='Город для работы', default='Трехгорный', help_text='Если не указать, атвтоматически будет установлено "Трехгорный"')
+    title = models.CharField(max_length=250, blank=False, verbose_name='Наименование вакансии')
+    region = models.CharField(max_length=250, blank=True, verbose_name='Город для работы', default='Трехгорный', help_text='Если не указать, атвтоматически будет установлено "Трехгорный"')
     work_schedule = models.CharField(max_length=15, blank=False, verbose_name='График работы', default='5/2')
     salary = models.CharField(max_length=100, verbose_name='Размер оплаты труда', blank=True)
     requirements = models.TextField(verbose_name='Требования', help_text='Требования необходимо указывать через запятую', blank=True)
