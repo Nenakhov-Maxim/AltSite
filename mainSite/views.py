@@ -1,5 +1,6 @@
 from django.http import Http404, JsonResponse
 from django.db.models import Prefetch
+from django.db.models.functions import Lower, Trim
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from .models import *
@@ -69,7 +70,10 @@ def index(request):
 def products(request, prod_type = 'all'):
     
     if prod_type == 'all':
-        products_library = Product.objects.all()
+        products_library = Product.objects.all().order_by(
+            Lower(Trim("product_name")),
+            "product_name",
+        )
         bread_crumbs = {
             '/': 'Главная',
             '/production/': 'Комплектующие для фасадных систем',
@@ -77,7 +81,10 @@ def products(request, prod_type = 'all'):
     
     else:
         try:
-            products_library = Product.objects.filter(product_type__product_link=prod_type).order_by("product_name")
+            products_library = Product.objects.filter(product_type__product_link=prod_type).order_by(
+                Lower(Trim("product_name")),
+                "product_name",
+            )
             product_type = ProductType.objects.get(product_link=prod_type)
             
             bread_crumbs = {
