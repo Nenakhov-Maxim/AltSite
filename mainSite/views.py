@@ -77,7 +77,7 @@ def products(request, prod_type = 'all'):
     
     else:
         try:
-            products_library = Product.objects.filter(product_type__product_link=prod_type)
+            products_library = Product.objects.filter(product_type__product_link=prod_type).order_by("product_name")
             product_type = ProductType.objects.get(product_link=prod_type)
             
             bread_crumbs = {

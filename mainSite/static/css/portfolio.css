@@ -154,7 +154,7 @@ main::before {
 
 .portfolio-project-main {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr; /*Должно быть две колонки*/
     column-gap: 10px;
 }
 
@@ -164,12 +164,18 @@ main::before {
 
 .gallery-project-main-img img {
     width: 100%;
-    object-fit: cover;
-    max-height: 500px;
+    object-fit: contain; /*Должно cover*/
+    max-height: 750px; /*Должно быть 500*/
+}
+
+.portfolio-project-subsystem {
+    display: none; /* Этого быть не должно*/
 }
 
 .gallery-project-fancybox img{
     object-fit: cover;
+    object-fit: contain; /* Этого быть не должно*/
+    width: initial; /* Этого быть не должно*/
 }
 
 .about-project--title {
@@ -185,6 +191,7 @@ main::before {
     display: grid;
     grid-template-columns: 1fr 1fr;
     column-gap: 20px;
+    display: none; /* Этого быть не должно*/
 }
 
 .about-prject div {
