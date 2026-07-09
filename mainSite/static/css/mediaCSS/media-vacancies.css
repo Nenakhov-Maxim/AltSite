@@ -65,30 +65,60 @@
         padding-bottom: 15px;
         display: grid;
         grid-template-columns: 1fr;
-        gap: 10px;
+        gap: 16px;
     }
 
     .current-vacancies-card-item {
+        min-height: 0;
         border-radius: 7px;
-        padding: 10px;
+        padding: 18px;
         font-size: 14px;
+        box-shadow: 0 10px 24px rgba(0, 0, 0, 0.14);
     }
 
     .current-vacancies-card-item--title {
         font-size: 18px;
-        margin-bottom: 10px;
+        margin-bottom: 12px;
+    }
+
+    .current-vacancies-card-item--location {
+        margin-bottom: 16px;
+        font-size: 13px;
+    }
+
+    .current-vacancies-card-item-inner {
+        grid-template-columns: 1fr;
+        row-gap: 10px;
+        margin-bottom: 18px;
+    }
+
+    .current-vacancies-card-item--work-schedule,
+    .current-vacancies-card-item--payment {
+        min-height: 0;
+        padding: 12px;
+    }
+
+    .current-vacancies-card-item--work-schedule div:last-child,
+    .current-vacancies-card-item--payment div:last-child {
+        font-size: 15px;
+    }
+
+    .current-vacancies-card-item-buttons-wrapper {
+        justify-content: stretch;
     }
 
     #current-vacancies-card-item-more-info-btn {
-        padding: 5px;
-        font-size: 12px;
+        width: 100%;
+        min-width: 0;
+        height: 40px;
+        padding: 0 12px;
+        font-size: 13px;
         border: 1px solid #B70101;
         border-radius: 5px;
     }
 
     #current-vacancies-card-item-more-info-btn:hover {
-        transition: background 0.7s;
-        padding: 5px 5px 5px 5px;
+        padding: 0 12px;
     }
 
 }
