@@ -20,7 +20,7 @@
                 {% endfor %}
             </div>
             <div class="search-wrapper">
-                <input type="search" name="production-search" id="production-search">
+                <input type="search" name="production-search" id="production-search" aria-label="Поиск продукции">
             </div>
         </section>
         <section class="production-main">
@@ -62,6 +62,8 @@
                     </div>
                     {% endfor %}
                 </div>
+                <p class="production-empty-message" hidden>Ничего не найдено</p>
+                <div class="production-pagination" aria-label="Пагинация продукции"></div>
             </div>
         </section>
     </div>

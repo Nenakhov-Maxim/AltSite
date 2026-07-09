@@ -34,6 +34,18 @@
         margin-bottom: 20px;
     }
 
+    .production-pagination {
+        gap: 8px;
+        margin-top: 30px;
+    }
+
+    .production-pagination-button {
+        min-width: 34px;
+        height: 34px;
+        padding: 0 10px;
+        font-size: 12px;
+    }
+
     .bread-crumbs-search {
         padding: 30px 0 30px 0;
     }
