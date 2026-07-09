@@ -75,11 +75,11 @@ const renderProductionPagination = (totalPages) => {
     productionPagination.innerHTML = '';
 
     if (totalPages <= 1) {
-        productionPagination.hidden = true;
+        productionPagination.classList.add('production-hidden');
         return;
     }
 
-    productionPagination.hidden = false;
+    productionPagination.classList.remove('production-hidden');
 
     const createButton = (label, page, className = '', isDisabled = false) => {
         const button = document.createElement('button');
@@ -132,11 +132,11 @@ const renderProducts = () => {
     );
 
     productCards.forEach((card) => {
-        card.hidden = !visibleCards.has(card);
+        card.classList.toggle('production-hidden', !visibleCards.has(card));
     });
 
     if (productionEmptyMessage) {
-        productionEmptyMessage.hidden = filteredCards.length > 0;
+        productionEmptyMessage.classList.toggle('production-hidden', filteredCards.length > 0);
     }
 
     renderProductionPagination(totalPages);

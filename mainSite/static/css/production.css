@@ -181,6 +181,10 @@ main::before {
     line-height: 1;
 }
 
+.production-hidden {
+    display: none !important;
+}
+
 .card-item-text-block-wrapper a:hover {
     cursor: pointer;
     color: var(--background-alt-red);
