@@ -169,13 +169,6 @@ main::before {
     font-family: Magistral-book, sans-serif !important;
 }
 
-.about-us-atrticle-text p,
-.about-us-atrticle-text div,
-.about-us-atrticle-text span,
-.about-us-atrticle-text li {
-    font-size: 18px !important;
-}
-
 .about-us-atrticle-text div,
 .about-us-atrticle-text p {
     margin-bottom: 18px;

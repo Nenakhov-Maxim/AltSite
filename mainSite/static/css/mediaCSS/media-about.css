@@ -71,13 +71,6 @@
         line-height: 1.55;
     }
 
-    .about-us-atrticle-text p,
-    .about-us-atrticle-text div,
-    .about-us-atrticle-text span,
-    .about-us-atrticle-text li {
-        font-size: 15px !important;
-    }
-
     .about-us-atrticle-text div,
     .about-us-atrticle-text p {
         margin-bottom: 14px;
