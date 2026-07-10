@@ -150,6 +150,10 @@ main::before {
     padding: 20px 0 50px 0;
 }
 
+.title-text {
+    text-align: center;
+}
+
 /* Стили для страницы portfolio project */
 
 .portfolio-project-main {
@@ -218,4 +222,8 @@ main::before {
 
 .carousel-wrapper {
     width: 100%;
+}
+
+.gallery-project-fancybox {
+    text-align: center;
 }
