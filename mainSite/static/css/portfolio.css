@@ -94,6 +94,7 @@ main::before {
     align-items: end;
     text-align: left;
     margin-bottom: 50px;
+    display: none; /* Этого быть не должно*/
 
 }
 
