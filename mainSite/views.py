@@ -1,5 +1,5 @@
 from django.http import Http404, JsonResponse
-from django.db.models import Prefetch
+from django.db.models import F, Prefetch
 from django.db.models.functions import Lower, Trim
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
@@ -70,7 +70,10 @@ def index(request):
 def products(request, prod_type = 'all'):
     
     if prod_type == 'all':
-        products_library = Product.objects.all().order_by(
+        products_library = Product.objects.select_related('product_type').order_by(
+            F('product_type__sort_order').asc(nulls_last=True),
+            Lower(Trim('product_type__product_type')),
+            F('sort_order').asc(nulls_last=True),
             Lower(Trim("product_name")),
             "product_name",
         )
@@ -82,6 +85,7 @@ def products(request, prod_type = 'all'):
     else:
         try:
             products_library = Product.objects.filter(product_type__product_link=prod_type).order_by(
+                F('sort_order').asc(nulls_last=True),
                 Lower(Trim("product_name")),
                 "product_name",
             )

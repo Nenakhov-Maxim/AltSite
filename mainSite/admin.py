@@ -77,8 +77,16 @@ class RegionInLine(admin.ModelAdmin):
     
 class ProductModelAdmin(SummernoteModelAdmin):
     summernote_fields = ('product_description',)
-    list_display = ('product_name', 'product_type') 
+    list_display = ('product_name', 'product_type', 'sort_order')
+    list_editable = ('sort_order',)
     list_filter = ('product_type',)
+    search_fields = ('product_name',)
+
+
+class ProductTypeAdmin(admin.ModelAdmin):
+    list_display = ('product_type', 'product_link', 'sort_order')
+    list_editable = ('sort_order',)
+    ordering = ('sort_order', 'product_type')
 
 
 class VacanciesAdmin(admin.ModelAdmin):
@@ -98,7 +106,7 @@ admin.site.register(ProductPart)
 admin.site.register(PageContent)
 admin.site.register(GeographicalPresence, RegionInLine)
 admin.site.register(AboutUs, AboutUsAdmin)
-admin.site.register(ProductType)
+admin.site.register(ProductType, ProductTypeAdmin)
 admin.site.register(Product, ProductModelAdmin)
 admin.site.register(Portfolio, PortfolioInlineImage)
 admin.site.register(TechnologyPageContent, TechnologyContentAdmin)

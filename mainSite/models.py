@@ -221,6 +221,7 @@ class AboutUs(models.Model):
 class ProductType(models.Model):
     product_type = models.CharField(max_length=150, blank=False, verbose_name = 'Тип продукта')
     product_link = models.CharField(max_length=150, blank=True, verbose_name = 'SLUG', null=True)
+    sort_order = models.PositiveIntegerField(default=100, verbose_name='Порядок вывода')
     
     class Meta:
         verbose_name = 'Тип продукта (Админ)'
@@ -234,6 +235,12 @@ class Product(models.Model):
     product_type = models.ForeignKey(ProductType, on_delete=models.CASCADE, verbose_name = 'Тип продукта', null=True, blank=True)
     product_img = models.FileField(upload_to=production_image_upload_path, blank=True, verbose_name = 'Изображение')
     product_description = models.TextField(blank=True, null=True, verbose_name = 'Описание')
+    sort_order = models.PositiveIntegerField(
+        blank=True,
+        null=True,
+        verbose_name='Позиция внутри раздела',
+        help_text='Оставьте пустым для сортировки по названию.',
+    )
     created_at = models.DateTimeField(auto_now_add=True, blank=True)
     
     class Meta:
