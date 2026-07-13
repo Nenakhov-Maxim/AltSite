@@ -39,33 +39,65 @@ main::before {
     left: 0;
 }
 
-h2 {
+.services-title {
     font-size: 32px;
 }
 
-h3 {
+.services-content {
+    color: #1e1e1e;
+    font-family: 'Magistral', sans-serif;
+    font-size: 16px;
+    line-height: 1.55;
+    overflow-wrap: anywhere;
+}
+
+.services-content :where(p, div, span, li, h1, h2, h3, h4, h5, h6, blockquote, td, th) {
+    font-family: 'Magistral', sans-serif !important;
+    letter-spacing: 0;
+}
+
+.services-content h1,
+.services-content h2,
+.services-content h3,
+.services-content h4,
+.services-content h5,
+.services-content h6 {
+    margin: 1.25em 0 0.55em;
+    line-height: 1.2;
+}
+
+.services-content h3 {
     font-size: 28px;
     border-bottom: 1px solid var(--border);
 }
 
-h4 {
+.services-content h4 {
     font-size: 24px;
 }
 
-main li {
-    list-style: disc;
-    list-style-position:inside;
-    margin-bottom: 5px;
-    margin-top: 15px;
-    font-size: 16px;
-    text-indent: 5%;
-    font-weight: 600;
+.services-content p {
+    margin: 0 0 1em;
 }
 
-.services-bim-section span, .services-digital-services-section span {
-    display: block;
-    font-size: 16px;
-    letter-spacing: 3%;
-    line-height: 110%;
-    text-indent: 5%;
-}   
+.services-content ul,
+.services-content ol {
+    margin: 0 0 1em;
+    padding-left: 1.5em;
+}
+
+.services-content ul {
+    list-style: disc;
+}
+
+.services-content ol {
+    list-style: decimal;
+}
+
+.services-content li {
+    margin-bottom: 0.45em;
+}
+
+.services-content img {
+    max-width: 100%;
+    height: auto;
+}

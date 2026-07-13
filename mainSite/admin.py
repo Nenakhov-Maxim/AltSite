@@ -3,30 +3,52 @@ from mainSite.models import *
 
 from django_summernote.admin import SummernoteModelAdmin
 
-class AboutUsAdmin (SummernoteModelAdmin):
+SUMMERNOTE_FONT_SIZES = [
+    '8', '10', '12', '14', '16', '18', '20', '24',
+    '28', '32', '36', '40', '48', '56', '64', '72',
+]
+
+
+class ProjectSummernoteModelAdmin(SummernoteModelAdmin):
+    def formfield_for_dbfield(self, db_field, request, **kwargs):
+        formfield = super().formfield_for_dbfield(db_field, request, **kwargs)
+        uses_summernote = (
+            self.summernote_fields == '__all__'
+            or db_field.name in self.summernote_fields
+        )
+        if formfield and uses_summernote:
+            summernote_options = formfield.widget.attrs.setdefault('summernote', {})
+            summernote_options.update({
+                'fontSizes': SUMMERNOTE_FONT_SIZES,
+                'fontSizeUnits': ['px'],
+            })
+        return formfield
+
+
+class AboutUsAdmin(ProjectSummernoteModelAdmin):
     summernote_fields = ('text_content',)
 
-class TechnologyContentAdmin(SummernoteModelAdmin):
+class TechnologyContentAdmin(ProjectSummernoteModelAdmin):
     summernote_fields = ('text_content',)
 
-class ArticlesContentAdmin(SummernoteModelAdmin):
+class ArticlesContentAdmin(ProjectSummernoteModelAdmin):
     summernote_fields = ('article_text',) 
     prepopulated_fields = {'slug': ('article_title',)}
 
-class NewsContentAdmin(SummernoteModelAdmin):
+class NewsContentAdmin(ProjectSummernoteModelAdmin):
     summernote_fields = ('news_text',) 
     prepopulated_fields = {'slug': ('news_title',)}
     readonly_fields = ('prev_text', )
     
-class FacadeSystemBaseAdmin(SummernoteModelAdmin):
+class FacadeSystemBaseAdmin(ProjectSummernoteModelAdmin):
     summernote_fields = ('facade_description',) 
     prepopulated_fields = {'facade_base_slug': ('facade_name',)}
 
-class FacadeSystemAdmin(SummernoteModelAdmin):
+class FacadeSystemAdmin(ProjectSummernoteModelAdmin):
     summernote_fields = ('fs_description',) 
     prepopulated_fields = {'fs_slug': ('fs_name',)}
     
-class FacadeSystemContentPageAdmin(SummernoteModelAdmin):
+class FacadeSystemContentPageAdmin(ProjectSummernoteModelAdmin):
     summernote_fields = ('fs_page_content',) 
 
 class RegionAdressInLine(admin.StackedInline):
@@ -75,7 +97,7 @@ class RegionInLine(admin.ModelAdmin):
     )
     
     
-class ProductModelAdmin(SummernoteModelAdmin):
+class ProductModelAdmin(ProjectSummernoteModelAdmin):
     summernote_fields = ('product_description',)
     list_display = ('product_name', 'product_type', 'sort_order')
     list_editable = ('sort_order',)

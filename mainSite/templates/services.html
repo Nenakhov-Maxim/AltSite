@@ -25,7 +25,9 @@
             </div>
         </section>
         <h2 class="services-title">{{title}}</h2>
-        {{content.text_content|safe}}    
+        <div class="services-content">
+            {{ content.text_content|safe }}
+        </div>
     </div>
 {%endblock%} 
 
