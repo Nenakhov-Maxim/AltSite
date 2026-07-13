@@ -62,17 +62,10 @@ main::before {
 .services-content h4,
 .services-content h5,
 .services-content h6 {
+    font-size: inherit;
+    font-weight: inherit;
     margin: 1.25em 0 0.55em;
     line-height: 1.2;
-}
-
-.services-content h3 {
-    font-size: 28px;
-    border-bottom: 1px solid var(--border);
-}
-
-.services-content h4 {
-    font-size: 24px;
 }
 
 .services-content p {
