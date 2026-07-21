@@ -416,10 +416,14 @@
                         {{form.consumer_tel}}
                         {{form.consumer_message}}
                         <div class="feedback-consent-personal-data-wrapper">
-                            {{form.consent_personal_data}}
-                            <label for="feedback-consent-personal-data">Я согласен на передачу и обработку моих 
-                                <a class="personal-data-doc-link" href="">персональных данных</a>
-                            </label>
+                            <div class="feedback-consent-item">
+                                {{ form.consent_personal_data }}
+                                <label for="feedback-consent-personal-data-checkbox">Я даю согласие на обработку моих персональных данных</label>
+                            </div>
+                            <div class="feedback-consent-item">
+                                {{ form.privacy_policy_acknowledged }}
+                                <label for="feedback-privacy-policy-acknowledged-checkbox">Я ознакомлен с <a class="personal-data-doc-link" href="{% static 'docs/politica_v_oblasty_pers_dannyh.pdf' %}" target="_blank" rel="noopener noreferrer">Политикой обработки персональных данных</a></label>
+                            </div>
                         </div>
                     </div>
                     {% if success_send_form %}

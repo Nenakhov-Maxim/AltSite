@@ -432,6 +432,10 @@ class VacanciesApplication(models.Model):
     candidate_tel = models.CharField(max_length=20, blank=False, verbose_name='Телефон кандидата')
     candidate_information = models.TextField(blank=True, verbose_name='Дополнительная информация о кандидате', default='Не указано дополнительных сведений')
     candidate_resume = models.FileField(upload_to='candidate_resume/', blank=True, verbose_name='Резюме кандидата')
+    personal_data_consent = models.BooleanField(default=False, verbose_name='Согласие на обработку ПД')
+    privacy_policy_acknowledged = models.BooleanField(default=False, verbose_name='С политикой ознакомлен')
+    consent_recorded_at = models.DateTimeField(blank=True, null=True, verbose_name='Время подтверждения')
+    privacy_policy_version = models.CharField(max_length=71, blank=True, verbose_name='Версия политики')
     
     class Meta:
         verbose_name = 'Отклик на вакансию'
@@ -459,6 +463,10 @@ class Project(models.Model):
     consumer_email = models.CharField(max_length=100, blank=False, verbose_name='Email отправителя')
     consumer_tel = models.CharField(max_length=100, blank=False, verbose_name='Телефон отправителя')
     consumer_message = models.TextField(blank=True, verbose_name='Сообщение', default='Нет описания')
+    personal_data_consent = models.BooleanField(default=False, verbose_name='Согласие на обработку ПД')
+    privacy_policy_acknowledged = models.BooleanField(default=False, verbose_name='С политикой ознакомлен')
+    consent_recorded_at = models.DateTimeField(blank=True, null=True, verbose_name='Время подтверждения')
+    privacy_policy_version = models.CharField(max_length=71, blank=True, verbose_name='Версия политики')
     
     class Meta:
         verbose_name = 'Обращение с проектом'

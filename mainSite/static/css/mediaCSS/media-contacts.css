@@ -54,17 +54,19 @@
         padding: 15px 15px 15px 15px;
     }
 
-    .feedback-consent-personal-data-wrapper label {
-        padding-left: 30px;
-        font-size: 14px;
-        margin-left: 0;
+    .feedback-consent-item {
+        grid-template-columns: 15px 1fr;
+        gap: 10px;
     }
 
-    #feedback-consent-personal-data-checkbox {
+    .feedback-consent-item label {
+        font-size: 14px;
+    }
+
+    #feedback-consent-personal-data-checkbox,
+    #feedback-privacy-policy-acknowledged-checkbox {
         width: 15px;
         height: 15px;
-        margin-right: 0;
-        top: 0;
     }
 
     .feedback-form-submit-btn {

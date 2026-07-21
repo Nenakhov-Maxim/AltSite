@@ -108,11 +108,15 @@
                     <input type="tel" name="respond-vacancy-tel" id="respond-vacancy-tel-input" placeholder="Номер телефона">
                     <textarea name="respond-vacancy-information" id="respond-vacancy-information-textarea" placeholder="Иные сведения, которые вы бы хотели сообщить"></textarea>
                     <div class="checkbox-wrapper">
-                        <input type="checkbox" name="respond-vacancy-personal-info-approve" id="respond-vacancy-personal-info-approve-checkbox">
-                        <label for="respond-vacancy-personal-info-approve">Я согласен на передачу и обработку моих <a href="link-to-download">персональных данных</a></label>
+                        <input class="consent-checkbox" type="checkbox" name="respond-vacancy-personal-info-approve" id="respond-vacancy-personal-info-approve-checkbox" required>
+                        <label for="respond-vacancy-personal-info-approve-checkbox">Я даю согласие на обработку моих персональных данных</label>
+                    </div>
+                    <div class="checkbox-wrapper">
+                        <input class="consent-checkbox" type="checkbox" name="respond-vacancy-privacy-policy-acknowledged" id="respond-vacancy-privacy-policy-acknowledged-checkbox" required>
+                        <label for="respond-vacancy-privacy-policy-acknowledged-checkbox">Я ознакомлен с <a href="{% static 'docs/politica_v_oblasty_pers_dannyh.pdf' %}" target="_blank" rel="noopener noreferrer">Политикой обработки персональных данных</a></label>
                     </div>
                     <div class="upload-file-wrapper">
-                        <label for="respond-vacancy-personal-info-approve">Загрузите файл с резюме (Поддерживаются форматы: *.pdf, *.doc, *.docx, *.jpg)</label>
+                        <label for="respond-vacancy-file-upload-input">Загрузите файл с резюме (Поддерживаются форматы: *.pdf, *.doc, *.docx, *.jpg)</label>
                         <input type="file" name="respond-vacancy-file-upload" id="respond-vacancy-file-upload-input" accept=".pdf, .doc, .docx, .jpeg, .jpg">
                     </div>
                     <ul class="form-errors"></ul>

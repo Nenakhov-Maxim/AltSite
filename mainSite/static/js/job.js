@@ -94,10 +94,15 @@ job_application_form.addEventListener('submit', (event)=>{
 
     // Проверка чекбокса, что согласен на обработку ПД
     isApprovePD = poppup_respond.querySelector('#respond-vacancy-personal-info-approve-checkbox');
-    console.log(isApprovePD)
+    isPrivacyPolicyAcknowledged = poppup_respond.querySelector('#respond-vacancy-privacy-policy-acknowledged-checkbox');
 
     if (!isApprovePD.checked) {
-        alert('Необходимо согласиться на передачу и обработку персональных данных');
+        alert('Необходимо дать согласие на обработку персональных данных');
+        return
+    }
+
+    if (!isPrivacyPolicyAcknowledged.checked) {
+        alert('Необходимо ознакомиться с политикой обработки персональных данных');
         return
     }
 
@@ -138,6 +143,8 @@ job_application_form.addEventListener('submit', (event)=>{
             complete_popup.querySelector('.complete-send-email-or-phone').innerHTML = `Мы свяжемся с Вами по Email: ${data.email} или телефону: ${data.tel}`;
             complete_popup.classList.remove('popup-disable');
             completeAnimating();
+        } else {
+            alert(data.error || 'Не удалось отправить отклик');
         }
     });
 

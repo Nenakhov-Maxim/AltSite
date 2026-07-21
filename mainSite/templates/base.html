@@ -187,11 +187,14 @@
                         <a href="{% url 'portfolio' %}">
                             <li class="footer-menu-item">Портфолио</li>
                         </a>
-                        <a href="/media/catalog/facade-sys.pdf">
+                        <a href="{% static 'docs/facade-sys.pdf' %}" download="facade-sys.pdf">
                             <li class="footer-menu-item">Каталог</li>
                         </a>
                         <a href="{% url 'sertificates' %}">
                             <li class="footer-menu-item">Наши партнеры</li>
+                        </a>
+                        <a href="{% static 'docs/politica_v_oblasty_pers_dannyh.pdf' %}" target="_blank" rel="noopener noreferrer">
+                            <li class="footer-menu-item">Политика обработки персональных данных</li>
                         </a>
                         {% comment %} <a href="{% url 'documents' %}">
                             <li class="footer-menu-item">Технические свидетельства</li>

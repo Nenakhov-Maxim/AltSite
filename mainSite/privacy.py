@@ -1,0 +1,3 @@
+PRIVACY_POLICY_VERSION = (
+    'sha256:1eee6c61f4a9a40ff1fac0ecf7898cd62f184948372b893fc47b3ce80b40bbcb'
+)

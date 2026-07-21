@@ -2,12 +2,14 @@ from django.http import Http404, JsonResponse
 from django.db.models import F, Prefetch
 from django.db.models.functions import Lower, Trim
 from django.shortcuts import render
+from django.utils import timezone
 from django.views.decorators.csrf import csrf_exempt
 from .models import *
 from .image_utils import get_existing_image_variant_url
 from .sendMail import SendEmail
 import json
 from .forms import ProjectForm
+from .privacy import PRIVACY_POLICY_VERSION
 
 
 # Представление страниц
@@ -274,6 +276,14 @@ def job(request, job_id=None):
 
 def jobApplication(request):
     if request.method == 'POST':
+        personal_data_consent = request.POST.get('respond-vacancy-personal-info-approve') == 'on'
+        privacy_policy_acknowledged = request.POST.get('respond-vacancy-privacy-policy-acknowledged') == 'on'
+        if not personal_data_consent or not privacy_policy_acknowledged:
+            return JsonResponse({
+                'success': False,
+                'error': 'Необходимо дать согласие и ознакомиться с политикой',
+            }, status=400)
+
         if request.FILES:
             resume_file = request.FILES['respond-vacancy-file-upload']
         else:
@@ -291,7 +301,11 @@ def jobApplication(request):
                 candidate_email=request.POST.get('respond-vacancy-email'),
                 candidate_tel=request.POST.get('respond-vacancy-tel'),
                 candidate_information=request.POST.get('respond-vacancy-information'),
-                candidate_resume=resume_file
+                candidate_resume=resume_file,
+                personal_data_consent=personal_data_consent,
+                privacy_policy_acknowledged=privacy_policy_acknowledged,
+                consent_recorded_at=timezone.now(),
+                privacy_policy_version=PRIVACY_POLICY_VERSION,
             )
             
             # Отправка email уведомления HR о новом отклике
@@ -380,6 +394,10 @@ def contacts(request):
                     consumer_email=clean_form['consumer_email'],
                     consumer_tel=clean_form['consumer_tel'],
                     consumer_message=clean_form['consumer_message'],
+                    personal_data_consent=clean_form['consent_personal_data'],
+                    privacy_policy_acknowledged=clean_form['privacy_policy_acknowledged'],
+                    consent_recorded_at=timezone.now(),
+                    privacy_policy_version=PRIVACY_POLICY_VERSION,
                 )
                 
                 # Отправка email уведомления менеджеру о новом запросе на проект

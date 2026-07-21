@@ -136,27 +136,32 @@ h2{
 }
 
 .feedback-consent-personal-data-wrapper {
-    position: relative;
     display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.feedback-consent-item {
+    display: grid;
+    grid-template-columns: 35px 1fr;
+    gap: 15px;
     align-items: center;
 }
 
-#feedback-consent-personal-data-checkbox {
-    position: absolute;
+#feedback-consent-personal-data-checkbox,
+#feedback-privacy-policy-acknowledged-checkbox {
     box-sizing: border-box;
     width: 35px;
     height: 35px;
-    margin-right: 10px;
-    text-align: center;
-    top: -11px;
+    margin: 0;
 }
 
-.feedback-consent-personal-data-wrapper label {
-    padding-left: 35px;
+.feedback-consent-item label {
     font-size: 18px;
-    margin-left: 15px;
+}
+
+.feedback-consent-item label a {
+    border-bottom: 1px solid black;
 }
 
 .feedback-form-submit-btn {

@@ -442,14 +442,18 @@ main {
     align-items: center;
     flex-wrap: nowrap;
     justify-content: left;
-    margin-bottom: 35px;
+    margin-bottom: 15px;
 }
 
 .checkbox-wrapper label{
    padding-top: 6px;
 }
 
-#respond-vacancy-personal-info-approve-checkbox {
+.checkbox-wrapper label a{
+   border-bottom: 1px solid black;
+}
+
+.checkbox-wrapper .consent-checkbox {
     width: inherit;
     margin-right: 15px;
     margin-bottom: 0;

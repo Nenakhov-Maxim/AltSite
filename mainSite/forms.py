@@ -18,7 +18,8 @@ class ProjectForm(forms.Form):
             'placeholder': 'Ваше сообщение'
         }))
     consent_personal_data = forms.BooleanField(label='Я согласен на передачу и обработку моих персональных данных', required=True, widget=forms.CheckboxInput(attrs={
-            'id': 'feedback-consent-personal-data-checkbox'
-        }))
-    
-    
+        'id': 'feedback-consent-personal-data-checkbox'
+    }))
+    privacy_policy_acknowledged = forms.BooleanField(label='Я ознакомлен с политикой обработки персональных данных', required=True, widget=forms.CheckboxInput(attrs={
+        'id': 'feedback-privacy-policy-acknowledged-checkbox'
+    }))

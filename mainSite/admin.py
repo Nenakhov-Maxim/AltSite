@@ -115,6 +115,28 @@ class VacanciesAdmin(admin.ModelAdmin):
     exclude = ('requirements',)
     list_display = ('title', 'region', 'salary', 'isActive', 'last_update')
     list_filter = ('isActive', 'region')
+
+
+class VacanciesApplicationAdmin(admin.ModelAdmin):
+    list_display = ('candidate_name', 'job', 'personal_data_consent', 'privacy_policy_acknowledged', 'consent_recorded_at')
+    list_filter = ('personal_data_consent', 'privacy_policy_acknowledged')
+    readonly_fields = (
+        'personal_data_consent',
+        'privacy_policy_acknowledged',
+        'consent_recorded_at',
+        'privacy_policy_version',
+    )
+
+
+class ProjectAdmin(admin.ModelAdmin):
+    list_display = ('consumer_name', 'consumer_email', 'personal_data_consent', 'privacy_policy_acknowledged', 'consent_recorded_at')
+    list_filter = ('personal_data_consent', 'privacy_policy_acknowledged')
+    readonly_fields = (
+        'personal_data_consent',
+        'privacy_policy_acknowledged',
+        'consent_recorded_at',
+        'privacy_policy_version',
+    )
     
 class RepresentativesAdmin(admin.ModelAdmin):
     list_display = ('city', 'country', 'company_name') 
@@ -134,9 +156,9 @@ admin.site.register(Portfolio, PortfolioInlineImage)
 admin.site.register(TechnologyPageContent, TechnologyContentAdmin)
 admin.site.register(VacanciesPageContent)
 admin.site.register(Vacancies, VacanciesAdmin)
-admin.site.register(VacanciesApplication)
+admin.site.register(VacanciesApplication, VacanciesApplicationAdmin)
 admin.site.register(ContactPage)
-admin.site.register(Project)
+admin.site.register(Project, ProjectAdmin)
 admin.site.register(Rewards)
 admin.site.register(Articles, ArticlesContentAdmin)
 admin.site.register(News, NewsContentAdmin)
