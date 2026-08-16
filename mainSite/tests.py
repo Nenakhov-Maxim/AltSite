@@ -48,7 +48,10 @@ class SEOInfrastructureTests(TestCase):
     def test_article_has_unique_metadata_canonical_and_h1(self):
         article = Articles.objects.create(
             article_title='Испытания фасадных систем',
-            article_text='<p>Как проходят испытания навесных фасадов.</p>',
+            article_text=(
+                '<h1 class="cms-heading">Внутренний заголовок</h1>'
+                '<p>Как&nbsp;проходят испытания навесных фасадов.</p>'
+            ),
             slug='ispytaniya-fasadnyh-sistem',
         )
 
@@ -64,6 +67,9 @@ class SEOInfrastructureTests(TestCase):
             html=True,
         )
         self.assertContains(response, '<h1 class="news-article-title">Испытания фасадных систем</h1>', html=True)
+        self.assertContains(response, '<div class="cms-heading">Внутренний заголовок</div>', html=True)
+        self.assertEqual(response.content.count(b'<h1'), 1)
+        self.assertNotContains(response, '&amp;nbsp;')
 
     def test_sitemap_uses_production_domain_and_only_canonical_detail_url(self):
         article = Articles.objects.create(
