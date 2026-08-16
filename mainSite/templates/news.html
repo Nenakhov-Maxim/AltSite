@@ -28,16 +28,20 @@
         </section>
         <section class="production-main">
             <div class="production-main-left-side-wrapper">
-                <h2 class="left-side-menu-title">{{title}}</h2>
+                {% if active_slug %}
+                    <div class="left-side-menu-title">{{title}}</div>
+                {% else %}
+                    <h1 class="left-side-menu-title">{{title}}</h1>
+                {% endif %}
                 <div class="left-side-menu-inner-wrapper">
                     <ul class="left-side-menu-list">
                         {% if news %}
                             {% csrf_token %}
                             {% for news_item in news %}
                                 {% if active_slug and active_slug == news_item.slug %}
-                                    <a href='/news/{{news_item.slug}}' class="left-side-menu-link" data-slug="{{ news_item.slug }}"><li class="left-side-menu-item menu-active">{{news_item.news_title}}</li></a>
+                                    <a href='/news/{{news_item.slug}}/' class="left-side-menu-link" data-slug="{{ news_item.slug }}"><li class="left-side-menu-item menu-active">{{news_item.news_title}}</li></a>
                                 {% else %}
-                                    <a href='/news/{{news_item.slug}}' class="left-side-menu-link" data-slug="{{ news_item.slug }}"><li class="left-side-menu-item">{{news_item.news_title}}</li></a>
+                                    <a href='/news/{{news_item.slug}}/' class="left-side-menu-link" data-slug="{{ news_item.slug }}"><li class="left-side-menu-item">{{news_item.news_title}}</li></a>
                                 {% endif %}
                             {% endfor %}
                             {% comment %} <button class="get-next-news" type="button">Загрузить другие новости</button> {% endcomment %}
@@ -53,13 +57,11 @@
             <div class="news-content-right-side-wrapper">
                 <article class="news-article">
                     {% if active_slug %}
-                        {% for news in news_active%}
-                           <h2 class="news-article-title">{{news.news_title}}</h2>
-                            <div class="news-article-date-info">{{news.created_at}}</div>
+                           <h1 class="news-article-title">{{news_active.news_title}}</h1>
+                            <div class="news-article-date-info">{{news_active.created_at}}</div>
                             <div class="news-content">
-                                {{news.news_text|richtext_image_variants|safe}}
+                                {{news_active.news_text|richtext_image_variants|safe}}
                             </div>
-                        {% endfor %}
                     {% else %}
                            <h2 class="news-article-title">Просмотр новостей</h2> 
                            <div class="news-content">

@@ -1,9 +1,63 @@
-{%load static%}
+{% load static seo_tags %}
+{% seo_site_base_url as site_base_url %}
+{% seo_site_name as site_name %}
 <!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block seo_title %}{{ seo.title }}{% endblock %}</title>
+    <meta name="description" content="{% block seo_description %}{{ seo.description }}{% endblock %}">
+    <meta name="robots" content="{% block robots_meta %}index,follow,max-image-preview:large{% endblock %}">
+    <link rel="canonical" href="{{ site_base_url }}{{ request.path }}">
+
+    <meta property="og:locale" content="ru_RU">
+    <meta property="og:type" content="{{ seo.type }}">
+    <meta property="og:site_name" content="{{ site_name }}">
+    <meta property="og:title" content="{{ seo.title }}">
+    <meta property="og:description" content="{{ seo.description }}">
+    <meta property="og:url" content="{{ site_base_url }}{{ request.path }}">
+    <meta property="og:image" content="{{ seo.image }}">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ seo.title }}">
+    <meta name="twitter:description" content="{{ seo.description }}">
+    <meta name="twitter:image" content="{{ seo.image }}">
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Organization",
+          "@id": "{{ site_base_url }}/#organization",
+          "name": "ООО «Альтернатива»",
+          "url": "{{ site_base_url }}/",
+          "logo": "{{ site_base_url }}{% static 'icon/logo_new_2.png' %}",
+          "telephone": "+7-35191-6-21-44",
+          "email": "info@alt-ural.ru",
+          "address": {
+            "@type": "PostalAddress",
+            "addressCountry": "RU",
+            "addressRegion": "Челябинская область",
+            "addressLocality": "Трёхгорный",
+            "streetAddress": "Восточное шоссе, 2а, помещение 2/13"
+          },
+          "sameAs": [
+            "https://vk.com/alternativa_trg",
+            "https://www.youtube.com/channel/UCQQOSwcEk0O6prNysrPeUjg"
+          ]
+        },
+        {
+          "@type": "WebSite",
+          "@id": "{{ site_base_url }}/#website",
+          "url": "{{ site_base_url }}/",
+          "name": "{{ site_name }}",
+          "publisher": {"@id": "{{ site_base_url }}/#organization"},
+          "inLanguage": "ru-RU"
+        }
+      ]
+    }
+    </script>
     
     <link rel="stylesheet" href="{% static 'css/normalize.css' %}">
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
@@ -13,7 +67,6 @@
     <link rel="stylesheet" href="{% static 'css/media.css' %}">
     {% block custom_css_media%}
     {% endblock %}
-    <title>Альтернатива</title>
 </head>
 <body>
     <header>

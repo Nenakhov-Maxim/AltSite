@@ -46,7 +46,7 @@
                             {% for sub_item in item.getAllFacadeSystem %}
                                 {% if sub_item %}
                                     <li class="facade-menu-item subitem">
-                                        <a class="facade-menu-item-link" href="/facade-system/{{item.facade_base_slug}}/{{sub_item.fs_slug}}">
+                                        <a class="facade-menu-item-link" href="/facade-system/{{item.facade_base_slug}}/{{sub_item.fs_slug}}/">
                                             {% if active_slug and active_slug == sub_item.fs_slug %}
                                                 <p class="active-nav-facade">{{sub_item.fs_name}}</p>
                                             {% else %}
@@ -67,6 +67,7 @@
                 {% endfor %}
             </section>
             <section class="facade-content-section">
+                <h1>{{ page_heading }}</h1>
                 {% if page_content.fs_page_content %}
                     {{page_content.fs_page_content|safe}}
                 {% elif page_content.facade_description %}

@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block seo_title %}Страница не найдена — «Альтернатива»{% endblock %}
+{% block seo_description %}Запрошенная страница не найдена.{% endblock %}
+{% block robots_meta %}noindex,follow{% endblock %}
+
+{% block custom_main %}
+<section class="main-wrapper" style="padding: 80px 20px; text-align: center;">
+    <h1>Страница не найдена</h1>
+    <p>Возможно, адрес изменился после обновления сайта.</p>
+    <p><a href="{% url 'index' %}">Перейти на главную</a></p>
+</section>
+{% endblock %}

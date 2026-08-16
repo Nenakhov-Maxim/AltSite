@@ -28,16 +28,20 @@
         </section>
         <section class="production-main">
             <div class="production-main-left-side-wrapper">
-                <h2 class="left-side-menu-title">{{title}}</h2>
+                {% if active_slug %}
+                    <div class="left-side-menu-title">{{title}}</div>
+                {% else %}
+                    <h1 class="left-side-menu-title">{{title}}</h1>
+                {% endif %}
                 <div class="left-side-menu-inner-wrapper">
                     <ul class="left-side-menu-list">
                         {% if articles %}
                             {% csrf_token %}
                             {% for article in articles %}
                                 {% if active_slug and active_slug == article.slug %}
-                                    <a href="/articles/{{article.slug}}" class="left-side-menu-link" data-slug="{{ article.slug }}"><li class="left-side-menu-item menu-active">{{article.article_title}}</li></a> 
+                                    <a href="/articles/{{article.slug}}/" class="left-side-menu-link" data-slug="{{ article.slug }}"><li class="left-side-menu-item menu-active">{{article.article_title}}</li></a>
                                 {% else %}
-                                    <a href="/articles/{{article.slug}}" class="left-side-menu-link" data-slug="{{ article.slug }}"><li class="left-side-menu-item">{{article.article_title}}</li></a> 
+                                    <a href="/articles/{{article.slug}}/" class="left-side-menu-link" data-slug="{{ article.slug }}"><li class="left-side-menu-item">{{article.article_title}}</li></a>
                                 {% endif %}
                             {% endfor %}
                             {% comment %} <button class="get-next-article" type='button'>Загрузить другие статьи</button> {% endcomment %}
@@ -51,13 +55,11 @@
             <div class="news-content-right-side-wrapper">
                 <article class="news-article">
                     {% if active_slug %}
-                        {% for art in article_active%}
-                            <h2 class="news-article-title">{{art.article_title}}</h2>
-                            <div class="news-article-date-info">{{art.created_at}}</div>
+                            <h1 class="news-article-title">{{article_active.article_title}}</h1>
+                            <div class="news-article-date-info">{{article_active.created_at}}</div>
                             <div class="news-content">
-                                {{art.article_text|richtext_image_variants|safe}}
+                                {{article_active.article_text|richtext_image_variants|safe}}
                             </div>
-                        {% endfor %}
                     {% else %}
                             <h2 class="news-article-title">Просмотр статей</h2>
                             <div class="news-content">

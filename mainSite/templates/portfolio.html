@@ -92,7 +92,7 @@
             data-city="{{ project.city|default:'' }}"
             data-year-comlited="{{ project.year_comlited|default:'' }}"
         >
-             <a class="portfolio-gallery-item-open-gal" href="/portfolio/{{ project.slug }}" data-portfolioId="{{ project.id }}">
+             <a class="portfolio-gallery-item-open-gal" href="/portfolio/{{ project.slug }}/" data-portfolioId="{{ project.id }}">
             <img
                 class="portfolio-gallery-item-img"
                 src="{{ project.get_homepage_image_url }}"
@@ -103,7 +103,7 @@
             </a>
             <div class="portfolio-gallery-item-text">
                  {% csrf_token %}
-                 <a class="portfolio-gallery-item-open-gal" href="/portfolio/{{ project.slug }}" data-portfolioId="{{ project.id }}">{{ project.title }}</a>
+                 <a class="portfolio-gallery-item-open-gal" href="/portfolio/{{ project.slug }}/" data-portfolioId="{{ project.id }}">{{ project.title }}</a>
             </div>
         </div>
         {% endfor %}

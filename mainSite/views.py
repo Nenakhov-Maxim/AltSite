@@ -1,15 +1,48 @@
-from django.http import Http404, JsonResponse
+import json
+from types import SimpleNamespace
+from urllib.parse import urlparse
+
+from django.http import Http404, HttpResponse, JsonResponse
 from django.db.models import F, Prefetch
 from django.db.models.functions import Lower, Trim
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, redirect, render
+from django.template.response import TemplateResponse
 from django.utils import timezone
 from django.views.decorators.csrf import csrf_exempt
 from .models import *
 from .image_utils import get_existing_image_variant_url
 from .sendMail import SendEmail
-import json
 from .forms import ProjectForm
 from .privacy import PRIVACY_POLICY_VERSION
+from .seo import build_seo, get_site_base_url
+from .sitemaps import sitemaps
+
+
+def robots_txt(request):
+    content = '\n'.join([
+        'User-agent: *',
+        'Allow: /',
+        'Disallow: /admin/',
+        'Disallow: /accounts/',
+        'Disallow: /summernote/',
+        f'Sitemap: {get_site_base_url()}/sitemap.xml',
+        '',
+    ])
+    return HttpResponse(content, content_type='text/plain; charset=utf-8')
+
+
+def sitemap_xml(request):
+    domain = urlparse(get_site_base_url()).netloc
+    site = SimpleNamespace(domain=domain)
+    urlset = []
+    for sitemap_class in sitemaps.values():
+        urlset.extend(sitemap_class().get_urls(site=site, protocol='https'))
+    return TemplateResponse(
+        request,
+        'sitemap.xml',
+        {'urlset': urlset},
+        content_type='application/xml',
+    )
 
 
 # Представление страниц
@@ -64,7 +97,8 @@ def index(request):
         'product_content' : product_content,
         'portfolio_lib': portfolio_lib,
         'news_lib': news_lib,
-        'fs_system': fs_system
+        'fs_system': fs_system,
+        'seo': build_seo(),
     }
     
     return render(request,'main.html', data)
@@ -83,27 +117,36 @@ def products(request, prod_type = 'all'):
             '/': 'Главная',
             '/production/': 'Комплектующие для фасадных систем',
         } 
+        page_title = 'Комплектующие для фасадных систем — производство и поставка'
+        page_description = (
+            'Комплектующие для навесных вентилируемых фасадов: кронштейны, '
+            'профили и элементы крепления производства «Альтернатива».'
+        )
     
     else:
-        try:
-            products_library = Product.objects.filter(product_type__product_link=prod_type).order_by(
-                F('sort_order').asc(nulls_last=True),
-                Lower(Trim("product_name")),
-                "product_name",
-            )
-            product_type = ProductType.objects.get(product_link=prod_type)
+        product_type = get_object_or_404(ProductType, product_link=prod_type)
+        products_library = Product.objects.filter(product_type=product_type).order_by(
+            F('sort_order').asc(nulls_last=True),
+            Lower(Trim("product_name")),
+            "product_name",
+        )
             
-            bread_crumbs = {
+        bread_crumbs = {
             '/': 'Главная',
             '/production/': 'Продукция',
             f'/production/{prod_type}/': f'{product_type.product_type}'
         }
-        except Exception as err:
-            raise Http404 
+        page_title = f'{product_type.product_type} для вентфасадов — «Альтернатива»'
+        page_description = (
+            f'{product_type.product_type}: производство и поставка комплектующих '
+            'для навесных вентилируемых фасадов.'
+        )
     
     data = {
         'products': products_library,
-        'bread_crumbs': bread_crumbs
+        'bread_crumbs': bread_crumbs,
+        'page_title': page_title,
+        'seo': build_seo(page_title, page_description),
     }
     
     return render(request, 'production.html', data)
@@ -116,7 +159,12 @@ def about_us(request):
         }
     data = {
         'content': AboutUs.objects.last(),
-        'bread_crumbs': bread_crumbs
+        'bread_crumbs': bread_crumbs,
+        'seo': build_seo(
+            'О компании «Альтернатива» — производство фасадных систем',
+            'Завод «Альтернатива»: проектирование и производство навесных '
+            'вентилируемых фасадных систем с 2003 года.',
+        ),
         }
     return render(request, 'about.html', data)
 
@@ -153,7 +201,12 @@ def portfolio(request, slug_name=None):
                 'cladding_array': cladding_array,
                 'type_objects_array': type_objects_array,
                 'region_array': region_array,
-                'city_array': city_array
+                'city_array': city_array,
+                'seo': build_seo(
+                    'Проекты вентилируемых фасадов — портфолио «Альтернатива»',
+                    'Реализованные объекты с фасадными системами «Альт-Фасад»: '
+                    'жилые, общественные и коммерческие здания.',
+                )
             }
             return render(request, 'portfolio.html', data)
         else:
@@ -214,22 +267,29 @@ def portfolio(request, slug_name=None):
                         'name': system.fs_name,
                         'preview_text': system.prev_text,
                         'image_url': get_existing_image_variant_url(system.main_img, 'portfolio_subsystem_image'),
-                        'link': f'/facade-system/{system.fs_type.facade_base_slug}/{system.fs_slug}',
+                        'link': f'/facade-system/{system.fs_type.facade_base_slug}/{system.fs_slug}/',
                     }
                     for system in facade_systems
                 ]
 
+                project_image_url = get_existing_image_variant_url(project.main_img, 'portfolio_card')
                 data = {
                     'bread_crumbs': {
                         project.title: f'/portfolio/{project.slug}/'
                     },
                     'portfolio_title': project.title,
                     'project': project,
-                    'project_image_url': get_existing_image_variant_url(project.main_img, 'portfolio_card'),
+                    'project_image_url': project_image_url,
                     'gallery_array': gallery_array,
                     'cladding_array': cladding_array,
                     'total_square': total_square,
                     'facade_system_cards': facade_system_cards,
+                    'seo': build_seo(
+                        f'{project.title} — фасадные решения и характеристики',
+                        f'{project.title}: примененные фасадные системы, облицовка, '
+                        f'площадь и участники проекта. {project.city or ""}',
+                        project_image_url,
+                    ),
                 }
                 return render(request, 'portfolio-project.html', data)
             raise Http404
@@ -243,7 +303,12 @@ def technology(request):
     content = TechnologyPageContent.objects.last()
     data = {
         'title': 'Технологии',
-        'content': content
+        'content': content,
+        'seo': build_seo(
+            'Проектирование фасадных систем — «Альтернатива»',
+            'Проектирование навесных вентилируемых фасадов, расчеты, '
+            'конструкторская документация и комплектация объекта.',
+        ),
     }
     return render(request, 'services.html', data)
 
@@ -254,7 +319,11 @@ def job(request, job_id=None):
         vacancies = Vacancies.objects.filter(isActive=True).order_by('created_at')
         data = {
             'content': content,
-            'vacancies': vacancies
+            'vacancies': vacancies,
+            'seo': build_seo(
+                'Вакансии завода «Альтернатива»',
+                'Актуальные вакансии компании «Альтернатива», условия работы и форма отклика.',
+            ),
         }
         return render(request, 'job.html', data)
     elif request.method == 'POST':
@@ -270,7 +339,7 @@ def job(request, job_id=None):
         else:
             return JsonResponse({'success': False, 'error': 'Запись не найдена'})
     else:
-        return JsonResponse({'success': False, 'error': 'Недопустимый метод'}, status=500)
+        return JsonResponse({'success': False, 'error': 'Недопустимый метод'}, status=405)
 
 # Отклик на вакансию
 
@@ -329,7 +398,7 @@ def jobApplication(request):
         except Exception as err:
             return JsonResponse({'success': False, 'error': str(err)})
     else:
-        return JsonResponse({'success': False, 'error':'Только POST запросы'}, status=500)
+        return JsonResponse({'success': False, 'error':'Только POST запросы'}, status=405)
             
 
 # Страница "Контакты"
@@ -381,6 +450,11 @@ def contacts(request):
         'representatives': representatives,
         'geo_content' : geo_content,
         'geo_map_config': geo_map_config,
+        'seo': build_seo(
+            'Контакты и представительства компании «Альтернатива»',
+            'Контакты завода и региональных представительств «Альтернатива»: '
+            'телефоны, адреса и форма отправки проекта.',
+        ),
     }
     if request.method == 'GET':
         return render(request, 'contacts.html', data)
@@ -424,7 +498,11 @@ def rewards(request):
     rewards = Rewards.objects.filter(isActive=True)
     data = {
         'title': 'Награды',
-        'rewards': rewards
+        'rewards': rewards,
+        'seo': build_seo(
+            'Награды компании «Альтернатива»',
+            'Награды и достижения производителя фасадных систем «Альтернатива».',
+        ),
     }
     return render(request, 'rewards.html', data)
 
@@ -434,13 +512,23 @@ def articles(request, slug_name=None):
     articles = Articles.objects.all()[0:10]
     data = {
         'title': 'Статьи',
-        'articles': articles
+        'articles': articles,
+        'seo': build_seo(
+            'Статьи о вентилируемых фасадах — «Альтернатива»',
+            'Материалы о проектировании, производстве и применении '
+            'навесных вентилируемых фасадных систем.',
+        ),
     }
     
-    if slug_name != None:
-        article = Articles.objects.filter(slug=slug_name)
+    if slug_name is not None:
+        article = get_object_or_404(Articles, slug=slug_name)
         data['active_slug'] = slug_name
         data['article_active'] = article
+        data['seo'] = build_seo(
+            f'{article.article_title} — «Альтернатива»',
+            article.article_text,
+            page_type='article',
+        )
         
     return render(request, 'articles.html', data)
 
@@ -449,12 +537,22 @@ def news(request, slug_name=None):
     news = News.objects.all().order_by("-id")[0:15]
     data = {
         'title': 'Новости',
-        'news': news
+        'news': news,
+        'seo': build_seo(
+            'Новости компании «Альтернатива»',
+            'Новости производства, компании и проектов завода фасадных систем «Альтернатива».',
+        ),
     }
-    if slug_name != None:
-        news_item = News.objects.filter(slug=slug_name)
+    if slug_name is not None:
+        news_item = get_object_or_404(News, slug=slug_name)
         data['active_slug'] = slug_name
         data['news_active'] = news_item
+        data['seo'] = build_seo(
+            f'{news_item.news_title} — «Альтернатива»',
+            news_item.prev_text or news_item.news_text,
+            news_item.get_homepage_image_url(),
+            page_type='article',
+        )
         
     return render(request, 'news.html', data)
 
@@ -463,7 +561,11 @@ def sertificates(request):
     sertificates_lib = Sertificate.objects.filter(isActive=True)
     data = {
         'title': 'Наши партнеры',
-        'sertificates': sertificates_lib
+        'sertificates': sertificates_lib,
+        'seo': build_seo(
+            'Партнеры компании «Альтернатива»',
+            'Партнеры производителя фасадных систем «Альтернатива».',
+        ),
     }
     
     return render(request, 'sertificates.html', data)
@@ -473,30 +575,72 @@ def documents(request):
     doc_lib = Documents.objects.filter(isActive=True)
     data = {
         'title': 'Технические свидетельства',
-        'documents': doc_lib
+        'documents': doc_lib,
+        'seo': build_seo(
+            'Документы и технические свидетельства — «Альтернатива»',
+            'Технические свидетельства и разрешительная документация '
+            'на фасадные системы «Альт-Фасад».',
+        ),
     }
     
     return render(request, 'documents.html', data)
 
-def facadeSystem(request, slug_facade_type='fasadnye-sistemy-alt-fasad', slug_facade_name=None):
+def facadeSystem(request, slug_facade_type=None, slug_facade_name=None):
     menu_items = FacadeSystemBase.objects.all()
     data = {
-        'menu_items': menu_items
+        'menu_items': menu_items,
+        'seo': build_seo(
+            'Фасадные системы «Альт-Фасад» — производство и проектирование',
+            'Стальные и алюминиевые навесные вентилируемые фасадные системы '
+            'для различных облицовочных материалов.',
+        ),
     }
     if slug_facade_type == None:
         baseContent = FacadeSystemStartPage.objects.last()
         data['page_content'] = baseContent
+        data['page_heading'] = 'Фасадные системы «Альт-Фасад»'
         
-    if slug_facade_type != None and slug_facade_name == None:
-        facade_type = FacadeSystemBase.objects.filter(facade_base_slug=slug_facade_type)[0]
+    if slug_facade_type is not None and slug_facade_name is None:
+        facade_type = get_object_or_404(FacadeSystemBase, facade_base_slug=slug_facade_type)
         data['page_content'] = facade_type
+        data['page_heading'] = facade_type.facade_name
         data['active_slug'] = slug_facade_type
         data['bread_crumbs'] = {facade_type.facade_name: f'/facade-system/{facade_type.facade_base_slug}'}
+        data['seo'] = build_seo(
+            f'{facade_type.facade_name} — системы «Альт-Фасад»',
+            facade_type.facade_description,
+        )
     
-    if slug_facade_type != None and slug_facade_name != None:
-        facade = FacadeSystem.objects.filter(fs_slug=slug_facade_name)[0]
+    if slug_facade_type is not None and slug_facade_name is not None:
+        facade = get_object_or_404(
+            FacadeSystem.objects.select_related('fs_type'),
+            fs_type__facade_base_slug=slug_facade_type,
+            fs_slug=slug_facade_name,
+        )
         data['page_content'] = facade
+        data['page_heading'] = facade.fs_name
         data['active_slug'] = slug_facade_name
         data['bread_crumbs'] = {facade.fs_type.facade_name: f'/facade-system/{facade.fs_type.facade_base_slug}', facade.fs_name: f'/facade-system/{facade.fs_type.facade_base_slug}/{facade.fs_slug}'}
+        data['seo'] = build_seo(
+            f'{facade.fs_name}: {facade.fs_subtext} — «Альтернатива»',
+            facade.prev_text or facade.fs_description,
+            facade.get_homepage_image_url(),
+        )
     
     return render(request, 'facade-system.html', data)
+
+
+def legacy_facade_redirect(request, legacy_type, legacy_slug):
+    slug_aliases = {
+        'alt-fasad-c': 'alt-fasad-s',
+    }
+    facade = get_object_or_404(
+        FacadeSystem.objects.select_related('fs_type'),
+        fs_slug=slug_aliases.get(legacy_slug, legacy_slug),
+    )
+    return redirect(
+        'facadeSystem-detail',
+        slug_facade_type=facade.fs_type.facade_base_slug,
+        slug_facade_name=facade.fs_slug,
+        permanent=True,
+    )

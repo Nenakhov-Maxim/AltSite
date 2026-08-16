@@ -99,7 +99,7 @@ main::before {
     border-radius: 6px;
 }
 
-.about-us-img div{
+.about-us-img h1{
     position: relative;
     color: #FFFFFF;
     z-index: 3;
