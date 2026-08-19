@@ -25,11 +25,19 @@ def _plain_text(value, limit=180):
     return f'{text[: limit - 1].rstrip()}…'
 
 
+def _static_url(path):
+    try:
+        return static(path)
+    except ValueError:
+        # An optional SEO image must not make every page fail on a stale manifest.
+        return urljoin(settings.STATIC_URL, path)
+
+
 def build_seo(title=None, description=None, image=None, page_type='website'):
     base_url = get_site_base_url() + '/'
     default_og_image = urljoin(
         base_url,
-        static('content/img/background-main.jpg').lstrip('/'),
+        _static_url('content/img/background-main.jpg').lstrip('/'),
     )
     image_url = urljoin(base_url, image.lstrip('/')) if image else default_og_image
     return {

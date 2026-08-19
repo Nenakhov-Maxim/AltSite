@@ -1,12 +1,14 @@
 from io import BytesIO
+from unittest.mock import patch
 
 from PIL import Image
-from django.test import TestCase
+from django.test import TestCase, override_settings
 from django.urls import reverse
 from captcha.models import CaptchaStore
 
 from .forms import ProjectForm
 from .models import Articles, Project
+from .seo import build_seo
 
 
 class ProjectFormSpamProtectionTests(TestCase):
@@ -67,6 +69,19 @@ class ProjectFormSpamProtectionTests(TestCase):
         self.assertEqual(Image.open(BytesIO(image_response.content)).size, (240, 80))
 
 class SEOInfrastructureTests(TestCase):
+    @override_settings(
+        SITE_BASE_URL='https://alt-ural.ru',
+        STATIC_URL='/AltSite/static/',
+    )
+    @patch('mainSite.seo.static', side_effect=ValueError('stale manifest'))
+    def test_default_seo_image_survives_stale_static_manifest(self, _static):
+        seo = build_seo()
+
+        self.assertEqual(
+            seo['image'],
+            'https://alt-ural.ru/AltSite/static/content/img/background-main.jpg',
+        )
+
     def test_robots_references_production_sitemap(self):
         response = self.client.get('/robots.txt')
 
