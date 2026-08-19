@@ -1,7 +1,70 @@
+from io import BytesIO
+
+from PIL import Image
 from django.test import TestCase
 from django.urls import reverse
+from captcha.models import CaptchaStore
 
-from .models import Articles
+from .forms import ProjectForm
+from .models import Articles, Project
+
+
+class ProjectFormSpamProtectionTests(TestCase):
+    def form_data(self, **overrides):
+        captcha = CaptchaStore.objects.create(
+            challenge='ABCDE',
+            response='abcde',
+        )
+        data = {
+            'consumer_name': 'Иван',
+            'consumer_email': 'ivan@example.com',
+            'consumer_tel': '+79000000000',
+            'consumer_message': 'Тестовая заявка',
+            'consent_personal_data': 'on',
+            'privacy_policy_acknowledged': 'on',
+            'website': '',
+            'captcha_0': captcha.hashkey,
+            'captcha_1': 'ABCDE',
+        }
+        data.update(overrides)
+        return data
+
+    def test_valid_captcha_is_accepted(self):
+        form = ProjectForm(self.form_data())
+
+        self.assertTrue(form.is_valid(), form.errors)
+
+    def test_honeypot_blocks_submission(self):
+        form = ProjectForm(self.form_data(website='https://spam.example'))
+
+        self.assertFalse(form.is_valid())
+        self.assertIn('website', form.errors)
+
+    def test_contacts_rejects_submission_without_captcha(self):
+        data = self.form_data()
+        data.pop('captcha_0')
+        data.pop('captcha_1')
+
+        response = self.client.post(reverse('contacts'), data)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'Введите код с изображения.')
+        self.assertFalse(Project.objects.exists())
+
+    def test_contacts_displays_captcha_image(self):
+        response = self.client.get(reverse('contacts'))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'class="captcha"')
+        self.assertContains(response, '/captcha/image/')
+
+        captcha = CaptchaStore.objects.latest('id')
+        image_response = self.client.get(
+            reverse('captcha-image', kwargs={'key': captcha.hashkey})
+        )
+        self.assertEqual(image_response.status_code, 200)
+        self.assertEqual(image_response['Content-Type'], 'image/png')
+        self.assertEqual(Image.open(BytesIO(image_response.content)).size, (240, 80))
 
 class SEOInfrastructureTests(TestCase):
     def test_robots_references_production_sitemap(self):

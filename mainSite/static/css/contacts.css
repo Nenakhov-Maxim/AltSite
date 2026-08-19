@@ -164,6 +164,86 @@ h2{
     border-bottom: 1px solid black;
 }
 
+.feedback-form-honeypot {
+    position: absolute;
+    left: -10000px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+}
+
+.feedback-captcha-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.feedback-captcha-wrapper > label {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.feedback-captcha-control {
+    display: grid;
+    grid-template-columns: 240px minmax(220px, 360px);
+    gap: 16px;
+    align-items: center;
+}
+
+.feedback-captcha-control .captcha {
+    display: block;
+    width: 240px;
+    height: 80px;
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    object-fit: contain;
+    background-color: #ffffff;
+}
+
+.feedback-captcha-control input[type="text"] {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.feedback-captcha-refresh {
+    min-width: 160px;
+    height: 44px;
+    padding: 0 18px;
+    border: 1px solid var(--background-alt-red);
+    border-radius: 5px;
+    background: transparent;
+    color: var(--background-alt-red);
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.feedback-captcha-refresh:hover,
+.feedback-captcha-refresh:focus-visible {
+    background: var(--background-alt-red);
+    color: #ffffff;
+}
+
+.feedback-captcha-refresh:focus-visible {
+    outline: 2px solid var(--background-alt-red);
+    outline-offset: 2px;
+}
+
+.feedback-captcha-refresh:disabled {
+    cursor: wait;
+    opacity: 0.6;
+}
+
+.feedback-captcha-error {
+    margin: 0;
+    color: var(--background-alt-red);
+    font-size: 14px;
+    font-weight: 600;
+}
+
 .feedback-form-submit-btn {
     width: 360px;
     height: 100px;

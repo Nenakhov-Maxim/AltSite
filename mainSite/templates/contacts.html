@@ -415,6 +415,10 @@
                         {{form.consumer_email}}
                         {{form.consumer_tel}}
                         {{form.consumer_message}}
+                        <div class="feedback-form-honeypot" aria-hidden="true">
+                            <label for="{{ form.website.id_for_label }}">Не заполняйте это поле</label>
+                            {{ form.website }}
+                        </div>
                         <div class="feedback-consent-personal-data-wrapper">
                             <div class="feedback-consent-item">
                                 {{ form.consent_personal_data }}
@@ -424,6 +428,16 @@
                                 {{ form.privacy_policy_acknowledged }}
                                 <label for="feedback-privacy-policy-acknowledged-checkbox">Я ознакомлен с <a class="personal-data-doc-link" href="{% static 'docs/politica_v_oblasty_pers_dannyh.pdf' %}" target="_blank" rel="noopener noreferrer">Политикой обработки персональных данных</a></label>
                             </div>
+                        </div>
+                        <div class="feedback-captcha-wrapper">
+                            <label for="{{ form.captcha.id_for_label }}">Введите код с изображения</label>
+                            <div class="feedback-captcha-control">
+                                {{ form.captcha }}
+                            </div>
+                            <button class="feedback-captcha-refresh" type="button" data-refresh-url="{% url 'captcha-refresh' %}">Обновить код</button>
+                            {% for captcha_error in form.captcha.errors %}
+                                <p class="feedback-captcha-error">{{ captcha_error }}</p>
+                            {% endfor %}
                         </div>
                     </div>
                     {% if success_send_form %}

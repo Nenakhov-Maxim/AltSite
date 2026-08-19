@@ -39,6 +39,7 @@ urlpatterns = [
     path('job/job-application/', views.jobApplication, name='job-application'),
     path('job/<int:job_id>/', views.job, name='job'),
     path('contacts/', views.contacts, name='contacts'),
+    path('captcha/', include('captcha.urls')),
     path('summernote/', include('django_summernote.urls')),
     path('rewards/', views.rewards, name='rewards'),
     path('articles/', views.articles, name='articles'),

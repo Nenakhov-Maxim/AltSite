@@ -403,7 +403,7 @@ def jobApplication(request):
 
 # Страница "Контакты"
 def contacts(request):
-    form = ProjectForm()
+    form = ProjectForm(request.POST or None)
     contact = ContactPage.objects.last()
     representatives = Representatives.objects.all()
     geo_content = list(
@@ -459,7 +459,6 @@ def contacts(request):
     if request.method == 'GET':
         return render(request, 'contacts.html', data)
     elif request.method == 'POST':
-        form = ProjectForm(request.POST)
         if form.is_valid():
             clean_form = form.cleaned_data
             if clean_form['consent_personal_data']:
@@ -485,8 +484,8 @@ def contacts(request):
                     print(f"Ошибка при отправке email уведомления: {str(email_err)}")
                 
                 data['success_send_form'] = True
+                data['form'] = ProjectForm()
             else:
-                data['form'] = ProjectForm(request.POST)
                 data['error'] = 'Необходимо согласиться на передачу и обработку персональных данных'
                 return render(request, 'contacts.html', data)
             return render(request, 'contacts.html', data)

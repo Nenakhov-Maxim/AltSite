@@ -1,4 +1,6 @@
 from django import forms
+from captcha.fields import CaptchaField
+
 
 class ProjectForm(forms.Form):
     consumer_name = forms.CharField(label='Ваше имя', max_length=100, required=True, widget=forms.TextInput(attrs={
@@ -23,3 +25,20 @@ class ProjectForm(forms.Form):
     privacy_policy_acknowledged = forms.BooleanField(label='Я ознакомлен с политикой обработки персональных данных', required=True, widget=forms.CheckboxInput(attrs={
         'id': 'feedback-privacy-policy-acknowledged-checkbox'
     }))
+    website = forms.CharField(required=False, widget=forms.TextInput(attrs={
+        'autocomplete': 'off',
+        'tabindex': '-1',
+    }))
+    captcha = CaptchaField(
+        label='Защита от спама',
+        error_messages={
+            'required': 'Введите код с изображения.',
+            'invalid': 'Код с изображения введён неверно.',
+        },
+    )
+
+    def clean_website(self):
+        website = self.cleaned_data['website']
+        if website:
+            raise forms.ValidationError('Не удалось отправить форму.')
+        return website
