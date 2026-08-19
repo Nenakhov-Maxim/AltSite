@@ -9,6 +9,7 @@ from captcha.models import CaptchaStore
 from .forms import ProjectForm
 from .models import Articles, Project
 from .seo import build_seo
+from .static_storage import LenientManifestStaticFilesStorage
 
 
 class ProjectFormSpamProtectionTests(TestCase):
@@ -69,6 +70,9 @@ class ProjectFormSpamProtectionTests(TestCase):
         self.assertEqual(Image.open(BytesIO(image_response.content)).size, (240, 80))
 
 class SEOInfrastructureTests(TestCase):
+    def test_static_storage_does_not_crash_on_missing_manifest_entry(self):
+        self.assertFalse(LenientManifestStaticFilesStorage.manifest_strict)
+
     @override_settings(
         SITE_BASE_URL='https://alt-ural.ru',
         STATIC_URL='/AltSite/static/',
